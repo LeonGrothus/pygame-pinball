@@ -1,0 +1,10 @@
+from pygame import Vector2
+
+SCREEN_WIDTH = 800
+SCREEN_HEIGHT = 600
+
+GRAVITY = Vector2(0, 200)
+FRICTION = 0.02
+
+PADDLE_SPEED = 8
+DELTA_TIME = 1 / 60
