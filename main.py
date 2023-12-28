@@ -1,6 +1,7 @@
 import pygame
 from pathlib import Path
-from components.collider import Collider
+from components.collider import CircleCollider, Collider, PolygonCollider
+from components.renderer import Renderer
 from components.ridigbody import Rigidbody
 from objects.gameObject import GameObject
 import constants
@@ -23,9 +24,17 @@ running = True
 
 # You could declare components (the initial ball, the other items, ...) here
 x = GameObject(screen, all_active_gos, all_active_rbs)
-x.add_components(Collider(), Rigidbody())
 x.transform.pos = pygame.Vector2(100, 100)
 x.transform.scale = pygame.Vector2(10, 10)
+x.add_components(CircleCollider(50), Rigidbody(), Renderer(pygame.Color(255, 255, 255)))
+
+y = GameObject(screen, all_active_gos, all_active_rbs)
+y.transform.pos = pygame.Vector2(100, 400)
+y.transform.scale = pygame.Vector2(2, 2)
+y.add_components(PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
+                 , Rigidbody(1, True), Renderer(pygame.Color(255, 255, 0)))
+
+# PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
 
 # Main event loop
 while running:

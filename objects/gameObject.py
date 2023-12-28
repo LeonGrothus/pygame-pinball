@@ -12,6 +12,10 @@ class GameObject():
         self.render_layer = 0
         self.components = []
         self.transform = Transform()
+    
+    def add_components(self, *args):
+        for c in args:
+            self.add_component(c)
 
     def add_component(self, comp):
         comp.set_parent(self)
@@ -19,11 +23,9 @@ class GameObject():
         if self.get_component_by_class(type(comp)) is not None:
             return False
         self.components.append(comp)
+        
+        comp.on_init()
         return True
-    
-    def add_components(self, *args):
-        for c in args:
-            self.add_component(c)
     
     def remove_component(self, comp):
         if self.get_component_by_class(type(comp)) is not None:
@@ -45,7 +47,3 @@ class GameObject():
     def update(self, delta_time: float):
         for c in self.components:
             c.on_update(delta_time)
-        
-        pygame.draw.rect(self.screen, (255, 255, 255), (self.transform.pos.x, self.transform.pos.y, self.transform.scale.x, self.transform.scale.y))
-        print(f"drawn at pos {self.transform.pos.x}, {self.transform.pos.y}")
-    
