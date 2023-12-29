@@ -28,8 +28,10 @@ x = GameObject(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
 x.add_components(CircleMesh(pygame.Color(255, 255, 255), 50), CircleCollider(), Rigidbody(), Renderer())
 
 y = GameObject(pygame.Vector2(100, 400), screen, all_active_gos, all_active_rbs)
-y.add_components(PolygonMesh(pygame.Color(255, 255, 0), [pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)]),
-                  PolygonCollider(), Rigidbody(1, True), Renderer())
+y.add_components(PolygonMesh(pygame.Color(255, 255, 0), [pygame.Vector2(-100,-50),pygame.Vector2(-100,50),pygame.Vector2(100,50)]),
+                  PolygonCollider(True), Renderer())
+
+#,pygame.Vector2(100,-10)
 
 # PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
 

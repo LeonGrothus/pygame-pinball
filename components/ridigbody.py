@@ -1,14 +1,18 @@
 from pygame import Vector2
+import pygame
+from scipy import constants
 from components.collider import CircleCollider, Collider, PolygonCollider
 from components.component import Component
 from objects.gameObject import GameObject
 from utils.transform import Transform
-from constants import GRAVITY
+from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION
 
 
 class Rigidbody(Component):
     def __init__(self, mass: float = 1, is_kinematic: bool = False) -> None:
         super().__init__()
+
+        self.currently_in_trigger: list = []
 
         self.mass: float = mass
         self.is_kinematic: bool = is_kinematic
@@ -31,24 +35,26 @@ class Rigidbody(Component):
 
     def set_collider(self) -> None:
         collider = self.parent.get_component_by_class(Collider)
-        if collider:
-            self.collider = collider
+        if not collider:
+            raise Exception(f"No Collider found on {self.parent}")
+        
+        self.collider = collider
 
     def apply_force(self, force) -> None:
         if not self.is_kinematic:
             self.acceleration += force / self.mass
 
     def on_update(self, delta_time) -> None:
-        if self.collider and not self.is_kinematic:
+        if not self.is_kinematic:
             self.resolve_collisions()
-        else:
-            self.set_collider()
 
         if not self.is_kinematic:
 
             self.acceleration += GRAVITY
 
             self.velocity += self.acceleration * delta_time
+            self.velocity *= (1 - AIR_FRICTION)
+
             self.parent.transform.pos += self.velocity * delta_time
             
             self.acceleration = Vector2(0, 0)
@@ -60,7 +66,7 @@ class Rigidbody(Component):
                 continue
 
             collision_point, normal = None, None
-            other_collider = game_object.get_component_by_class(Collider)
+            other_collider: Collider = game_object.get_component_by_class(Collider) # type: ignore
             if other_collider:
                 if type(other_collider) is CircleCollider:
                     collision_point, normal = self.check_circle_circle_collision(other_collider)
@@ -68,10 +74,23 @@ class Rigidbody(Component):
                     collision_point, normal = self.check_circle_polygon_collision(other_collider)
 
             if collision_point is None or normal is None:
+                if other_collider.is_trigger and (game_object in self.currently_in_trigger):
+                    self.currently_in_trigger.remove(game_object)
+                    other_collider.parent.on_trigger_exit(self.parent)
                 continue
             
-            self.apply_force(normal * (self.velocity.length()+5) * 100)
+            if other_collider.is_trigger:
+                if game_object not in self.currently_in_trigger:
+                    self.currently_in_trigger.append(game_object)
+                    other_collider.parent.on_trigger_enter(self.parent)
+                continue
+
+            self.reflect_velocity(normal)
         return False
+    
+    def reflect_velocity(self, normal: Vector2) -> None:
+        print(f"reflecting {self.velocity} with {normal}")
+        self.velocity = self.velocity.reflect(normal) * (1-COLLISION_FRICTION)
 
     def check_circle_circle_collision(self, other: CircleCollider):
         distance = self.parent.transform.pos.distance_to(other.parent.transform.pos)
@@ -91,10 +110,11 @@ class Rigidbody(Component):
             edge_length = edge.length()
             edge_direction = edge / edge_length
 
-            to_circle = other.parent.transform.pos - p1
+            to_circle = self.parent.transform.pos - p1
             projection_length = to_circle.dot(edge_direction)
             if 0 <= projection_length <= edge_length:
                 closest_point = p1 + projection_length * edge_direction
+                
             else:
                 continue
 

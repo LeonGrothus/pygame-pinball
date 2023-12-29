@@ -28,16 +28,12 @@ class Renderer(Component):
             self.mesh: PolygonMesh = self.mesh # type: ignore
             pygame.draw.polygon(self.parent.screen, self.mesh.color, self.mesh.points)
 
-        else:
-            self.get_mesh()
-            print(f"No mesh to Render found on {self.parent}")
-
         return super().on_update(delta_time)
 
     def get_mesh(self) -> None:
         mesh = self.parent.get_component_by_class(Mesh)
-        if mesh:
-            self.mesh = mesh
-            self.mesh_type = type(mesh)
-        else:
-            print(f"No mesh to Render found on {self.parent}")
+        if not mesh:
+            raise Exception(f"No Mesh found on {self.parent}")
+
+        self.mesh = mesh
+        self.mesh_type = type(mesh)

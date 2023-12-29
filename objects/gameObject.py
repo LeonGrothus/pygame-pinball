@@ -1,4 +1,5 @@
 from pygame import Surface, Vector2
+from components.mesh import Mesh
 from utils.transform import Transform
 
 class GameObject():
@@ -16,16 +17,16 @@ class GameObject():
     
     def add_components(self, *args):
         for c in args:
-            self.add_component(c)
+            self.__add_component(c)
+        for c in args:
+            c.on_init()
 
-    def add_component(self, comp):
+    def __add_component(self, comp):
         comp.set_parent(self)
 
         if self.get_component_by_class(type(comp)) is not None:
             return False
         self.components.append(comp)
-        
-        comp.on_init()
         return True
     
     def remove_component(self, comp):
@@ -48,3 +49,9 @@ class GameObject():
     def update(self, delta_time: float):
         for c in self.components:
             c.on_update(delta_time)
+    
+    def on_trigger_enter(self, other):
+        pass
+
+    def on_trigger_exit(self, other):
+        pass
