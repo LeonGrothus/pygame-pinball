@@ -1,5 +1,4 @@
 from pygame import Surface, Vector2
-from components.mesh import Mesh
 from utils.transform import Transform
 
 class GameObject():
