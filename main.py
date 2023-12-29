@@ -1,6 +1,7 @@
 import pygame
 from pathlib import Path
 from components.collider import CircleCollider, Collider, PolygonCollider
+from components.mesh import CircleMesh, PolygonMesh
 from components.renderer import Renderer
 from components.ridigbody import Rigidbody
 from objects.gameObject import GameObject
@@ -23,16 +24,12 @@ clock = pygame.time.Clock()
 running = True
 
 # You could declare components (the initial ball, the other items, ...) here
-x = GameObject(screen, all_active_gos, all_active_rbs)
-x.transform.pos = pygame.Vector2(100, 100)
-x.transform.scale = pygame.Vector2(10, 10)
-x.add_components(CircleCollider(50), Rigidbody(), Renderer(pygame.Color(255, 255, 255)))
+x = GameObject(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
+x.add_components(CircleMesh(pygame.Color(255, 255, 255), 50), CircleCollider(), Rigidbody(), Renderer())
 
-y = GameObject(screen, all_active_gos, all_active_rbs)
-y.transform.pos = pygame.Vector2(100, 400)
-y.transform.scale = pygame.Vector2(2, 2)
-y.add_components(PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
-                 , Rigidbody(1, True), Renderer(pygame.Color(255, 255, 0)))
+y = GameObject(pygame.Vector2(100, 400), screen, all_active_gos, all_active_rbs)
+y.add_components(PolygonMesh(pygame.Color(255, 255, 0), [pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)]),
+                  PolygonCollider(), Rigidbody(1, True), Renderer())
 
 # PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
 

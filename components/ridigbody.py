@@ -7,7 +7,7 @@ from constants import GRAVITY
 
 
 class Rigidbody(Component):
-    def __init__(self, mass: float = 1, is_kinematic: bool = False):
+    def __init__(self, mass: float = 1, is_kinematic: bool = False) -> None:
         super().__init__()
 
         self.mass: float = mass

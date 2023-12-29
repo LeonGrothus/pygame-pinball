@@ -1,38 +1,43 @@
 import pygame
-from components.collider import CircleCollider, Collider, PolygonCollider
 from components.component import Component
-from pygame.color import Color
+
+from components.mesh import CircleMesh, Mesh, PolygonMesh
 
 class Renderer(Component):
-    def __init__(self, color: Color) -> None:
+    def __init__(self, visible:bool = True) -> None:
         super().__init__()
 
-        self.color: Color = color
-        self.collider = None # type: ignore
-        self.collider_type = None
+        self.visible: bool = visible
+
+        self.mesh: Mesh = None # type: ignore
+        self.mesh_type: type = None # type: ignore
 
     def on_init(self) -> None:
-        self.get_collider()
+        self.get_mesh()
         return super().on_init()
     
     def on_update(self, delta_time: float) -> None:
-        if(self.collider_type == CircleCollider):
-            self.collider: CircleCollider = self.collider # type: ignore
-            pygame.draw.circle(self.parent.screen, self.color, (self.parent.transform.pos.x, self.parent.transform.pos.y), self.collider.radius) # type: ignore
+        if not self.visible:
+            return super().on_update(delta_time)
+
+        if(self.mesh_type == CircleMesh):
+            self.mesh: CircleMesh = self.mesh # type: ignore
+            pygame.draw.circle(self.parent.screen, self.mesh.color, (self.parent.transform.pos.x, self.parent.transform.pos.y), self.mesh.radius) # type: ignore
         
-        elif(self.collider_type == PolygonCollider):
-            self.collider: PolygonCollider = self.collider # type: ignore
-            
-            pygame.draw.polygon(self.parent.screen, self.color, self.collider.points)
+        elif(self.mesh_type == PolygonMesh):
+            self.mesh: PolygonMesh = self.mesh # type: ignore
+            pygame.draw.polygon(self.parent.screen, self.mesh.color, self.mesh.points)
 
         else:
-            self.get_collider()
-            print(f"No collider found {self.collider}")
+            self.get_mesh()
+            print(f"No mesh to Render found on {self.parent}")
 
         return super().on_update(delta_time)
 
-    def get_collider(self) -> None:
-        collider = self.parent.get_component_by_class(Collider)
-        if collider:
-            self.collider = collider
-            self.collider_type = type(collider)
+    def get_mesh(self) -> None:
+        mesh = self.parent.get_component_by_class(Mesh)
+        if mesh:
+            self.mesh = mesh
+            self.mesh_type = type(mesh)
+        else:
+            print(f"No mesh to Render found on {self.parent}")

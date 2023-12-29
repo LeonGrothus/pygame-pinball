@@ -1,8 +1,8 @@
-import pygame
+from pygame import Surface, Vector2
 from utils.transform import Transform
 
 class GameObject():
-    def __init__(self, sreen: pygame.Surface, all_active_gos: list, all_active_rbs: list) -> None:
+    def __init__(self, pos: Vector2, sreen: Surface, all_active_gos: list, all_active_rbs: list) -> None:
         all_active_gos.append(self)
 
         self.screen = sreen
@@ -12,6 +12,7 @@ class GameObject():
         self.render_layer = 0
         self.components = []
         self.transform = Transform()
+        self.transform.pos = pos
     
     def add_components(self, *args):
         for c in args:
