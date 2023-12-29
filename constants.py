@@ -8,6 +8,6 @@ GRAVITY = Vector2(0, 500)
 COLLISION_FRICTION = 0.075
 AIR_FRICTION = 0.001
 
-PADDLE_SPEED = 90 # degrees per second
+PADDLE_SPEED = 360 # degrees per second
 DELTA_TIME = (1 / 60)
 
