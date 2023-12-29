@@ -59,7 +59,7 @@ class Rigidbody(Component):
             
             self.acceleration = Vector2(0, 0)
 
-    def resolve_collisions(self):
+    def resolve_collisions(self) -> None:
         game_object: GameObject
         for game_object in self.parent.all_active_gos:
             if game_object == self.parent:
@@ -86,13 +86,12 @@ class Rigidbody(Component):
                 continue
 
             self.reflect_velocity(normal)
-        return False
     
     def reflect_velocity(self, normal: Vector2) -> None:
         print(f"reflecting {self.velocity} with {normal}")
         self.velocity = self.velocity.reflect(normal) * (1-COLLISION_FRICTION)
 
-    def check_circle_circle_collision(self, other: CircleCollider):
+    def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
         distance = self.parent.transform.pos.distance_to(other.parent.transform.pos)
         if distance < self.collider.radius + other.radius:
             if distance == 0:
@@ -102,24 +101,23 @@ class Rigidbody(Component):
             return self.parent.transform.pos + other.radius * normal, normal
         return None, None
 
-    def check_circle_polygon_collision(self, other: PolygonCollider):
+    def check_circle_polygon_collision(self, other: PolygonCollider) -> tuple:
         for i in range(len(other.points)):
             p1: Vector2 = other.points[i]
             p2: Vector2 = other.points[(i + 1) % len(other.points)]
-            edge = p2 - p1
-            edge_length = edge.length()
-            edge_direction = edge / edge_length
+            edge: Vector2 = p2 - p1
+            edge_length: float = edge.length()
+            edge_direction: Vector2 = edge / edge_length
 
-            to_circle = self.parent.transform.pos - p1
-            projection_length = to_circle.dot(edge_direction)
+            to_circle: Vector2 = self.parent.transform.pos - p1
+            projection_length: float = to_circle.dot(edge_direction)
             if 0 <= projection_length <= edge_length:
-                closest_point = p1 + projection_length * edge_direction
-                
+                closest_point: Vector2 = p1 + projection_length * edge_direction
             else:
                 continue
 
-            distance = closest_point.distance_to(self.parent.transform.pos)
+            distance: float = closest_point.distance_to(self.parent.transform.pos)
             if distance < self.collider.radius:
-                normal = (self.parent.transform.pos - closest_point) / distance
+                normal: Vector2 = (self.parent.transform.pos - closest_point) / distance
                 return closest_point, normal
         return None, None

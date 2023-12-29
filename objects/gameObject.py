@@ -11,7 +11,7 @@ class GameObject():
 
         self.render_layer = 0
         self.components = []
-        self.transform = Transform()
+        self.transform = Transform(self)
         self.transform.pos = pos
     
     def add_components(self, *args):
@@ -38,6 +38,25 @@ class GameObject():
         for c in self.components:
             if isinstance(c, comp_type):
                 return c
+        return None
+    
+    def get_components_by_class_scuffed(self, *class_names: str):
+        """
+        Returns the first component that matches the given class name.
+
+        This method should only be used in cases where the type cannot be used.
+        It checks for an exact match with the class name, and does not check if the class inherits from other classes.
+
+        Parameters:
+            class_name (str): The name of the class to match.
+
+        Returns:
+            The first component that matches the given class name, or None if no match is found.
+        """
+        for c in self.components:
+            for class_name in class_names:
+                if c.__class__.__name__ == class_name:
+                    return c
         return None
     
     def destroy(self):

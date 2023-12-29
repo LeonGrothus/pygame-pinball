@@ -43,6 +43,21 @@ while running:
 
     for event in pygame.event.get():
         # Get's all the user action (keyboard, mouse, joysticks, ...)
+
+        if event.type == pygame.QUIT:
+            running = False
+            continue
+
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_RIGHT:
+                # Rotate all game objects 90 degrees to the right
+                game_object: GameObject
+                for game_object in all_active_gos:
+                    game_object.transform.rotate_towards(90, 90)
+            elif event.key == pygame.K_LEFT:
+                # Rotate all game objects 90 degrees to the left
+                for game_object in all_active_gos:
+                    game_object.transform.rotate_towards(-90, 90)
         continue
 
     go: GameObject

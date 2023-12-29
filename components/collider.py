@@ -1,8 +1,9 @@
+from abc import ABC
 from components.component import Component
 from components.mesh import CircleMesh, Mesh, PolygonMesh
 
 
-class Collider(Component):
+class Collider(Component, ABC):
     def __init__(self, is_trigger) -> None:
         self.is_trigger: bool = is_trigger
 
