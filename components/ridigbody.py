@@ -91,11 +91,11 @@ class Rigidbody(Component):
         self.velocity = self.velocity.reflect(normal) * (1-COLLISION_FRICTION)
         self.parent.transform.pos += normal * (self.collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos))
 
-        # if other_collider.mesh.rotation_speed != 0:
+        if other_collider.mesh.rotation_speed != 0:
 
             # Calculate the velocity of the point of collision due to rotation
-        # rotational_velocity = (Vector2(collision_point-other_collider.parent.transform.pos).length() * normal) * other_collider.mesh.rotation_speed/10
-        # self.velocity += rotational_velocity
+            rotational_velocity = (Vector2(collision_point-other_collider.parent.transform.pos).length() * normal) * other_collider.mesh.rotation_speed/40
+            self.velocity = rotational_velocity
         # self.velocity = self.velocity.reflect(normal) * (1 - COLLISION_FRICTION)
 
         # pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 20, 10)
