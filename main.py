@@ -20,7 +20,7 @@ clock = pygame.time.Clock()
 running = True
 
 Ball(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
-Flipper(pygame.Vector2(100, 400), screen, all_active_gos, all_active_rbs)
+Flipper(pygame.Vector2(200, 400), screen, all_active_gos, all_active_rbs)
 
 # Main event loop
 while running:
@@ -38,11 +38,11 @@ while running:
                 # Rotate all game objects 90 degrees to the right
                 game_object: GameObject
                 for game_object in all_active_gos:
-                    game_object.transform.rotate_towards(90, constants.PADDLE_SPEED)
+                    game_object.transform.rotate_towards(180, constants.PADDLE_SPEED)
             elif event.key == pygame.K_LEFT:
                 # Rotate all game objects 90 degrees to the left
                 for game_object in all_active_gos:
-                    game_object.transform.rotate_towards(-90, constants.PADDLE_SPEED)
+                    game_object.transform.rotate_towards(-0, constants.PADDLE_SPEED)
         continue
 
     go: GameObject
