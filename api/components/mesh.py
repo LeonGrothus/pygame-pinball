@@ -1,7 +1,7 @@
 from abc import ABC, abstractmethod
 
 from pygame import Color
-from components.component import Component
+from api.components.component import Component
 
 
 class Mesh(Component, ABC):

@@ -1,7 +1,7 @@
 import pygame
-from components.component import Component
+from api.components.component import Component
 
-from components.mesh import CircleMesh, Mesh, PolygonMesh
+from api.components.mesh import CircleMesh, Mesh, PolygonMesh
 
 class Renderer(Component):
     def __init__(self, visible:bool = True) -> None:

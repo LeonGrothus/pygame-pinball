@@ -2,7 +2,7 @@ import pygame
 from pathlib import Path
 from game.objects.ball import Ball
 from game.objects.plunger import Plunger
-from objects.gameObject import GameObject
+from api.objects.gameObject import GameObject
 import constants
 
 # Initialize PyGame

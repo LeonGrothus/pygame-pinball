@@ -1,9 +1,9 @@
 from pygame import Vector2, Color
-from objects.gameObject import GameObject
-from components.mesh import PolygonMesh
-from components.collider import PolygonCollider
-from components.ridigbody import Rigidbody
-from components.renderer import Renderer
+from api.objects.gameObject import GameObject
+from api.components.mesh import PolygonMesh
+from api.components.collider import PolygonCollider
+from api.components.ridigbody import Rigidbody
+from api.components.renderer import Renderer
 
 class Plunger(GameObject):
     def __init__(self, pos: Vector2, screen, all_active_gos: list, all_active_rbs: list, color: Color = Color(255, 255, 255)):
@@ -16,6 +16,5 @@ class Plunger(GameObject):
         self.add_components(
             PolygonMesh(color, points),
             PolygonCollider(),
-            Rigidbody(),
             Renderer()
         )

@@ -1,6 +1,6 @@
 from abc import ABC
-from components.component import Component
-from components.mesh import CircleMesh, Mesh, PolygonMesh
+from api.components.component import Component
+from api.components.mesh import CircleMesh, Mesh, PolygonMesh
 
 
 class Collider(Component, ABC):

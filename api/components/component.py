@@ -1,6 +1,6 @@
 from abc import ABC
 
-from objects.gameObject import GameObject
+from api.objects.gameObject import GameObject
 
 
 class Component(ABC):

@@ -1,6 +1,6 @@
 from abc import ABC
 from pygame import Surface, Vector2
-from utils.transform import Transform
+from api.utils.transform import Transform
 
 class GameObject(ABC):
     def __init__(self, pos: Vector2, sreen: Surface, all_active_gos: list, all_active_rbs: list) -> None:

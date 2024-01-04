@@ -1,8 +1,7 @@
-import numpy as np
 from pygame import Vector2, Vector3
-from components.collider import CircleCollider, Collider, PolygonCollider
-from components.component import Component
-from objects.gameObject import GameObject
+from api.components.collider import CircleCollider, Collider, PolygonCollider
+from api.components.component import Component
+from api.objects.gameObject import GameObject
 from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION
 
 
