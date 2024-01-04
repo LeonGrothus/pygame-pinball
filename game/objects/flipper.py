@@ -1,4 +1,5 @@
 from pygame import Vector2, Color
+import pygame
 from api.objects.gameObject import GameObject
 from api.components.mesh import PolygonMesh
 from api.components.collider import PolygonCollider
@@ -8,9 +9,61 @@ from api.components.renderer import Renderer
 class Flipper(GameObject):
     def __init__(self, pos: Vector2, screen, all_active_gos: list, all_active_rbs: list, color: Color = Color(255, 255, 255)):
         super().__init__(pos, screen, all_active_gos, all_active_rbs)
-        
+
+        import math
+
+        # Anzahl der Punkte, die den Kreis approximieren
+        num_points = 100
+
+        # Berechne die Koordinaten für den Kreis
+        circle_coords = [
+            (int(25 * math.cos(2 * math.pi * i / num_points)), int(25 * math.sin(2 * math.pi * i / num_points)))
+            for i in range(num_points)
+        ]
+        print(*circle_coords)
+
         # Define the points for the plunger polygon
-        points = [Vector2(-10, -50), Vector2(-10, 50), Vector2(10, 50), Vector2(10, -50)]
+        points = [
+            pygame.Vector2(-24, -3),
+            pygame.Vector2(-23, -6),
+            pygame.Vector2(-22, -10),
+            pygame.Vector2(-21, -12),
+            pygame.Vector2(-20, -14),
+            pygame.Vector2(-15, -19),
+            pygame.Vector2(-10, -22),
+            pygame.Vector2(-6, -24),
+            pygame.Vector2(0, -25),
+            pygame.Vector2(20, -24),
+            pygame.Vector2(40, -24),
+            pygame.Vector2(60, -23),
+            pygame.Vector2(80, -22),
+            pygame.Vector2(100, -21),
+            pygame.Vector2(120, -19),
+            pygame.Vector2(140, -17),
+            pygame.Vector2(160, -14),
+            pygame.Vector2(180, -10),
+            pygame.Vector2(200, -6),
+            pygame.Vector2(210, 0),
+            pygame.Vector2(200, 6),
+            pygame.Vector2(180, 10),
+            pygame.Vector2(160, 14),
+            pygame.Vector2(140, 17),
+            pygame.Vector2(120, 19),
+            pygame.Vector2(100, 21),
+            pygame.Vector2(80, 22),
+            pygame.Vector2(60, 23),
+            pygame.Vector2(40, 24),
+            pygame.Vector2(20, 25),
+            pygame.Vector2(0, 25),
+            pygame.Vector2(-6, 24),
+            pygame.Vector2(-10, 22),
+            pygame.Vector2(-15, 19),
+            pygame.Vector2(-20, 14),
+            pygame.Vector2(-21, 12),
+            pygame.Vector2(-22, 10),
+            pygame.Vector2(-23, 6),
+            pygame.Vector2(-24, 3),
+        ]
         
         # Add the necessary components
         self.add_components(
