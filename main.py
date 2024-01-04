@@ -1,9 +1,7 @@
 import pygame
 from pathlib import Path
-from components.collider import CircleCollider, Collider, PolygonCollider
-from components.mesh import CircleMesh, PolygonMesh
-from components.renderer import Renderer
-from components.ridigbody import Rigidbody
+from game.objects.ball import Ball
+from game.objects.plunger import Plunger
 from objects.gameObject import GameObject
 import constants
 
@@ -24,12 +22,9 @@ clock = pygame.time.Clock()
 running = True
 
 # You could declare components (the initial ball, the other items, ...) here
-x = GameObject(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
-x.add_components(CircleMesh(pygame.Color(255, 255, 255), 50), CircleCollider(), Rigidbody(), Renderer())
+x = Ball(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
 
-y = GameObject(pygame.Vector2(100, 400), screen, all_active_gos, all_active_rbs)
-y.add_components(PolygonMesh(pygame.Color(255, 255, 0), [pygame.Vector2(-100,-20),pygame.Vector2(-100,20),pygame.Vector2(100,20),pygame.Vector2(100,-20)]),
-                  PolygonCollider(), Renderer())
+y = Plunger(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
 
 #
 

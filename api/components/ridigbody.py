@@ -1,7 +1,5 @@
 import numpy as np
 from pygame import Vector2, Vector3
-import pygame
-from scipy import constants
 from components.collider import CircleCollider, Collider, PolygonCollider
 from components.component import Component
 from objects.gameObject import GameObject
@@ -92,7 +90,6 @@ class Rigidbody(Component):
         self.parent.transform.pos += normal * (self.collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos))
 
         if other_collider.mesh.rotation_speed != 0:
-
             # Calculate the vector from the center of rotation to the point of contact
             rotation_vector = collision_point - other_collider.parent.transform.pos
 
@@ -115,7 +112,6 @@ class Rigidbody(Component):
             self.velocity += rotational_velocity * alignment / 40
 
             # pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 100, 5)
-
             # breakpoint()
             # pygame.display.flip()
             # breakpoint()

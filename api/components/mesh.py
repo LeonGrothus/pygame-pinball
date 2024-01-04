@@ -1,5 +1,4 @@
 from abc import ABC, abstractmethod
-import copy
 
 from pygame import Color
 from components.component import Component

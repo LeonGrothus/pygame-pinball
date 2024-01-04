@@ -1,4 +1,3 @@
-import math
 from pygame import Vector2
 
 
