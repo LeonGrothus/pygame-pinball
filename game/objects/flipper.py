@@ -10,18 +10,6 @@ class Flipper(GameObject):
     def __init__(self, pos: Vector2, screen, all_active_gos: list, all_active_rbs: list, color: Color = Color(255, 255, 255)):
         super().__init__(pos, screen, all_active_gos, all_active_rbs)
 
-        import math
-
-        # Anzahl der Punkte, die den Kreis approximieren
-        num_points = 100
-
-        # Berechne die Koordinaten für den Kreis
-        circle_coords = [
-            (int(25 * math.cos(2 * math.pi * i / num_points)), int(25 * math.sin(2 * math.pi * i / num_points)))
-            for i in range(num_points)
-        ]
-        print(*circle_coords)
-
         # Define the points for the plunger polygon
         points = [
             pygame.Vector2(-24, -3),
