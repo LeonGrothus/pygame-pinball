@@ -1,14 +1,12 @@
 import pygame
 from pathlib import Path
 from game.objects.ball import Ball
-from game.objects.plunger import Plunger
+from game.objects.flipper import Flipper
 from api.objects.gameObject import GameObject
 import constants
 
 # Initialize PyGame
 pygame.init()
-
-# Define spacetime
 
 all_active_gos: list = []
 all_active_rbs: list = []
@@ -21,14 +19,8 @@ clock = pygame.time.Clock()
 # Setup 
 running = True
 
-# You could declare components (the initial ball, the other items, ...) here
-x = Ball(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
-
-y = Plunger(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
-
-#
-
-# PolygonCollider([pygame.Vector2(-100,-10),pygame.Vector2(-100,10),pygame.Vector2(100,10),pygame.Vector2(100,-10)])
+Ball(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
+Flipper(pygame.Vector2(100, 400), screen, all_active_gos, all_active_rbs)
 
 # Main event loop
 while running:
@@ -37,8 +29,6 @@ while running:
     screen.blit(bg, (0, 0))  # redraws background image
 
     for event in pygame.event.get():
-        # Get's all the user action (keyboard, mouse, joysticks, ...)
-
         if event.type == pygame.QUIT:
             running = False
             continue
@@ -57,14 +47,7 @@ while running:
 
     go: GameObject
     for go in all_active_gos:
-        go.update(constants.DELTA_TIME)  # Use the DELTA_TIME constant
-    # Adjust screen
-
-    # Here the action could take place
-
-    # s = s0 + v0*t + 1/2a*t**2
+        go.update(constants.DELTA_TIME)
 
     pygame.display.flip()  # Update the display of the full screen
-    clock.tick(60)  # 60 frames per second
-
-# Done! Time to quit.
+    clock.tick(constants.FRAMERATE)  # 60 frames per second
