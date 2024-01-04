@@ -3,7 +3,7 @@ import pygame
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.gameObject import GameObject
-from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION
+from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION, PADDLE_COLLISION_DAMPING
 
 
 class Rigidbody(Component):
@@ -110,7 +110,7 @@ class Rigidbody(Component):
             alignment = normal.dot(rotational_velocity.normalize())
 
             # Scale the rotational velocity based on the alignment
-            self.velocity += rotational_velocity * alignment / 40
+            self.velocity += rotational_velocity * alignment / PADDLE_COLLISION_DAMPING
 
             pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 100, 5)
 

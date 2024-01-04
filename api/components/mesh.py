@@ -23,6 +23,8 @@ class Mesh(Component, ABC):
         return super().on_update(delta_time)
 
     def init_rotation(self, target: float, speed: float) -> None:
+        if target == self.target_rotation:
+            return
         self.target_rotation = target
         self.rotation_speed = abs(speed)
 
