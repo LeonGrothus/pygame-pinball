@@ -1,5 +1,5 @@
 import numpy as np
-from pygame import Vector2
+from pygame import Vector2, Vector3
 import pygame
 from scipy import constants
 from components.collider import CircleCollider, Collider, PolygonCollider
@@ -46,9 +46,6 @@ class Rigidbody(Component):
 
     def on_update(self, delta_time) -> None:
         if not self.is_kinematic:
-            self.resolve_collisions()
-
-        if not self.is_kinematic:
 
             self.acceleration += GRAVITY
 
@@ -58,6 +55,9 @@ class Rigidbody(Component):
             self.parent.transform.pos += self.velocity * delta_time
             
             self.acceleration = Vector2(0, 0)
+
+        if not self.is_kinematic:
+            self.resolve_collisions()
 
     def resolve_collisions(self) -> None:
         game_object: GameObject
@@ -93,14 +93,32 @@ class Rigidbody(Component):
 
         if other_collider.mesh.rotation_speed != 0:
 
-            # Calculate the velocity of the point of collision due to rotation
-            rotational_velocity = (Vector2(collision_point-other_collider.parent.transform.pos).length() * normal) * other_collider.mesh.rotation_speed/40
-            self.velocity = rotational_velocity
-        # self.velocity = self.velocity.reflect(normal) * (1 - COLLISION_FRICTION)
+            # Calculate the vector from the center of rotation to the point of contact
+            rotation_vector = collision_point - other_collider.parent.transform.pos
 
-        # pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 20, 10)
-        # Resolve overlap between the colliders
-        # self.parent.transform.pos += normal * (self.collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos))
+            # Calculate the angular velocity vector
+            angular_velocity_vector = Vector3(0, 0, other_collider.mesh.rotation_speed)
+
+            # Calculate the 3D rotation vector
+            rotation_vector_3d = Vector3(rotation_vector.x, rotation_vector.y, 0)
+
+            # Calculate the rotational velocity as the cross product of the angular velocity vector and the rotation vector
+            rotational_velocity_3d = angular_velocity_vector.cross(rotation_vector_3d)
+
+            # Convert the 3D rotational velocity back to 2D
+            rotational_velocity = Vector2(rotational_velocity_3d.x, rotational_velocity_3d.y)
+
+            # Calculate the alignment of the normal vector with the rotational velocity vector
+            alignment = normal.dot(rotational_velocity.normalize())
+
+            # Scale the rotational velocity based on the alignment
+            self.velocity += rotational_velocity * alignment / 40
+
+            # pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 100, 5)
+
+            # breakpoint()
+            # pygame.display.flip()
+            # breakpoint()
             
 
     def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
