@@ -1,16 +1,12 @@
 import pygame
 from pathlib import Path
-from game.objects.ball import Ball
-from game.objects.boundry import Boundry
 from game.objects.flipper import Flipper
 from api.objects.gameObject import GameObject
 import constants
+from game.scenes.main_pinball import MainPinball
 
 # Initialize PyGame
 pygame.init()
-
-all_active_gos: list = []
-all_active_rbs: list = []
 
 # Making display screen
 screen = pygame.display.set_mode((constants.SCREEN_WIDTH, constants.SCREEN_HEIGHT), pygame.RESIZABLE)
@@ -20,9 +16,8 @@ clock = pygame.time.Clock()
 # Setup 
 running = True
 
-Ball(pygame.Vector2(100, 100), screen, all_active_gos, all_active_rbs)
-Flipper(pygame.Vector2(200, 400), screen, all_active_gos, all_active_rbs)
-Boundry(pygame.Vector2(0, 0), screen, all_active_gos, all_active_rbs)
+scene = MainPinball(screen)
+scene.awake()
 
 # Main event loop
 while running:
@@ -39,19 +34,17 @@ while running:
             if event.key == pygame.K_RIGHT:
                 # Rotate all game objects 90 degrees to the right
                 game_object: GameObject
-                for game_object in all_active_gos:
+                for game_object in scene.all_active_gos:
                     if type(game_object) == Flipper:
                         game_object.transform.rotate_towards(180, constants.PADDLE_SPEED)
             elif event.key == pygame.K_LEFT:
                 # Rotate all game objects 90 degrees to the left
-                for game_object in all_active_gos:
+                for game_object in scene.all_active_gos:
                     if type(game_object) == Flipper:
                         game_object.transform.rotate_towards(0, constants.PADDLE_SPEED)
         continue
 
-    go: GameObject
-    for go in all_active_gos:
-        go.update(constants.DELTA_TIME)
+    scene.update(constants.DELTA_TIME)
 
     pygame.display.flip()  # Update the display of the full screen
     clock.tick(constants.FRAMERATE)  # 60 frames per second

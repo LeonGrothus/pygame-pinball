@@ -23,12 +23,10 @@ class Rigidbody(Component):
         return super().set_parent(parent)
 
     def on_init(self) -> None:
-        self.parent.all_active_rbs.append(self)
         self.set_collider()
         return super().on_init()
 
     def on_destroy(self) -> None:
-        self.parent.all_active_rbs.remove(self)
         return super().on_destroy()
 
     def set_collider(self) -> None:
@@ -59,7 +57,7 @@ class Rigidbody(Component):
 
     def resolve_collisions(self) -> None:
         game_object: GameObject
-        for game_object in self.parent.all_active_gos:
+        for game_object in self.parent.scene.all_active_gos:
             if game_object == self.parent:
                 continue
 
@@ -112,7 +110,7 @@ class Rigidbody(Component):
             # Scale the rotational velocity based on the alignment
             self.velocity += rotational_velocity * alignment / PADDLE_COLLISION_DAMPING
 
-            pygame.draw.line(self.parent.screen, (255, 0, 255), collision_point, collision_point + normal * 100, 5)
+            pygame.draw.line(self.parent.scene.screen, (255, 0, 255), collision_point, collision_point + normal * 100, 5)
 
     def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
         distance = self.parent.transform.pos.distance_to(other.parent.transform.pos)

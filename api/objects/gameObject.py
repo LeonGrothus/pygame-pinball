@@ -3,17 +3,13 @@ from pygame import Surface, Vector2
 from api.utils.transform import Transform
 
 class GameObject(ABC):
-    def __init__(self, pos: Vector2, sreen: Surface, all_active_gos: list, all_active_rbs: list) -> None:
-        all_active_gos.append(self)
-
-        self.screen = sreen
-        self.all_active_gos = all_active_gos
-        self.all_active_rbs = all_active_rbs
-
-        self.render_layer = 0
+    def __init__(self, pos: Vector2, render_layer: float) -> None:
+        self.render_layer = render_layer
         self.components = []
         self.transform = Transform(self)
         self.transform.pos = pos
+
+        self.scene: Scene = None # type: ignore
     
     def add_components(self, *args):
         for c in args:
@@ -60,8 +56,14 @@ class GameObject(ABC):
                     return c
         return None
     
+    def set_scene(self, parent):
+        self.scene = parent
+
+    def get_scene(self):
+        return self.scene
+    
     def destroy(self):
-        self.all_active_gos.remove(self)
+        self.scene.all_active_gos.remove(self)
         for c in self.components:
             c.on_distroy()
     

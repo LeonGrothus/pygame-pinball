@@ -22,11 +22,11 @@ class Renderer(Component):
 
         if(self.mesh_type == CircleMesh):
             self.mesh: CircleMesh = self.mesh # type: ignore
-            pygame.draw.circle(self.parent.screen, self.mesh.color, (self.parent.transform.pos.x, self.parent.transform.pos.y), self.mesh.radius) # type: ignore
+            pygame.draw.circle(self.parent.scene.screen, self.mesh.color, (self.parent.transform.pos.x, self.parent.transform.pos.y), self.mesh.radius) # type: ignore
         
         elif(self.mesh_type == PolygonMesh):
             self.mesh: PolygonMesh = self.mesh # type: ignore
-            pygame.draw.polygon(self.parent.screen, self.mesh.color, self.mesh.points)
+            pygame.draw.polygon(self.parent.scene.screen, self.mesh.color, self.mesh.points)
 
         return super().on_update(delta_time)
 

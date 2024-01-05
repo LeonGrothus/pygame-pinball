@@ -4,13 +4,14 @@ from api.components.mesh import PolygonMesh
 from api.components.collider import PolygonCollider
 from api.components.renderer import Renderer
 
+
 class Boundry(GameObject):
-    def __init__(self, pos: Vector2, screen, all_active_gos: list, all_active_rbs: list, color: Color = Color(255, 255, 255)):
-        super().__init__(pos, screen, all_active_gos, all_active_rbs)
-        
-        self.mesh = PolygonMesh(color, [])
+    def __init__(self):
+        super().__init__(Vector2(), 0)
+
+        self.mesh: PolygonMesh = PolygonMesh(Color(0, 0, 0), [])
         self.collider: PolygonCollider = PolygonCollider()
-        
+
         # Add the necessary components
         self.add_components(
             self.mesh,
@@ -19,8 +20,8 @@ class Boundry(GameObject):
 
     def update(self, delta_time: float):
         super().update(delta_time)
-        
+
         # Update the points of the mesh and collider to match the current screen size
-        width, height = self.screen.get_size()
+        width, height = self.scene.screen.get_size()
         points = [Vector2(0, 0), Vector2(width, 0), Vector2(width, height), Vector2(0, height)]
         self.mesh.points = points

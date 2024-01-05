@@ -6,8 +6,8 @@ from api.components.ridigbody import Rigidbody
 from api.components.renderer import Renderer
 
 class Ball(GameObject):
-    def __init__(self, pos: Vector2, screen, all_active_gos: list, all_active_rbs: list, radius: float = 50, color: Color = Color(255, 255, 255)):
-        super().__init__(pos, screen, all_active_gos, all_active_rbs)
+    def __init__(self, pos: Vector2, radius: float = 50, color: Color = Color(255, 255, 255)):
+        super().__init__(pos, 5)
         
         # Add the necessary components
         self.add_components(
