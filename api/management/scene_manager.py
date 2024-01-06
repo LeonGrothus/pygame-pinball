@@ -12,12 +12,13 @@ class SceneManager:
         self.scenes: dict = {
             "main_menu": MainMenu(self.screen, self),
             "main_pinball": MainPinball(self.screen, self),
-            "options": OptionsMenu(self.screen, self),
-            "scoreboard": ScoreboardMenu(self.screen, self)
+            "options_menu": OptionsMenu(self.screen, self),
+            "scoreboard_menu": ScoreboardMenu(self.screen, self)
         }
         self.active_scene = self.scenes[default]
         self.active_scene.awake()
 
     def change_scene(self, scene_name: str) -> None:
+        self.active_scene.unload()
         self.active_scene = self.scenes[scene_name]
         self.active_scene.awake()

@@ -13,7 +13,7 @@ class Mesh(Component, ABC):
         super().__init__()
 
     def on_init(self) -> None:
-        self.target_rotation = self.parent.transform.rot
+        self.rotate(self.parent.transform.rot)
         return super().on_init()
 
     def on_update(self, delta_time: float) -> None:

@@ -19,6 +19,9 @@ class BaseDisplay(ABC):
     def update(self, delta_time: float, events: list[Event]) -> None:
         pass
 
+    def unload(self) -> None:
+        pass
+
 
 class Scene(BaseDisplay, ABC):
     def __init__(self, screen: pygame.Surface, scene_manager) -> None:
@@ -58,3 +61,9 @@ class Scene(BaseDisplay, ABC):
     def update(self, delta_time: float, events: list[Event]) -> None:
         for game_object in self.all_active_gos:
             game_object.update(delta_time)
+
+    def unload(self) -> None:
+        for game_object in self.all_active_gos:
+            game_object.destroy()
+        self.all_active_gos.clear()
+        self.all_active_rbs.clear()

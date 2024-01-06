@@ -13,6 +13,9 @@ class Transform:
 
     def get_origin(self) -> Vector2: # should be deprecated
         return Vector2(self.pos.x - self.scale.x / 2, self.pos.y - self.scale.y / 2)
+    
+    def rotate(self, angle: float) -> None:
+        self.rot += angle
 
     def rotate_towards(self, target: float, speed: float) -> None:
         if not self.__mesh:

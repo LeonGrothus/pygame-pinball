@@ -65,7 +65,7 @@ class GameObject(ABC):
     def destroy(self):
         self.scene.all_active_gos.remove(self)
         for c in self.components:
-            c.on_distroy()
+            c.on_destroy()
     
     def update(self, delta_time: float):
         for c in self.components:
