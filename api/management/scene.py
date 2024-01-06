@@ -1,4 +1,5 @@
 from abc import ABC
+from json import load
 import pygame
 from pygame.event import Event
 
@@ -6,8 +7,9 @@ from api.objects.game_object import GameObject
 from api.components.ridigbody import Rigidbody
 
 class BaseDisplay(ABC):
-    def __init__(self, screen: pygame.Surface) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager) -> None:
         self.screen: pygame.Surface = screen
+        self.scene_manager = scene_manager
 
     ### Methods to be overriden by the user ###
 
@@ -17,16 +19,16 @@ class BaseDisplay(ABC):
     def update(self, delta_time: float, events: list[Event]) -> None:
         pass
 
+
 class Scene(BaseDisplay, ABC):
-    def __init__(self, screen: pygame.Surface) -> None:
-        super().__init__(screen)
+    def __init__(self, screen: pygame.Surface, scene_manager) -> None:
+        super().__init__(screen, scene_manager)
 
         self.object_counter: int = 0
         self.all_active_gos: list = []
         self.all_active_rbs: list = []
 
-        self.game_manager: GameManager = None # type: ignore
-
+        self.game_manager: GameManager = None  # type: ignore
 
     def add_gameobject(self, game_object: GameObject) -> None:
         game_object.set_scene(self)
@@ -36,7 +38,7 @@ class Scene(BaseDisplay, ABC):
 
         if game_object.get_component_by_class(Rigidbody) is not None:
             self.all_active_rbs.append(game_object)
-    
+
     def add_gameobjects(self, *game_objects: GameObject) -> None:
         for go in game_objects:
             self.add_gameobject(go)
@@ -45,10 +47,10 @@ class Scene(BaseDisplay, ABC):
         game_object.set_scene(None)
         if (game_object is None):
             return
-        
-        if(game_object in self.all_active_gos):
+
+        if (game_object in self.all_active_gos):
             self.all_active_gos.remove(game_object)
-        if(game_object in self.all_active_rbs):
+        if (game_object in self.all_active_rbs):
             self.all_active_rbs.remove(game_object)
 
     ### Methods to be extended by the user ###

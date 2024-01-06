@@ -6,8 +6,8 @@ from game.objects.boundry import Boundry
 from game.objects.flipper import Flipper
 
 class MainPinball(Scene):
-    def __init__(self, screen: pygame.Surface):
-        super().__init__(screen)
+    def __init__(self, screen: pygame.Surface, scene_manager):
+        super().__init__(screen, scene_manager)
         
     def awake(self) -> None:
         self.add_gameobject(Ball(Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)))

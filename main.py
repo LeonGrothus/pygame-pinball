@@ -15,7 +15,7 @@ bg = pygame.transform.scale(bg_orig, (screen.get_width(), screen.get_height())) 
 # Setup 
 running = True
 
-scene_manager = SceneManager(screen, "main_pinball")
+scene_manager = SceneManager(screen, "main_menu")
 
 # Main event loop
 while running:

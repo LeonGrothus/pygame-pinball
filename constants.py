@@ -1,3 +1,4 @@
+from pathlib import Path
 from pygame import Vector2
 
 SCREEN_WIDTH = 800
@@ -14,4 +15,6 @@ PADDLE_COLLISION_DAMPING = 60
 
 FRAMERATE = 120
 DELTA_TIME = (1 / FRAMERATE)
+
+PROJECT_PATH = Path(__file__).parents[0]
 
