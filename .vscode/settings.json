@@ -1,7 +1,4 @@
 {
     "python.analysis.typeCheckingMode": "basic",
-    "python.analysis.autoImportCompletions": true,
-    "python.analysis.extraPaths": [
-        "./api"
-    ]
+    "python.analysis.autoImportCompletions": true
 }

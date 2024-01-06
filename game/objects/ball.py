@@ -1,5 +1,5 @@
 from pygame import Vector2, Color
-from api.objects.gameObject import GameObject
+from api.objects.game_object import GameObject
 from api.components.mesh import CircleMesh
 from api.components.collider import CircleCollider
 from api.components.ridigbody import Rigidbody

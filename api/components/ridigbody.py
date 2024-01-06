@@ -2,7 +2,7 @@ from pygame import Vector2, Vector3
 import pygame
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
-from api.objects.gameObject import GameObject
+from api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION, PADDLE_COLLISION_DAMPING
 
 

@@ -1,13 +1,25 @@
 from abc import ABC
 import pygame
+from pygame.event import Event
 
-from api.objects.gameObject import GameObject
+from api.objects.game_object import GameObject
 from api.components.ridigbody import Rigidbody
 
-
-class Scene(ABC):
+class BaseDisplay(ABC):
     def __init__(self, screen: pygame.Surface) -> None:
         self.screen: pygame.Surface = screen
+
+    ### Methods to be overriden by the user ###
+
+    def awake(self) -> None:
+        pass
+
+    def update(self, delta_time: float, events: list[Event]) -> None:
+        pass
+
+class Scene(BaseDisplay, ABC):
+    def __init__(self, screen: pygame.Surface) -> None:
+        super().__init__(screen)
 
         self.object_counter: int = 0
         self.all_active_gos: list = []
@@ -39,11 +51,8 @@ class Scene(ABC):
         if(game_object in self.all_active_rbs):
             self.all_active_rbs.remove(game_object)
 
-    ### Methods to be overriden by the user ###
+    ### Methods to be extended by the user ###
 
-    def update(self, delta_time: float) -> None:
+    def update(self, delta_time: float, events: list[Event]) -> None:
         for game_object in self.all_active_gos:
             game_object.update(delta_time)
-
-    def awake(self) -> None:
-        pass
