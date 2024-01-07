@@ -63,7 +63,3 @@ class Flipper(GameObject):
         )
 
         self.transform.rotate(initial_angle)
-
-    def awake(self) -> None:
-        self.renderer.set_layer("foreground")
-        return super().awake()

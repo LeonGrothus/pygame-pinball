@@ -2,7 +2,6 @@ from pygame import Surface
 from game.scenes.main_menu import MainMenu
 from game.scenes.main_pinball import MainPinball
 from game.scenes.options_menu import OptionsMenu
-from game.scenes.scoreboard_menu import ScoreboardMenu
 
 
 class SceneManager:

@@ -9,6 +9,7 @@ from api.ui.button import Button
 from api.utils import utils
 
 from constants import PROJECT_PATH
+from game.scenes.scoreboard_menu import Scoreboard
 
 
 class MainMenu(BaseDisplay):
@@ -19,6 +20,9 @@ class MainMenu(BaseDisplay):
         self.button = utils.normalize_image_size(raw_button)
 
         self.title = "Pinball"
+
+        raw_panel = pygame.image.load(PROJECT_PATH / Path("assets/panels/scoreboard.png")).convert_alpha()
+        self.scoreboard = Scoreboard(Vector2(0, .52), self.font, 1, utils.normalize_image_size(raw_panel) , screen)
 
         super().__init__(screen, scene_manager)
 
@@ -38,6 +42,8 @@ class MainMenu(BaseDisplay):
         if self.quit_button.draw():
             pygame.quit()
             sys.exit()
+
+        self.scoreboard.draw()
 
         text_rect = self.font.get_rect(self.title, size=self.font.size*2) # type: ignore
         self.font.render_to(self.screen, ((self.screen.get_width()-text_rect.width) / 2, 50), self.title, Color(255, 255, 255), size=self.font.size*2)  # type: ignore
