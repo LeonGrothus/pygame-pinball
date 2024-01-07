@@ -10,11 +10,13 @@ from api.utils import utils
 
 from constants import PROJECT_PATH
 from game.scenes.scoreboard_menu import Scoreboard
+import copy
 
 
 class MainMenu(BaseDisplay):
     def __init__(self, screen: Surface, scene_manager) -> None:
         self.font = Font(PROJECT_PATH / Path("assets/fonts/Tektur-Regular.ttf"), 100)
+        scoreboard_font = Font(PROJECT_PATH / Path("assets/fonts/Tektur-Regular.ttf"), 50)
 
         raw_button = pygame.image.load(PROJECT_PATH / Path("assets/buttons/default_left.png")).convert_alpha()
         self.button = utils.normalize_image_size(raw_button)
@@ -22,7 +24,7 @@ class MainMenu(BaseDisplay):
         self.title = "Pinball"
 
         raw_panel = pygame.image.load(PROJECT_PATH / Path("assets/panels/scoreboard.png")).convert_alpha()
-        self.scoreboard = Scoreboard(Vector2(0, .52), self.font, 1, utils.normalize_image_size(raw_panel) , screen)
+        self.scoreboard = Scoreboard(Vector2(0, .52), scoreboard_font, 1, utils.normalize_image_size(raw_panel) , screen)
 
         super().__init__(screen, scene_manager)
 

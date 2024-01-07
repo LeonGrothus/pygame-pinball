@@ -38,8 +38,9 @@ class Scoreboard:
         title_x = self.rect.left + (self.rect.width - title_rect.width) / 2
         self.font.render_to(self.surface, (title_x, self.rect.top + title_rect.height),
                             title, (244, 194, 63), size=title_font_size)  # type: ignore
-        text_y = self.rect.top + title_rect.height * 1.2
-
+        end_of_title = self.rect.top + title_rect.height * 2.5
+        
+        text_height = end_of_title
         for i, entry in enumerate(self.entries, start=1):
             new_font_size = self.font.size * self.scale  # type: ignore
 
@@ -47,9 +48,13 @@ class Scoreboard:
             text_rect = self.font.get_rect(text, size=new_font_size)
 
             while text_rect.width > self.rect.width - 50 * self.scale:
-                new_font_size -= 1
+                new_font_size -= 5
                 text_rect = self.font.get_rect(text, size=new_font_size)
 
-            text_pos = self.rect.left + (self.rect.width - text_rect.width) / 2
-            self.font.render_to(self.surface, (text_pos, text_y + i * self.font.get_sized_height(
-                new_font_size)*1.2), text, (255, 255, 255), size=new_font_size)  # type: ignore
+            text_pos_x = self.rect.left + (self.rect.width - text_rect.width) / 2
+
+            if(text_height + text_rect.height > self.rect.bottom):
+                break
+
+            self.font.render_to(self.surface, (text_pos_x, text_height), text, (255, 255, 255), size=new_font_size)  # type: ignore
+            text_height += text_rect.height * 2
