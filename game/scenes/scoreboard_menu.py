@@ -10,14 +10,14 @@ from constants import PROJECT_PATH
 
 
 class Scoreboard:
-    def __init__(self, relative_pos: Vector2, font: Font, scale: float, panel: Surface, surface: Surface) -> None:
+    def __init__(self, relative_pos: Vector2, relative_movement: Vector2, font: Font, scale: float, panel: Surface, surface: Surface) -> None:
         self.relative_pos = relative_pos
         self.font = font
         self.scale = scale
         self.panel = pygame.transform.scale(panel, (int(panel.get_width() * scale), int(panel.get_height() * scale)))
         self.surface = surface
-        self.rect = pygame.Rect((relative_pos.x * surface.get_width()) - (self.panel.get_width() * relative_pos.x),
-                                (relative_pos.y * surface.get_height()) - (self.panel.get_height() * relative_pos.y),
+        self.rect = pygame.Rect((relative_pos.x * surface.get_width()) - (self.panel.get_width() * relative_movement.x),
+                                (relative_pos.y * surface.get_height()) - (self.panel.get_height() * relative_movement.y),
                                 self.panel.get_width(), self.panel.get_height())
         self.entries = self.load_entries()
 

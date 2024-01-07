@@ -17,12 +17,12 @@ class Rect():
 
 
 class Button():
-    def __init__(self, relative_pos: Vector2, text: str, text_color: Color, font: Font, scale: float, button: Surface, surface: Surface) -> None:
+    def __init__(self, relative_pos: Vector2, relative_movement: Vector2, text: str, text_color: Color, font: Font, scale: float, button: Surface, surface: Surface) -> None:
         width = button.get_width()
         height = button.get_height()
         self.image = pygame.transform.scale(button, (int(width * scale), int(height * scale)))
-        self.rect = Rect(Vector2((relative_pos.x * surface.get_width()) - (self.image.get_width() * relative_pos.x),
-                                 (relative_pos.y * surface.get_height()) - (self.image.get_height() * relative_pos.y)),
+        self.rect = Rect(Vector2((relative_pos.x * surface.get_width()) - (self.image.get_width() * relative_movement.x),
+                                 (relative_pos.y * surface.get_height()) - (self.image.get_height() * relative_movement.y)),
                          Vector2(self.image.get_width(), self.image.get_height()))
         self.text = text
         self.text_color = text_color

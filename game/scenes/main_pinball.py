@@ -5,7 +5,6 @@ from api.management.scene import Scene
 from game.objects.ball import Ball
 from game.objects.boundry import Boundry
 from game.objects.flipper import Flipper
-from constants import PADDLE_SPEED
 
 class MainPinball(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
