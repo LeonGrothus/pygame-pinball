@@ -9,7 +9,6 @@ from api.components.renderer import Renderer
 class Flipper(GameObject):
     def __init__(self, pos: Vector2, initial_angle: float, color: Color = Color(255, 255, 255)):
         super().__init__(pos, 10)
-        self.transform.rotate(initial_angle)
 
         # Define the points for the plunger polygon
         points = [
@@ -62,3 +61,9 @@ class Flipper(GameObject):
             PolygonCollider(),
             Renderer()
         )
+
+        self.transform.rotate(initial_angle)
+
+    def awake(self) -> None:
+        self.renderer.set_layer("foreground")
+        return super().awake()

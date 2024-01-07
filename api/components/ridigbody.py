@@ -88,12 +88,12 @@ class Rigidbody(Component):
         self.parent.transform.pos += normal * (self.collider.mesh.radius -
                                                collision_point.distance_to(self.parent.transform.pos))
 
-        if other_collider.mesh.rotation_speed != 0:
+        if other_collider.parent.transform.do_smooth_rotation:
             # Calculate the vector from the center of rotation to the point of contact
             rotation_vector = collision_point - other_collider.parent.transform.pos
 
             # Calculate the angular velocity vector
-            angular_velocity_vector = Vector3(0, 0, other_collider.mesh.rotation_speed)
+            angular_velocity_vector = Vector3(0, 0, other_collider.parent.transform.rotation_speed)
 
             # Calculate the 3D rotation vector
             rotation_vector_3d = Vector3(rotation_vector.x, rotation_vector.y, 0)

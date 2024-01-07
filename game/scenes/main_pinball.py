@@ -11,12 +11,12 @@ class MainPinball(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
 
-        self.left_flipper = None
-        self.right_flipper = None
+        self.left_flipper: Flipper = None # type: ignore
+        self.right_flipper: Flipper = None # type: ignore
         
     def awake(self) -> None:
-        self.left_flipper = Flipper(Vector2(self.screen.get_width() / 2 - 230, self.screen.get_height() - 140), 30/2)
-        self.right_flipper = Flipper(Vector2(self.screen.get_width() / 2 + 230, self.screen.get_height() - 140), 150/2)
+        self.left_flipper = Flipper(Vector2(self.screen.get_width() / 2 - 230, self.screen.get_height() - 140), 30)
+        self.right_flipper = Flipper(Vector2(self.screen.get_width() / 2 + 230, self.screen.get_height() - 140), 150)
         self.add_gameobject(self.left_flipper)
         self.add_gameobject(self.right_flipper)
 
@@ -31,16 +31,16 @@ class MainPinball(Scene):
                     self.scene_manager.change_scene("main_menu")
 
                 elif event.key == pygame.K_LEFT:
-                    self.left_flipper.transform.rotate_towards(0, PADDLE_SPEED) # type: ignore
+                    self.left_flipper.transform.init_smooth_rotation(0)
 
                 elif event.key == pygame.K_RIGHT:
-                    self.right_flipper.transform.rotate_towards(180, PADDLE_SPEED) # type: ignore
+                    self.right_flipper.transform.init_smooth_rotation(180)
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
-                    self.left_flipper.transform.rotate_towards(30, PADDLE_SPEED) # type: ignore
+                    self.left_flipper.transform.init_smooth_rotation(30)
 
                 elif event.key == pygame.K_RIGHT:
-                    self.right_flipper.transform.rotate_towards(150, PADDLE_SPEED) # type: ignore
+                    self.right_flipper.transform.init_smooth_rotation(150)
 
         return super().update(delta_time, events)

@@ -13,7 +13,6 @@ class SceneManager:
             "main_menu": MainMenu(self.screen, self),
             "main_pinball": MainPinball(self.screen, self),
             "options_menu": OptionsMenu(self.screen, self),
-            "scoreboard_menu": ScoreboardMenu(self.screen, self)
         }
         self.active_scene = self.scenes[default]
         self.active_scene.awake()
