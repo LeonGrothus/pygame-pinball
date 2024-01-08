@@ -84,6 +84,9 @@ class Button(UIElementBase):
             self.image = self.inactive_button
 
     def draw(self) -> None:
+        """
+        Draws the button.
+        """
         self.screen.blit(self.image, (self._x, self._y))
         self.font.render_to(self.screen, self.text_rect, self.text, self.text_color, size=self.font_size)
 
