@@ -21,3 +21,9 @@ def normalize_image_size(image: pygame.Surface, max_width: int=NORMALIZED_IMAGE_
         new_width = int(new_height * aspect_ratio)
 
     return pygame.transform.scale(image, (new_width, new_height))
+
+def clamp(value, min_value, max_value):
+    return max(min(value, max_value), min_value)
+
+def round(value):
+    return int(value + 0.5)
