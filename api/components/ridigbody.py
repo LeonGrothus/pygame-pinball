@@ -53,7 +53,7 @@ class Rigidbody(Component):
 
             self.parent.transform.pos += self.velocity * delta_time
 
-            self.acceleration = Vector2(0, 0)
+        self.acceleration = Vector2(0, 0)
 
     def resolve_collisions(self) -> None:
         game_object: GameObject
