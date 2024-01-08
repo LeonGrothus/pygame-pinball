@@ -53,3 +53,21 @@ class Slider(UIElementBase):
             self.value = max(min(self.value, self.max), self.min)
 
         return super().update_events(pygame_events)
+    
+    def draw(self) -> None:
+        """
+        Draws the slider.
+        """
+
+        # Draw the slider
+        pygame.draw.rect(self.screen, (255, 255, 255), (self._x, self._y + self._height / 2 - 2, self._width, 4))
+
+        # Draw the handle
+        if self.handle_image is not None:
+            self.screen.blit(self.handle_image, (self._x + (self._width - self.handle_image.get_width()) * utils.utils.map_range(self.value, self.min, self.max, 0, 1), self._y))
+        elif self.blob_image is not None:
+            self.screen.blit(self.blob_image, (self._x + (self._width - self.blob_image.get_width()) * utils.utils.map_range(self.value, self.min, self.max, 0, 1), self._y))
+        else:
+            pygame.draw.circle(self.screen, (255, 255, 255), (int(self._x + (self._width - self._height) * utils.utils.map_range(self.value, self.min, self.max, 0, 1)), int(self._y + self._height / 2)), int(self._height / 2))
+
+        return super().draw()
