@@ -61,6 +61,12 @@ class ButtonStyle:
                 tile = self.tiles[4]
                 tile_size = scaled_tile_size
 
+                if left_sided and j == 0 or right_sided and j == cols - 1:
+                    tile_size = (size[0] % scaled_tile_size[0] or scaled_tile_size[0], tile_size[1])
+                if top_sided and i == 0 or bottom_sided and i == rows - 1:
+                    tile_size = (tile_size[0], size[1] % scaled_tile_size[1] or scaled_tile_size[1])
+
+
                 if i == 0 and not top_sided:  # top row
                     if j == 0 and not left_sided:  # left corner
                         tile = self.tiles[0] # top left
@@ -107,9 +113,11 @@ class ButtonStyle:
                 if scale_factor != 1 or tile_size != scaled_tile_size:
                     tile = pygame.transform.scale(tile, tile_size)
 
-                # calculate the position of the tile
-                pos_x = min(j * scaled_tile_size[0], size[0] - tile_size[0])
-                pos_y = min(i * scaled_tile_size[1], size[1] - tile_size[1])
+                # calculate the position of the tile if column or row is not the last else use the distance between the 
+                # tilesize and the maximum button height because the second last row or column might be smaller than the
+                # tilesize
+                pos_x = j * scaled_tile_size[0] if j != cols - 1 else size[0] - tile_size[0]
+                pos_y = i * scaled_tile_size[1] if i != rows - 1 else size[1] - tile_size[1]
                 button.blit(tile, (pos_x, pos_y))
         return button
 
@@ -124,7 +132,7 @@ if __name__ == "__main__":
 
     button_manager = ButtonStyle(
         Path(os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'buttons', 'default_style')))
-    button = button_manager.create_button((200, 125))
+    button = button_manager.create_button((200, 140), left_sided=True, top_sided=True)
 
     running = True
     while running:

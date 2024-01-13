@@ -17,7 +17,7 @@ import copy
 
 class MainMenu(BaseDisplay):
     def __init__(self, screen: Surface, scene_manager) -> None:
-        self.default_button_style = ButtonStyle(PROJECT_PATH / Path("assets/buttons/default_style"))
+        self.button_style = ButtonStyle(PROJECT_PATH / Path("assets/buttons/default_style"))
 
         self.font = Font(PROJECT_PATH / Path("assets/fonts/Tektur-Regular.ttf"), 100)
         scoreboard_font = Font(PROJECT_PATH / Path("assets/fonts/Tektur-Regular.ttf"), 50)
@@ -34,9 +34,9 @@ class MainMenu(BaseDisplay):
         button_width = 250
         button_height = 125
 
-        inactive_button = self.default_button_style.create_button((button_width, button_height), right_sided=True)
-        hover_button = self.default_button_style.create_button((button_width, button_height), right_sided=True, gamma=.02)
-        pressed_button = self.default_button_style.create_button((button_width, button_height), right_sided=True, gamma=.03)
+        inactive_button = self.button_style.create_button((button_width, button_height), right_sided=True)
+        hover_button = self.button_style.create_button((button_width, button_height), right_sided=True, gamma=.03)
+        pressed_button = self.button_style.create_button((button_width, button_height), right_sided=True, gamma=.06)
 
         self.play_button = Button(self.screen, (1, .3), (1, 0), button_width, button_height,
                                   inactive_button=inactive_button, hover_button=hover_button, pressed_button=pressed_button, 
@@ -47,7 +47,7 @@ class MainMenu(BaseDisplay):
 
         self.quit_button = Button(self.screen, (1, .60), (1, 0), button_width, button_height,
                             inactive_button=inactive_button, hover_button=hover_button, pressed_button=pressed_button, 
-                            text="Quit", font_size=50, on_click=lambda: _quit())
+                            text="Quit", font_size=50, on_click=lambda: self._quit())
 
         return super().awake()
 
@@ -76,6 +76,6 @@ class MainMenu(BaseDisplay):
         return super().update(delta_time, events)
 
 
-def _quit():
-    pygame.quit()
-    sys.exit()
+    def _quit(self):
+        pygame.quit()
+        sys.exit()
