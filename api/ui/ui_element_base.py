@@ -4,7 +4,7 @@ from pygame import Surface
 
 
 class UIElementBase(ABC):
-    def __init__(self, screen: Surface, rel_x: float, rel_y: float, width: int, height: int):
+    def __init__(self, screen: Surface, rel_pos: tuple[float, float], width: int, height: int, rel_pos_self: tuple[float, float] = (0, 0)):
         """
         Initializes a new instance of the UIElementBase class.
 
@@ -12,18 +12,18 @@ class UIElementBase(ABC):
 
         Parameters:
             screen (Surface): The screen where the UI element will be displayed.
-            rel_x (int): The x-coordinate of the UI element relative to the size of the screen.
-            rel_y (int): The y-coordinate of the UI element relative to the size of the screen.
+            rel_pos (tuple): The position of the UI element relative to the size of the screen.
             width (int): The width of the UI element.
             height (int): The height of the UI element.
+            rel_pos_self (tuple): The position of the UI element relative to its own size.
         """
         self.screen: Surface = screen
-        self._rel_x: float = rel_x
-        self._x = int(self.screen.get_width() * self._rel_x)
-        self._rel_y: float = rel_y
-        self._y = int(self.screen.get_height() * self._rel_y)
+        self._rel_pos: tuple[float, float] = rel_pos
+        self._rel_pos_self: tuple[float, float] = rel_pos_self
         self._width: int = width
         self._height: int = height
+        self._x = int(self.screen.get_width() * self._rel_pos[0]) - int(self._width * self._rel_pos_self[0])
+        self._y = int(self.screen.get_height() * self._rel_pos[1]) - int(self._height * self._rel_pos_self[1])
 
     @abstractmethod
     def update_events(self, pygame_events) -> None:
@@ -31,7 +31,7 @@ class UIElementBase(ABC):
         Updates the UI element.
 
         This method must be overridden in derived classes.
-        
+
         Parameters:
             pygame_events (list): A list of pygame events occurred in the last frame.
         """
@@ -58,7 +58,6 @@ class UIElementBase(ABC):
             True if the UI element contains the given point, False otherwise.
         """
         return self._x <= x <= self._x + self._width and self._y <= y <= self._y + self._height
-    
 
     def move_to_rel(self, rel_x: float, rel_y: float) -> None:
         """
@@ -73,38 +72,28 @@ class UIElementBase(ABC):
         self._x = int(self.screen.get_width() * self._rel_x)
         self._y = int(self.screen.get_height() * self._rel_y)
 
+    ###############
+    ### Getters ###
+    ###############
 
-    """ 
-    getters
-    """
-
-    def get_rel_x(self) -> float:
+    def get_rel_pos(self) -> tuple:
         """
-        Gets the x-coordinate of the UI element relative to the size of the screen.
-
-        Returns:
-            The x-coordinate of the UI element relative to the size of the screen.
-        """
-        return self._rel_x
-    
-    def get_rel_y(self) -> float:
-        """
-        Gets the y-coordinate of the UI element relative to the size of the screen.
+        Gets the position of the UI element relative to the size of the screen.
 
         Returns:
-            The y-coordinate of the UI element relative to the size of the screen.
+            The position of the UI element relative to the size of the screen.
         """
-        return self._rel_y
+        return self._rel_pos
     
-    def get_x(self) -> int:
+    def get_rel_pos_self(self) -> tuple:
         """
-        Gets the x-coordinate of the UI element.
+        Gets the position of the UI element relative to its own size.
 
         Returns:
-            The x-coordinate of the UI element.
+            The position of the UI element relative to its own size.
         """
-        return self._x
-    
+        return self._rel_pos_self
+
     def get_y(self) -> int:
         """
         Gets the y-coordinate of the UI element.
@@ -113,7 +102,7 @@ class UIElementBase(ABC):
             The y-coordinate of the UI element.
         """
         return self._y
-    
+
     def get_width(self) -> int:
         """
         Gets the width of the UI element.
@@ -122,7 +111,7 @@ class UIElementBase(ABC):
             The width of the UI element.
         """
         return self._width
-    
+
     def get_height(self) -> int:
         """
         Gets the height of the UI element.

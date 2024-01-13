@@ -2,30 +2,46 @@ from pathlib import Path
 from typing import Callable
 from pygame import Color, Surface
 import pygame
+from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
 from constants import ASSETS_PATH
 from pygame.freetype import Font
 
 
 class Button(UIElementBase):
-    def __init__(self, screen: Surface, rel_x: float, rel_y: float, **kwargs):
+    def __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs):
         """
         Creates a button.
 
         Parameters:
             screen (Surface): The screen to draw the button on.
-            rel_x (float): The x-coordinate of the button relative to the size of the screen.
-            rel_y (float): The y-coordinate of the button relative to the size of the screen.
+            rel_pos (tuple): The position of the UI element relative to the size of the screen.
+            rel_pos_self (tuple): The position of the UI element relative to its own size.
             width (int): The width of the button.
             height (int): The height of the button.
             **kwargs: Additional arguments to pass to the UIElementBase class.
+
+            Keyword Arguments:
+                inactive_button (Surface): The image of the button when it is inactive.
+                hover_button (Surface): The image of the button when the mouse is hovering over it.
+                pressed_button (Surface): The image of the button when it is pressed.
+                on_click (Callable): The function to call when the button is clicked.
+                text_color (Color): The color of the text.
+                font_size (int): The size of the font.
+                text (str): The text of the button.
+                font (Font): The font of the text.
+                text_y_align (str): The vertical alignment of the text.
+                text_x_align (str): The horizontal alignment of the text.
+                margin (int): The margin between the text and the edge of the button.
         """
-        
+        super().__init__(screen, rel_pos, width, height, rel_pos_self)
+
         # Images
-        # All button images must have the same size
-        self.inactive_button: Surface = kwargs.get("inactive_button", pygame.image.load(ASSETS_PATH / Path("buttons/default_inactive.png")).convert_alpha())
-        self.hover_button: Surface = kwargs.get("hover_button", pygame.image.load(ASSETS_PATH / Path("buttons/default_hover.png")).convert_alpha())
-        self.pressed_button: Surface = kwargs.get("pressed_button", pygame.image.load(ASSETS_PATH / Path("buttons/default_pressed.png")).convert_alpha())
+        # Either inactive_button, hover_button and pressed_button are given or button_style must be given
+        button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(ASSETS_PATH / Path("buttons/default_style")))
+        self.inactive_button: Surface = kwargs.get("inactive_button", button_style.create_button((width, height))) # type: ignore
+        self.hover_button: Surface = kwargs.get("hover_button", button_style.create_button((width, height))) # type: ignore
+        self.pressed_button: Surface = kwargs.get("pressed_button", button_style.create_button((width, height))) # type: ignore
         self.image: Surface = self.inactive_button
 
         # Functions
@@ -44,9 +60,6 @@ class Button(UIElementBase):
         self.text_rect = self.font.get_rect(self.text, size=self.font_size)
 
         self.align_text()
-
-        # Call the constructor of the base class
-        super().__init__(screen, rel_x, rel_y, self.inactive_button.get_width(), self.inactive_button.get_height())
 
     def align_text(self):
         """
