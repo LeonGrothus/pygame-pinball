@@ -1,17 +1,15 @@
 from pathlib import Path
 import sys
-from turtle import left
-from pygame import Color, Surface, Vector2
+from pygame import Surface
 import pygame
 from api.management.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
-from api.ui.button_better import Button
+from api.ui.button import Button
 from api.ui.button_style import ButtonStyle
-from api.utils import utils
+from api.ui.slider import Slider
 
 from constants import PROJECT_PATH
-from game.scenes.scoreboard_menu import Scoreboard
 
 
 class OptionsMenu(BaseDisplay):
@@ -41,6 +39,8 @@ class OptionsMenu(BaseDisplay):
         self.apply_button = Button(self.screen, (1, 1), (1, 1), button_width, button_height,
                             inactive_button=apply_inactive_button, hover_button=apply_hover_button, pressed_button=apply_pressed_button, 
                             text="Apply", font_size=50, on_click=lambda: self._apply_changes())
+        
+        self.master_volume_slider = Slider(self.screen, (.5, .5), (.5, .5), 400, 50, min=0, max=100, step=1, initial_value=50)
 
         return super().awake()
 
@@ -50,6 +50,9 @@ class OptionsMenu(BaseDisplay):
 
         self.apply_button.draw()
         self.apply_button.update_events(events)
+
+        self.master_volume_slider.draw()
+        self.master_volume_slider.update_events(events)
 
         for event in events:
             if event.type == pygame.KEYDOWN:

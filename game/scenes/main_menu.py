@@ -6,7 +6,7 @@ import pygame
 from api.management.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
-from api.ui.button_better import Button
+from api.ui.button import Button
 from api.ui.button_style import ButtonStyle
 from api.utils import utils
 
