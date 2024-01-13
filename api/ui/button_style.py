@@ -62,6 +62,7 @@ class ButtonStyle:
                 tile_size = scaled_tile_size
 
                 if left_sided and j == 0 or right_sided and j == cols - 1:
+                    
                     tile_size = (size[0] % scaled_tile_size[0] or scaled_tile_size[0], tile_size[1])
                 if top_sided and i == 0 or bottom_sided and i == rows - 1:
                     tile_size = (tile_size[0], size[1] % scaled_tile_size[1] or scaled_tile_size[1])

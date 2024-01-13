@@ -88,7 +88,7 @@ class Slider(UIElementBase):
 if __name__ == "__main__":
     pygame.init()
     screen = pygame.display.set_mode((800, 600))
-    slider = Slider(screen, (0.5, 0.5), (0.5, 0.5), 400, 25, min=0, max=100, step=1, initial_value=50)
+    slider = Slider(screen, (0.5, 0.5), (0.5, 0.5), 400, 50, min=0, max=100, step=1, initial_value=50)
 
     running = True
     while running:
