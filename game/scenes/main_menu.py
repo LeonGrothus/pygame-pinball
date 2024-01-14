@@ -8,12 +8,11 @@ from pygame.event import Event
 from pygame.freetype import Font
 from api.ui.button import Button
 from api.ui.button_style import ButtonStyle
+from api.ui.panel import Panel
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
-from api.utils import utils
 
 from constants import ASSETS_PATH, PROJECT_PATH
-from game.scenes.scoreboard_menu import Scoreboard
 from options import Options
 
 
@@ -33,21 +32,26 @@ class MainMenu(BaseDisplay):
         button_font_size = int(50 * asf)
 
         self.ui_elements.append(Text(self.screen, (.5, .05), (.5, 0), text="Pinball",
-                          width=Options().resolution[0]*7/8, font=self.font))
+                                     width=Options().resolution[0]*7/8, font=self.font))
 
         button = self.button_style.create_button_set(
-                    (button_width, button_height), 0.03, 3, right_sided=True)
-        
+            (button_width, button_height), 0.03, 3, right_sided=True)
+
         self.ui_elements.append(Button(self.screen, (1, .3), (1, 0), button_width, button_height,
-                                  inactive_button=button[0], hover_button=button[1], pressed_button=button[2], 
-                                  text="Play", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("main_pinball")))
+                                       inactive_button=button[0], hover_button=button[1], pressed_button=button[2],
+                                       text="Play", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("main_pinball")))
         self.ui_elements.append(Button(self.screen, (1, .45), (1, 0), button_width, button_height,
-                            inactive_button=button[0], hover_button=button[1], pressed_button=button[2], 
-                            text="Options", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("options_menu")))
+                                       inactive_button=button[0], hover_button=button[1], pressed_button=button[2],
+                                       text="Options", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("options_menu")))
 
         self.ui_elements.append(Button(self.screen, (1, .60), (1, 0), button_width, button_height,
-                            inactive_button=button[0], hover_button=button[1], pressed_button=button[2], 
-                            text="Quit", font_size=button_font_size, on_click=lambda: self._quit()))
+                                       inactive_button=button[0], hover_button=button[1], pressed_button=button[2],
+                                       text="Quit", font_size=button_font_size, on_click=lambda: self._quit()))
+
+        scoreboard_width = Options().resolution[0]/2
+        scoreboard_height = Options().resolution[1]*.3+button_height
+        scoreboard_style = self.button_style.create_button((scoreboard_width, scoreboard_height), left_sided=True)
+        self.ui_elements.append(Panel(self.screen, (0, .3), (0, 0), scoreboard_width, scoreboard_height, background=scoreboard_style))
 
         return super().awake()
 
