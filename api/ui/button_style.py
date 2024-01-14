@@ -122,7 +122,25 @@ class ButtonStyle:
                 button.blit(tile, (pos_x, pos_y))
         return button
 
+    def create_button_set(self, size: Tuple[int, int], gamma_offset: float, num_buttons: int, **kwargs) -> Tuple[Surface, ...]:
+        """
+        Creates a set of buttons with the specified size and gamma offset.
 
+        This method creates a number of buttons by calling the create_button method with the specified size and other parameters, 
+        and with gamma values of 0, gamma_offset, 2 * gamma_offset, and so on.
+
+        Parameters:
+            size (Tuple[int, int]): The size of the buttons.
+            gamma_offset (float): The gamma offset to apply to the buttons.
+            num_buttons (int): The number of buttons to create.
+            **kwargs: Other parameters to pass to the create_button method.
+
+        Returns:
+            Tuple[Surface, ...]: The created buttons.
+        """
+        buttons = tuple(self.create_button(size, gamma=i*gamma_offset, **kwargs) for i in range(num_buttons))
+        return buttons
+    
 #############
 ### Debug ###
 #############

@@ -5,7 +5,7 @@ from api.ui.ui_element_base import UIElementBase
 
 
 class TextBox(UIElementBase):
-    def __init__(self, screen: Surface, rel_x: float, rel_y: float, width: int, height: int, **kwargs):
+    def __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs):
         """
         Creates a text box.
 
@@ -16,7 +16,19 @@ class TextBox(UIElementBase):
             width (int): The width of the text box.
             height (int): The height of the text box.
             **kwargs: Additional arguments to pass to the UIElementBase class.
+
+            Keyword Arguments:
+                inactive_image (Surface): The image of the text box when it is inactive.
+                active_image (Surface): The image of the text box when it is active.
+                on_submit (Callable): The function to call when the text box is submitted.
+                on_submit_args (list): The arguments to pass to the on_submit function.
+                placeholder (str): The placeholder text of the text box.
+                placeholder_color (Color): The color of the placeholder text.
+                text_color (Color): The color of the text.
+                font_size (int): The size of the font.
+                font (Font): The font of the text.
         """
+        super().__init__(screen, rel_pos, width, height, rel_pos_self)
 
         self.selected = False
         self.show_cursor = False
@@ -36,8 +48,6 @@ class TextBox(UIElementBase):
         self.text_color = kwargs.get("text_color", (255, 255, 255))
         self.font_size = kwargs.get("font_size", 50)
         self.font = kwargs.get("font", None)
-
-        super().__init__(screen, rel_x, rel_y, width, height)
 
     def select(self) -> None:
         """

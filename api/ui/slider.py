@@ -3,6 +3,7 @@ from pygame import Surface
 import pygame
 from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
+from api.utils.event_value import EventValue
 from constants import ASSETS_PATH
 import api.utils.utils as utils
 
@@ -37,7 +38,7 @@ class Slider(UIElementBase):
         self.min = kwargs.get("min", 0)
         self.max = kwargs.get("max", 100)
         self.step = kwargs.get("step", 1)
-        self.value =  utils.clamp(kwargs.get("initial_value", 0), self.min, self.max)
+        self.value =  EventValue(utils.clamp(kwargs.get("initial_value", 0), self.min, self.max))
 
         self.selected = False
 
@@ -65,11 +66,14 @@ class Slider(UIElementBase):
                 self.selected = False
 
         if self.selected:
-            self.value = utils.round((mouse_pos[0] - self._x) / self._width * (self.max - self.min) + self.min)
-            self.value = max(min(self.value, self.max), self.min)
+            unclamped = self.round((mouse_pos[0] - self._x) / self._width * (self.max - self.min) + self.min)
+            self.value.set_value(max(min(unclamped, self.max), self.min))
 
         return super().update_events(pygame_events)
-    
+
+    def round(self, value):
+        return self.step * round(value / self.step)
+
     def draw(self) -> None:
         """
         Draws the slider.
@@ -79,7 +83,7 @@ class Slider(UIElementBase):
         self.screen.blit(self.handle_image, (self._x, self._y))
         # Draw the blob
         blob_width = self.blob_image.get_width()
-        pos_x = self._x - blob_width/2 + (self._width) * utils.map_range(self.value, self.min, self.max, 0, 1)
+        pos_x = self._x - blob_width/2 + (self._width) * utils.map_range(self.value.get_value(), self.min, self.max, 0, 1)
         pos_y = self._y + (self._height - self.blob_image.get_height()) / 2
         self.screen.blit(self.blob_image, (pos_x, pos_y))
         return super().draw()

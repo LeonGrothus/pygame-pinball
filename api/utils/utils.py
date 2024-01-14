@@ -24,6 +24,3 @@ def normalize_image_size(image: pygame.Surface, max_width: int=NORMALIZED_IMAGE_
 
 def clamp(value, min_value, max_value):
     return max(min(value, max_value), min_value)
-
-def round(value):
-    return int(value + 0.5)
