@@ -55,7 +55,7 @@ class MainMenu(BaseDisplay):
 
         scoreboard_entries = [TextObject("Scoreboard", color=(244, 194, 63))] + self.load_scoreboard_entries()
         self.ui_elements.append(Panel(self.screen, (0, .3), (0, 0), scoreboard_width, scoreboard_height,
-                                background=scoreboard_style, text_objects=scoreboard_entries, margin=25))
+                                background=scoreboard_style, text_objects=scoreboard_entries, margin=25*asf))
 
         return super().awake()
 
