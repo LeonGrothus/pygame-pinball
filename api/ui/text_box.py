@@ -77,15 +77,15 @@ class TextBox(UIElementBase):
 
         mouse_pos = pygame.mouse.get_pos()
 
-        if pygame.mouse.get_pressed()[0]:
-            if self.contains(mouse_pos[0], mouse_pos[1]):
-                self.select()
-            else:
-                if self.selected:
-                    self.on_submit(*self.on_submit_args)
-                self.deselect()
-
         for event in pygame_events:
+            if event.type == pygame.MOUSEBUTTONDOWN:
+                if self.contains(mouse_pos[0], mouse_pos[1]):
+                    self.select()
+                else:
+                    if self.selected:
+                        self.on_submit(*self.on_submit_args)
+                    self.deselect()
+
             if event.type == pygame.KEYDOWN:
                 if self.selected:
                     if event.key == pygame.K_BACKSPACE:

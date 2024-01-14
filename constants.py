@@ -1,9 +1,6 @@
 from pathlib import Path
 from pygame import Vector2
 
-SCREEN_WIDTH = 666
-SCREEN_HEIGHT = 1000
-
 GRAVITY = Vector2(0, 1000)
 
 COLLISION_FRICTION = 0.1

@@ -57,11 +57,10 @@ class Slider(UIElementBase):
 
         mouse_pos = pygame.mouse.get_pos()
 
-        if self.contains(mouse_pos[0], mouse_pos[1]):
-            if pygame.mouse.get_pressed()[0]:
-                self.selected = True
-
         for event in pygame_events:
+            if self.contains(mouse_pos[0], mouse_pos[1]):
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.selected = True
             if event.type == pygame.MOUSEBUTTONUP:
                 self.selected = False
 

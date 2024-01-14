@@ -1,7 +1,6 @@
-from doctest import master
 from pathlib import Path
 import sys
-from pygame import Color, Surface
+from pygame import Surface
 import pygame
 from api.management.scene import BaseDisplay
 from pygame.event import Event
@@ -12,7 +11,7 @@ from api.ui.slider import Slider
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 
-from constants import ASSETS_PATH, SCREEN_WIDTH
+from constants import ASSETS_PATH
 import options
 
 
@@ -32,27 +31,29 @@ class OptionsMenu(BaseDisplay):
         super().__init__(screen, scene_manager)
 
     def awake(self) -> None:
-        button_width = 250
-        button_height = 125
+        button_width = int(250 * self.asf)
+        button_height = int(125 * self.asf)
+        button_font_size = int(50 * self.asf)
 
         text_relativ_x = .05
-        text_font_size = 40
+        text_font_size = int(40 * self.asf)
 
         self.title = Text(self.screen, (.5, .05), (.5, 0), text="Options",
-                          width=SCREEN_WIDTH-SCREEN_WIDTH/8, font=self.font)
+                          width=self.options.resolution[0]*7/8, font=self.font)
         self.ui_elements.append(self.title)
 
         # Sliders
         slider_relativ_x = .75
-        slider_width = 250
+        slider_width = int(250 * self.asf)
+        slider_height = int(50 * self.asf)
 
         self.ui_elements.append(Text(self.screen, (.5, .25), (.5, .5), text="Resolution",
                                 font=self.font, font_size=text_font_size*2))
 
         self.ui_elements.append(Text(self.screen, (text_relativ_x, .35), (0, .5),
                                 text="Global Scale", font=self.font, font_size=text_font_size))
-        gloabl_scale_slider = Slider(self.screen, (slider_relativ_x, .4), (.5, .5),
-                                     slider_width, 50, min=0.5, max=2.0, step=0.5, initial_value=self.asf)
+        gloabl_scale_slider = Slider(self.screen, (slider_relativ_x, .35), (.5, .5),
+                                     slider_width, slider_height, min=0.5, max=2.0, step=0.5, initial_value=self.asf)
         gloabl_scale_slider.value.subscribe(lambda value: self.set_global_scale(value))
         self.ui_elements.append(gloabl_scale_slider)
 
@@ -62,21 +63,21 @@ class OptionsMenu(BaseDisplay):
         self.ui_elements.append(Text(self.screen, (text_relativ_x, .6), (0, .5),
                                 text="Master Volume", font=self.font, font_size=text_font_size))
         master_volume_slider = Slider(self.screen, (slider_relativ_x, .6), (.5, .5),
-                                      slider_width, 50, min=0, max=100, step=1, initial_value=self.new_master_volume)
+                                      slider_width, slider_height, min=0, max=100, step=1, initial_value=self.new_master_volume)
         master_volume_slider.value.subscribe(lambda value: self.set_master_volume(value))
         self.ui_elements.append(master_volume_slider)
 
         self.ui_elements.append(Text(self.screen, (text_relativ_x, .7), (0, .5),
                                 text="Music Volume", font=self.font, font_size=text_font_size))
         music_volume_slider = Slider(self.screen, (slider_relativ_x, .7), (.5, .5),
-                                     slider_width, 50, min=0, max=100, step=1, initial_value=self.new_music_volume)
+                                     slider_width, slider_height, min=0, max=100, step=1, initial_value=self.new_music_volume)
         music_volume_slider.value.subscribe(lambda value: self.set_music_volume(value))
         self.ui_elements.append(music_volume_slider)
 
         self.ui_elements.append(Text(self.screen, (text_relativ_x, .8), (0, .5),
                                 text="SFX Volume", font=self.font, font_size=text_font_size))
         sfx_volume_slider = Slider(self.screen, (slider_relativ_x, .8), (.5, .5),
-                                   slider_width, 50, min=0, max=100, step=1, initial_value=self.new_sfx_volume)
+                                   slider_width, slider_height, min=0, max=100, step=1, initial_value=self.new_sfx_volume)
         sfx_volume_slider.value.subscribe(lambda value: self.set_sfx_volume(value))
         self.ui_elements.append(sfx_volume_slider)
 
@@ -87,11 +88,11 @@ class OptionsMenu(BaseDisplay):
 
         self.ui_elements.append(Button(self.screen, (0, 1), (0, 1), button_width, button_height,
                                        inactive_button=back_button[0], hover_button=back_button[1], pressed_button=back_button[2],
-                                       text="Back", font_size=50, on_click=lambda: self.scene_manager.change_scene("main_menu")))
+                                       text="Back", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("main_menu")))
 
         self.ui_elements.append(Button(self.screen, (1, 1), (1, 1), button_width, button_height,
                                        inactive_button=apply_button[0], hover_button=apply_button[1], pressed_button=apply_button[2],
-                                       text="Apply", font_size=50, on_click=lambda: self._apply_changes()))
+                                       text="Apply", font_size=button_font_size, on_click=lambda: self._apply_changes()))
 
         return super().awake()
 
@@ -107,6 +108,11 @@ class OptionsMenu(BaseDisplay):
                     sys.exit()
 
         return super().update(delta_time, events)
+    
+    def unload(self) -> None:
+        self.options.save_entries()
+        self.ui_elements.clear()
+        return super().unload()
 
     def set_master_volume(self, value: float) -> None:
         self.new_master_volume = value
@@ -127,4 +133,5 @@ class OptionsMenu(BaseDisplay):
         self.options.asf = self.asf
         self.options.save_entries()
 
-        self.scene_manager.change_scene("main_menu")
+        pygame.display.set_mode(self.options.resolution)
+        self.scene_manager.change_scene("options_menu")

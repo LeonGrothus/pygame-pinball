@@ -53,6 +53,8 @@ class Options:
         data: dict = self.json_manager.load_json()
         # ASF = Application Scale Factor
         self.asf = data.get('acf', 1)  # Default to 1 if 'acf' is not in the JSON file
+        self.resolution = (666 * self.asf, 1000 * self.asf)
+
         self.master_volume = data.get('master_volume', 50)  # Default to 50 if 'master_volume' is not in the JSON file
         self.music_volume = data.get('music_volume', 50)  # Default to 50 if 'music_volume' is not in the JSON file
         self.sfx_volume = data.get('sfx_volume', 50)  # Default to 50 if 'sfx_volume' is not in the JSON file
@@ -71,4 +73,5 @@ class Options:
             'music_volume': self.music_volume,
             'sfx_volume': self.sfx_volume
         }
+        self.resolution = (666 * self.asf, 1000 * self.asf)
         self.json_manager.save_json(data)

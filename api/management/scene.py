@@ -1,5 +1,6 @@
 from abc import ABC
 from json import load
+from typing import Callable
 import pygame
 from pygame.event import Event
 

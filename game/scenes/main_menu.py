@@ -68,11 +68,6 @@ class MainMenu(BaseDisplay):
         self.font.render_to(self.screen, ((self.screen.get_width()-text_rect.width) / 2, 50),
                             self.title, Color(255, 255, 255), size=self.font.size*2)  # type: ignore
 
-        for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
         return super().update(delta_time, events)
 
 

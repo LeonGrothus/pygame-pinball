@@ -88,11 +88,12 @@ class Button(UIElementBase):
         mouse_pos = pygame.mouse.get_pos()
 
         if self.contains(mouse_pos[0], mouse_pos[1]):
-            if pygame.mouse.get_pressed()[0]:
-                self.on_click()
-                self.image = self.pressed_button
-            else:
-                self.image = self.hover_button
+            for event in pygame_events:
+                if event.type == pygame.MOUSEBUTTONDOWN:
+                    self.image = self.pressed_button
+                    self.on_click()
+                else:
+                    self.image = self.hover_button
         else:
             self.image = self.inactive_button
 
