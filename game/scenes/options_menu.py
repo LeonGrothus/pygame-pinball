@@ -12,7 +12,7 @@ from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 
 from constants import ASSETS_PATH
-import options
+from options import Options
 
 
 class OptionsMenu(BaseDisplay):
@@ -46,7 +46,7 @@ class OptionsMenu(BaseDisplay):
         self.font = Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), 75)
         self.ui_elements: list[UIElementBase] = []
 
-        self.options = options.Options()
+        self.options = Options()
         self.new_master_volume = self.options.master_volume
         self.new_music_volume = self.options.music_volume
         self.new_sfx_volume = self.options.sfx_volume
@@ -68,9 +68,8 @@ class OptionsMenu(BaseDisplay):
         text_relativ_x = .05
         text_font_size = int(40 * self.asf)
 
-        self.title = Text(self.screen, (.5, .05), (.5, 0), text="Options",
-                          width=self.options.resolution[0]*7/8, font=self.font)
-        self.ui_elements.append(self.title)
+        self.ui_elements.append(Text(self.screen, (.5, .05), (.5, 0), text="Options",
+                          width=self.options.resolution[0]*7/8, font=self.font))
 
         # Sliders
         slider_relativ_x = .75
@@ -144,8 +143,7 @@ class OptionsMenu(BaseDisplay):
         for event in events:
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
-                    pygame.quit()
-                    sys.exit()
+                    self.scene_manager.change_scene("main_menu")
 
         return super().update(delta_time, events)
     
