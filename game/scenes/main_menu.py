@@ -3,12 +3,13 @@ import sys
 from turtle import left
 from pygame import Color, Surface, Vector2
 import pygame
+from api.management.json_manager import JsonManager
 from api.management.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
 from api.ui.button import Button
 from api.ui.button_style import ButtonStyle
-from api.ui.panel import Panel
+from api.ui.panel import Panel, TextObject
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 
@@ -51,7 +52,10 @@ class MainMenu(BaseDisplay):
         scoreboard_width = Options().resolution[0]/2
         scoreboard_height = Options().resolution[1]*.3+button_height
         scoreboard_style = self.button_style.create_button((scoreboard_width, scoreboard_height), left_sided=True)
-        self.ui_elements.append(Panel(self.screen, (0, .3), (0, 0), scoreboard_width, scoreboard_height, background=scoreboard_style))
+
+        scoreboard_entries = [TextObject("Scoreboard", color=(244, 194, 63))] + self.load_scoreboard_entries()
+        self.ui_elements.append(Panel(self.screen, (0, .3), (0, 0), scoreboard_width, scoreboard_height,
+                                background=scoreboard_style, text_objects=scoreboard_entries, margin=25))
 
         return super().awake()
 
@@ -65,6 +69,21 @@ class MainMenu(BaseDisplay):
     def unload(self) -> None:
         self.ui_elements.clear()
         return super().unload()
+
+    def load_scoreboard_entries(self):
+        json_manager = JsonManager(PROJECT_PATH / Path("data.json"))
+        data = json_manager.load_json()
+        if data is None:
+            return []
+
+        entries = data.get('scoreboard', {})
+        text_objects = []
+        for i, entry in enumerate(entries, start=1):
+            text = f"{i:02}: {entry}: {entries[entry]}"
+            text_object = TextObject(text, font_size=None, color=(255, 255, 255))
+            text_objects.append(text_object)
+
+        return text_objects
 
     def _quit(self):
         pygame.quit()

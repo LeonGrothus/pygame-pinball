@@ -88,9 +88,12 @@ class Panel(UIElementBase):
 
         y_offset = self.margin
         for text_surface in self.text_surfaces:
+            if y_offset + text_surface.get_height() + self.margin > self._height:
+                break  # Don't draw this text surface or any following ones
             self.screen.blit(text_surface, (self._x + self.margin, self._y + y_offset))
             y_offset += text_surface.get_height() + self.margin
 
+            
     def update_events(self, pygame_events) -> None:
         """
         Updates the panel.
