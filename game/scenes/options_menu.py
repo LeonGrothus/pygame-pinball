@@ -16,7 +16,31 @@ import options
 
 
 class OptionsMenu(BaseDisplay):
+    """
+    A class to represent the options menu.
+
+    This class extends the BaseDisplay class and adds functionality for the options menu.
+
+    Attributes:
+        button_style (ButtonStyle): The button style to use for the menu.
+        font (Font): The font to use for the menu.
+        ui_elements (list): The list of UI elements in the menu.
+        options (Options): The options.
+        new_master_volume (float): The new master volume.
+        new_music_volume (float): The new music volume.
+        new_sfx_volume (float): The new sfx volume.
+        asf (float): The global scale.
+    """
+
     def __init__(self, screen: Surface, scene_manager) -> None:
+        """
+        Initializes the options menu.
+
+        Parameters:
+            screen (Surface): The screen to draw the menu on.
+            scene_manager (SceneManager): The scene manager.
+        """
+
         self.button_style = ButtonStyle(ASSETS_PATH / Path("buttons/default_style"))
 
         self.font = Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), 75)
@@ -31,6 +55,12 @@ class OptionsMenu(BaseDisplay):
         super().__init__(screen, scene_manager)
 
     def awake(self) -> None:
+        """
+        Creates the menu.
+
+        Returns:
+            None
+        """
         button_width = int(250 * self.asf)
         button_height = int(125 * self.asf)
         button_font_size = int(50 * self.asf)
@@ -97,6 +127,16 @@ class OptionsMenu(BaseDisplay):
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:
+        """
+        Updates the menu.
+
+        Parameters:
+            delta_time (float): The time since the last frame.
+            events (list): The list of pygame events.
+
+        Returns:
+            None
+        """
         for element in self.ui_elements:
             element.draw()
             element.update_events(events)
@@ -110,23 +150,71 @@ class OptionsMenu(BaseDisplay):
         return super().update(delta_time, events)
     
     def unload(self) -> None:
+        """
+        Unloads the menu.
+
+        Returns:
+            None
+        """
         self.options.save_entries()
         self.ui_elements.clear()
         return super().unload()
 
     def set_master_volume(self, value: float) -> None:
+        """
+        Sets the master volume.
+
+        Parameters:
+            value (float): The new value.
+
+        Returns:
+            None
+        """
         self.new_master_volume = value
 
     def set_music_volume(self, value: float) -> None:
+        """
+        Sets the music volume.
+
+        Parameters:
+            value (float): The new value.
+
+        Returns:
+            None
+        """
         self.new_music_volume = value
 
     def set_sfx_volume(self, value: float) -> None:
+        """
+        Sets the sfx volume.
+
+        Parameters:
+            value (float): The new value.
+
+        Returns:
+            None
+        """
         self.new_sfx_volume = value
 
     def set_global_scale(self, value: float) -> None:
+        """
+        Sets the global scale.
+
+        Parameters:
+            value (float): The new value.
+
+        Returns:
+            None
+        """
         self.asf = value
 
     def _apply_changes(self):
+        """
+        Applies the changes.
+
+        Returns:
+            None
+        """
         self.options.master_volume = self.new_master_volume
         self.options.music_volume = self.new_music_volume
         self.options.sfx_volume = self.new_sfx_volume
