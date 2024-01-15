@@ -67,16 +67,23 @@ class Panel(UIElementBase):
             text_object (TextObject): The TextObject to scale and precompute.
         """
 
-        max_font_size = math.inf if text_object.font_size is None else text_object.font_size
-        font_size = 1
-        text_rect = self.font.get_rect(text_object.text, size=font_size)
-        while (text_rect.width < self._width - 2 * self.margin) and (font_size < max_font_size):
-            font_size += 1
-            text_rect = self.font.get_rect(text_object.text, size=font_size)
-        text_object.font_size = font_size - 1  # Subtract 1 because the loop went one step too far
+        min_font_size = 1
+        max_font_size = (self._width - self.margin * 2 - (10*len(text_object.text))) if text_object.font_size is None else text_object.font_size
+        optimal_font_size = min_font_size
 
+        # Binary search for the optimal font size
+        while min_font_size <= max_font_size:
+            mid_font_size = (min_font_size + max_font_size) // 2
+            text_rect = self.font.get_rect(text_object.text, size=mid_font_size)
+
+            if text_rect.width <= self._width - 2 * self.margin:
+                min_font_size = mid_font_size + 1
+                optimal_font_size = mid_font_size
+            else:
+                max_font_size = mid_font_size - 1
+
+        text_object.font_size = optimal_font_size
         text_surface = self.font.render(text_object.text, text_object.color, size=text_object.font_size)
-
         self.text_surfaces.append(text_surface[0])
 
 

@@ -61,6 +61,12 @@ class ButtonStyle:
                 tile = self.tiles[4]
                 tile_size = scaled_tile_size
 
+                if i == rows - 2:
+                    tile_size = (tile_size[0], size[1] - tile_size[1] * (rows - 1))
+                if j == cols - 2:
+                    tile_size = (size[0] - tile_size[0] * (cols - 1), tile_size[1])
+
+
                 if i == 0 and not top_sided:  # top row
                     if j == 0 and not left_sided:  # left corner
                         tile = self.tiles[0] # top left
@@ -68,7 +74,6 @@ class ButtonStyle:
                         tile = self.tiles[2] # top right
                     else:  # top middle
                         tile = self.tiles[1] # top middle
-                        tile_size = (size[0] - tile_size[0] * (cols - 1), tile_size[1])
                 elif i == rows - 1 and not bottom_sided:  # bottom row
                     if j == 0 and not left_sided:  # left corner
                         tile = self.tiles[6] # bottom left
@@ -76,16 +81,12 @@ class ButtonStyle:
                         tile = self.tiles[8] # bottom right
                     else:  # bottom middle
                         tile = self.tiles[7] # bottom middle
-                        tile_size = (size[0] - tile_size[0] * (cols - 1), tile_size[1])
                 elif j == 0 and not left_sided:  # left middle
                     tile = self.tiles[3] # left middle
-                    tile_size = (tile_size[0], size[1] - tile_size[1] * (rows - 1))
                 elif j == cols - 1 and not right_sided:  # right middle
                     tile = self.tiles[5] # right middle
-                    tile_size = (tile_size[0], size[1] - tile_size[1] * (rows - 1))
                 else:  # middle middle
-                    tile_size = (size[0] - tile_size[0] * (cols - 1), size[1] - tile_size[1] * (rows - 1))
-
+                    pass
 
                 # apply tint to the tile if necessary
                 if tint:
@@ -107,14 +108,12 @@ class ButtonStyle:
                 # scale the tile if necessary
                 if scale_factor != 1 or tile_size != scaled_tile_size:
                     tile = pygame.transform.scale(tile, tile_size)
-                    
-                # calculate the position of the tile if column or row is not the last else use the distance between the 
-                # tilesize and the maximum button height because the second last row or column might be smaller than the
-                # tilesize
-                    
-                pos_x = min(j * scaled_tile_size[0], size[0] - tile_size[0])
-                pos_y = min(i * scaled_tile_size[1], size[1] - tile_size[1])
+
+                # Position the last row and column to fill the remaining space
+                pos_x = j * scaled_tile_size[0] if j != cols - 1 else size[0] - tile_size[0]
+                pos_y = i * scaled_tile_size[1] if i != rows - 1 else size[1] - tile_size[1]
                 button.blit(tile, (pos_x, pos_y))
+                # return button
         return button
 
     def create_button_set(self, size: Tuple[int, int], gamma_offset: float, num_buttons: int, **kwargs) -> Tuple[Surface, ...]:
