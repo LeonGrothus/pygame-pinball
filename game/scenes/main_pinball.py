@@ -5,6 +5,7 @@ from api.management.scene import Scene
 from game.objects.ball import Ball
 from game.objects.boundry import Boundry
 from game.objects.flipper import Flipper
+from options import Options
 
 class MainPinball(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
@@ -14,13 +15,14 @@ class MainPinball(Scene):
         self.right_flipper: Flipper = None # type: ignore
         
     def awake(self) -> None:
-        self.left_flipper = Flipper(Vector2(self.screen.get_width() / 2 - 230, self.screen.get_height() - 140), 30)
-        self.right_flipper = Flipper(Vector2(self.screen.get_width() / 2 + 230, self.screen.get_height() - 140), 150)
+        asf = Options().asf
+        self.left_flipper = Flipper(Vector2(self.screen.get_width() / 2 - 125*asf, self.screen.get_height() - 175*asf), 30)
+        self.right_flipper = Flipper(Vector2(self.screen.get_width() / 2 + 125*asf, self.screen.get_height() - 175*asf), 150)
         self.add_gameobject(self.left_flipper)
         self.add_gameobject(self.right_flipper)
 
         self.add_gameobject(Ball(Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)))
-        self.add_gameobject(Boundry())
+        self.add_gameobject(Boundry(open_side="bottom"))
         return super().awake()
     
     def update(self, delta_time: float, events: list[Event]) -> None:

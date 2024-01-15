@@ -28,6 +28,7 @@ class Scene(BaseDisplay, ABC):
     def __init__(self, screen: pygame.Surface, scene_manager) -> None:
         super().__init__(screen, scene_manager)
 
+        self.active_ball_count: int = 0
         self.object_counter: int = 0
         self.all_active_gos: list = []
         self.all_active_rbs: list = []
@@ -42,6 +43,7 @@ class Scene(BaseDisplay, ABC):
 
         if game_object.get_component_by_class(Rigidbody) is not None:
             self.all_active_rbs.append(game_object)
+        game_object.awake()
 
     def add_gameobjects(self, *game_objects: GameObject) -> None:
         for go in game_objects:

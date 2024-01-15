@@ -71,6 +71,9 @@ class GameObject(ABC):
         self.transform.update(delta_time)
         for c in self.components:
             c.on_update(delta_time)
+
+    def awake(self):
+        pass
     
     def on_trigger_enter(self, other):
         pass

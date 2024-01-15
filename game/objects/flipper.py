@@ -10,7 +10,12 @@ from options import Options
 
 class Flipper(GameObject):
     def __init__(self, pos: Vector2, initial_angle: float, color: Color = Color(255, 255, 255)):
+        self.color = color
+        self.initial_angle = initial_angle
         super().__init__(pos, 10)
+
+    def awake(self):
+        # Unscaled lenght is 225
 
         # Define the points for the plunger polygon
         points: list[Vector2] = [
@@ -63,9 +68,10 @@ class Flipper(GameObject):
 
         # Add the necessary components
         self.add_components(
-            PolygonMesh(color, points),
+            PolygonMesh(self.color, points),
             PolygonCollider(),
             Renderer()
         )
 
-        self.transform.rotate(initial_angle)
+        self.transform.rotate(self.initial_angle)
+        return super().awake()
