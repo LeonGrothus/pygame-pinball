@@ -74,7 +74,7 @@ class Panel(UIElementBase):
             font_size += 1
             text_rect = self.font.get_rect(text_object.text, size=font_size)
         text_object.font_size = font_size - 1  # Subtract 1 because the loop went one step too far
-        print(font_size)
+
         text_surface = self.font.render(text_object.text, text_object.color, size=text_object.font_size)
 
         self.text_surfaces.append(text_surface[0])
