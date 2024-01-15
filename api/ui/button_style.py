@@ -42,8 +42,11 @@ class ButtonStyle:
         Returns:
             Surface: The created button.
         """
+
+        # create the button surface
         button = pygame.Surface(size, pygame.SRCALPHA, 32)
 
+        # get the size of the tiles
         tile_size = self.tiles[0].get_size()
 
         # if the minimum size is less than 100, scale the tiles down because the tiles are 50x50
@@ -53,7 +56,7 @@ class ButtonStyle:
         # calculate the number of rows and columns of tiles
         rows = math.ceil(size[1] / scaled_tile_size[1])
         cols = math.ceil(size[0] / scaled_tile_size[0])
- 
+
         # blit the tiles onto the button
         for i in range(rows):
             for j in range(cols):
@@ -61,6 +64,7 @@ class ButtonStyle:
                 tile = self.tiles[4]
                 tile_size = scaled_tile_size
 
+                # only last row and column should be scaled to fill the remaining space
                 if i == rows - 2:
                     tile_size = (tile_size[0], size[1] - tile_size[1] * (rows - 1))
                 if j == cols - 2:
@@ -110,10 +114,10 @@ class ButtonStyle:
                     tile = pygame.transform.scale(tile, tile_size)
 
                 # Position the last row and column to fill the remaining space
+                # (this is necessary because the tiles are 50x50) and get scaled sometimes
                 pos_x = j * scaled_tile_size[0] if j != cols - 1 else size[0] - tile_size[0]
                 pos_y = i * scaled_tile_size[1] if i != rows - 1 else size[1] - tile_size[1]
                 button.blit(tile, (pos_x, pos_y))
-                # return button
         return button
 
     def create_button_set(self, size: Tuple[int, int], gamma_offset: float, num_buttons: int, **kwargs) -> Tuple[Surface, ...]:

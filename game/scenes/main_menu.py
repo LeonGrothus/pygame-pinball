@@ -56,6 +56,9 @@ class MainMenu(BaseDisplay):
         scoreboard_entries = [TextObject("Scoreboard", color=(244, 194, 63))] + self.load_scoreboard_entries()
         self.ui_elements.append(Panel(self.screen, (0, .3), (0, 0), scoreboard_width, scoreboard_height,
                                 background=scoreboard_style, text_objects=scoreboard_entries, margin=25*asf))
+        
+        self.ui_elements.append(Text(self.screen, (.5, .995), (.5, 1), text="Credits: Leon Grothus, Hendik Süberkrüb, Leon Echsler",
+                                     width=Options().resolution[0]*15/16, font=self.font))
 
         return super().awake()
 
