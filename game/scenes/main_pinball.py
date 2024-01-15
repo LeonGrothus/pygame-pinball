@@ -22,7 +22,8 @@ class MainPinball(Scene):
         self.add_gameobject(self.right_flipper)
 
         self.add_gameobject(Ball(Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)))
-        self.add_gameobject(Boundry(open_side="bottom"))
+        # open_side="bottom"
+        self.add_gameobject(Boundry())
         return super().awake()
     
     def update(self, delta_time: float, events: list[Event]) -> None:
