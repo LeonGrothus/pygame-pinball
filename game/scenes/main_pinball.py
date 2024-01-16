@@ -21,15 +21,14 @@ class MainPinball(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
 
-        self.pause_menu = PauseMenu(self.screen, lambda: self.change_scene("options_menu"),
-                                    lambda: self.unpause(), lambda: self.change_scene("main_menu"))
-
         self.left_flipper: Flipper = None  # type: ignore
         self.right_flipper: Flipper = None  # type: ignore
 
         self.blured: Surface = None  # type: ignore
 
     def awake(self) -> None:
+        self.pause_menu = PauseMenu(self.screen, lambda: self.change_scene("options_menu"),
+                                    lambda: self.unpause(), lambda: self.change_scene("main_menu"))
         self.paused = False
 
         asf = Options().asf
