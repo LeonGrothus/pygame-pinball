@@ -13,11 +13,11 @@ class GameObject(ABC):
     
     def add_components(self, *args):
         for c in args:
-            self.__add_component(c)
+            self._add_component(c)
         for c in args:
             c.on_init()
 
-    def __add_component(self, comp):
+    def _add_component(self, comp):
         comp.set_parent(self)
 
         if self.get_component_by_class(type(comp)) is not None:
@@ -61,23 +61,6 @@ class GameObject(ABC):
 
     def get_scene(self):
         return self.scene
-    
-    # def serialize(self):
-    #     return {
-    #         self.__class__.__name__: {
-    #             "components": {c.__class__.__name__: c.serialize() for c in self.components},
-    #             "transform": self.transform.serialize()
-    #         }
-    #     }
-
-    # def deserialize(self, data):
-    #     self.transform.deserialize(data["transform"])
-    #     components = []
-    #     component_data = data["components"]
-    #     for component_class in data["components"]:
-    #         component = globals()[component_class]().deserialize(component_data[component_class])
-    #         components.append(component)
-    #     self.add_components(*components)
     
     # To be overriden
     

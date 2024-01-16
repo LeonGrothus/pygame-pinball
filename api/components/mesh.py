@@ -26,17 +26,18 @@ class Mesh(Component, ABC):
 
 
 class CircleMesh(Mesh):
-    def __init__(self, color: Color, radius: float) -> None:
+    def __init__(self, color: Color = Color(255, 255, 255), radius: float = 25) -> None:
         super().__init__(color)
         self.radius = radius
 
-    # def serialize(self) -> dict:
-    #     return {
-    #         "radius": self.radius
-    #     }
+    def serialize(self) -> dict:
+        return {
+            "radius": self.radius
+        }
 
-    # def deserialize(self, data: dict) -> None:
-    #     self.radius = data["radius"]
+    def deserialize(self, data: dict) -> 'CircleMesh':
+        self.radius = data["radius"]
+        return self
 
     def rotate(self, angle: float) -> None:
         return super().rotate(angle)
@@ -63,8 +64,9 @@ class PolygonMesh(Mesh):
             ]
         }
 
-    def deserialize(self, data: dict) -> None:
+    def deserialize(self, data: dict) -> 'PolygonMesh':
         self._relative_points = [Vector2(p["x"], p["y"]) for p in data["relative_points"]]
+        return self
 
     def rotate(self, angle: float) -> None:
         self.points = [self.parent.transform.pos + p.rotate(angle) for p in self._relative_points]

@@ -22,13 +22,14 @@ class Collider(Component, ABC):
         self.mesh = mesh
         self.mesh_type = type(mesh)
 
-    # def serialize(self) -> dict:
-    #     return {
-    #         "is_trigger": self.is_trigger
-    #     }
+    def serialize(self) -> dict:
+        return {
+            "is_trigger": self.is_trigger
+        }
 
-    # def deserialize(self, data: dict) -> None:
-    #     self.is_trigger = data["is_trigger"]
+    def deserialize(self, data: dict) -> 'Collider':
+        self.is_trigger = data["is_trigger"]
+        return self
 
 
 class CircleCollider(Collider):

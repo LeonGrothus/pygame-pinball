@@ -143,20 +143,21 @@ class Rigidbody(Component):
                 return closest_point, normal
         return None, None
 
-    # def serialize(self) -> dict:
-    #     return {
-    #         "is_kinematic": self.is_kinematic,
-    #         "velocity": [
-    #             self.velocity.x,
-    #             self.velocity.y
-    #         ],
-    #         "acceleration": [
-    #             self.acceleration.x,
-    #             self.acceleration.y
-    #         ]
-    #     }
+    def serialize(self) -> dict:
+        return {
+            "is_kinematic": self.is_kinematic,
+            "velocity": [
+                self.velocity.x,
+                self.velocity.y
+            ],
+            "acceleration": [
+                self.acceleration.x,
+                self.acceleration.y
+            ]
+        }
 
-    # def deserialize(self, data: dict) -> None:
-    #     self.is_kinematic = data["is_kinematic"]
-    #     self.velocity = Vector2(data["velocity"][0], data["velocity"][1])
-    #     self.acceleration = Vector2(data["acceleration"][0], data["acceleration"][1])
+    def deserialize(self, data: dict) -> 'Rigidbody':
+        self.is_kinematic = data["is_kinematic"]
+        self.velocity = Vector2(data["velocity"][0], data["velocity"][1])
+        self.acceleration = Vector2(data["acceleration"][0], data["acceleration"][1])
+        return self

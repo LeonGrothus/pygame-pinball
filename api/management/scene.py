@@ -63,24 +63,25 @@ class Scene(BaseDisplay, ABC):
         if (game_object in self.all_active_rbs):
             self.all_active_rbs.remove(game_object)
 
-    # def serialize(self) -> None:
-    #     data = {
-    #         "active_ball_count": self.active_ball_count,
-    #         "object_counter": self.object_counter,
-    #         "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
-    #     }
-    #     jm = JsonManager(PROJECT_PATH / Path("data.json"))
-    #     current_data = jm.load_json()
-    #     current_data["save_game"] = data
-    #     jm.save_json(current_data)
+    def serialize(self) -> None:
+        data = {
+            "active_ball_count": self.active_ball_count,
+            "object_counter": self.object_counter,
+            "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
+        }
+        jm = JsonManager(PROJECT_PATH / Path("data.json"))
+        current_data = jm.load_json()
+        current_data["save_game"] = data
+        jm.save_json(current_data)
     
-    # def deserialize(self, data: dict) -> None:
-    #     self.active_ball_count = data["active_ball_count"]
-    #     self.object_counter = data["object_counter"]
-    #     for ball_data in data["all_balls"]:
-    #         ball_class = list(ball_data.keys())[0]
-    #         game_object = globals()[ball_class](pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
-    #         self.add_gameobject(game_object)
+    def deserialize(self, data: dict):
+        self.active_ball_count = data["active_ball_count"]
+        self.object_counter = data["object_counter"]
+        for ball_data in data["all_balls"]:
+            ball_class = list(ball_data.keys())[0]
+            game_object = globals()[ball_class](pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
+            self.add_gameobject(game_object)
+        return self
 
     ### Methods to be extended by the user ###
 

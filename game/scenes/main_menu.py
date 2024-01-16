@@ -26,8 +26,10 @@ class MainMenu(BaseDisplay):
         super().__init__(screen, scene_manager)
 
     def awake(self) -> None:
+        self.json_manager = JsonManager(PROJECT_PATH / Path("data.json"))
+
         asf = Options().asf
-        button_width = int(250 * asf)
+        button_width = int(285 * asf)
         button_height = int(125 * asf)
         button_font_size = int(50 * asf)
 
@@ -39,20 +41,20 @@ class MainMenu(BaseDisplay):
 
         self.ui_elements.append(Button(self.screen, (1, .30), (1, 0), button_width, button_height,
                                 inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
-                                text="Play", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("main_pinball")))
+                                text="New Game", font_size=button_font_size, on_click=self.new_game))
 
-        # save_game = JsonManager(PROJECT_PATH / Path("data.json")).load_json().get("save_game", None)
-        # resume_text = "Resume" if save_game else "No Safe"
-        # resume_action = lambda: self.load_save_game(save_game) if save_game else lambda: None
-        # self.ui_elements.append(Button(self.screen, (1, .45), (1, 0), button_width, button_height,
-        #                                inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
-        #                                text=resume_text, font_size=button_font_size, on_click=resume_action))
-
+        save_game = self.json_manager.load_json().get("save_game", None)
+        resume_text = "Resume" if save_game else "No Safe"
+        resume_action = lambda: self.load_save_game(save_game) if save_game else lambda: None
         self.ui_elements.append(Button(self.screen, (1, .45), (1, 0), button_width, button_height,
+                                       inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
+                                       text=resume_text, font_size=button_font_size, on_click=resume_action))
+
+        self.ui_elements.append(Button(self.screen, (1, .60), (1, 0), button_width, button_height,
                                        inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
                                        text="Options", font_size=button_font_size, on_click=lambda: self.scene_manager.change_scene("options_menu")))
 
-        self.ui_elements.append(Button(self.screen, (1, .60), (1, 0), button_width, button_height,
+        self.ui_elements.append(Button(self.screen, (1, .75), (1, 0), button_width, button_height,
                                        inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
                                        text="Quit", font_size=button_font_size, on_click=lambda: self._quit()))
 
@@ -71,8 +73,9 @@ class MainMenu(BaseDisplay):
             (scoreboard_width, button_height), 0.03, 2, left_sided=True)
 
         username = Options().load_user_name()
+        text = "" if username == "Player" else username
         self.ui_elements.append(TextBox(self.screen, (0, .75), (0, 0), scoreboard_width, button_height, placeholder="Username", 
-                                        text=username, margin=20*asf, placeholder_color=(150, 150, 150),
+                                        margin=20*asf, placeholder_color=(150, 150, 150), text=text,
                                         inactive_image=text_button_set[0], active_image=text_button_set[1],
                                         font_size=button_font_size, on_submit=lambda text: self.save_user_name(text)))
 
@@ -89,8 +92,15 @@ class MainMenu(BaseDisplay):
         self.ui_elements.clear()
         return super().unload()
     
-    # def load_save_game(self, save_game: dict) -> None:
-    #     self.scene_manager.change_scene("main_pinball").deserialize(save_game)
+    def new_game(self) -> None:
+        data = self.json_manager.load_json()
+        if "save_game" in data:
+            del data["save_game"]
+            self.json_manager.save_json(data)
+        self.scene_manager.change_scene("main_pinball")
+    
+    def load_save_game(self, save_game: dict) -> None:
+        self.scene_manager.change_scene("main_pinball").deserialize(save_game)
     
     def save_user_name(self, username: str) -> None:
         if username == "":

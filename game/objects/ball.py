@@ -30,3 +30,21 @@ class Ball(GameObject):
         if self.transform.pos.y > self.scene.screen.get_height() + self.radius/2:
             self.on_destroy()
         return super().on_update(delta_time)
+    
+    def serialize(self):
+        return {
+            self.__class__.__name__: {
+                "components": {c.__class__.__name__: c.serialize() for c in self.components},
+                "transform": self.transform.serialize()
+            }
+        }
+
+    def deserialize(self, data):
+        self.transform.deserialize(data["transform"])
+        components = []
+        component_data = data["components"]
+        for component_class in data["components"]:
+            component = globals()[component_class]().deserialize(component_data[component_class])
+            components.append(component)
+        self.add_components(*components)
+        return self

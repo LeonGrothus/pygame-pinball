@@ -83,7 +83,7 @@ class MainPinball(Scene):
         self.paused = False
 
     def change_scene(self, scene_name: str) -> None:
-        # self.serialize()
+        self.serialize()
         self.scene_manager.change_scene(scene_name)
 
     def get_blured(self) -> Surface:

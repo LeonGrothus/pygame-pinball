@@ -38,9 +38,9 @@ class Renderer(Component):
         self.mesh = mesh
         self.mesh_type = type(mesh)
 
-    # def serialize(self) -> dict:
-    #     return {
-    #     }
+    def serialize(self) -> dict:
+        return {
+        }
     
-    # def deserialize(self, data: dict) -> None:
-    #     pass
+    def deserialize(self, data: dict) -> 'Renderer':
+        return self

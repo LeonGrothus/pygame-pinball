@@ -20,10 +20,10 @@ class Component(ABC):
     def on_update(self, delta_time: float) -> None:
         pass
 
-    # @abstractmethod
-    # def serialize(self) -> dict:
-    #     pass
+    @abstractmethod
+    def serialize(self) -> dict:
+        pass
 
-    # @abstractmethod
-    # def deserialize(self, data: dict) -> None:
-    #     pass
+    @abstractmethod
+    def deserialize(self, data: dict) -> 'Component':
+        pass
