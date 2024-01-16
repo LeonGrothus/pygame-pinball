@@ -10,7 +10,7 @@ class Boundry(GameObject):
         self.open_side = open_side
         super().__init__(Vector2(), 0)
     
-    def awake(self):
+    def on_awake(self):
         width, height = self.scene.screen.get_size()
 
         # Create the points for the boundary
@@ -39,4 +39,4 @@ class Boundry(GameObject):
             self.collider,
         )
 
-        return super().awake()
+        return super().on_awake()

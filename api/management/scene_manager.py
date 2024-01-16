@@ -1,4 +1,5 @@
 from pygame import Surface
+from api.management.scene import Scene
 from game.scenes.main_menu import MainMenu
 from game.scenes.main_pinball import MainPinball
 from game.scenes.options_menu import OptionsMenu
@@ -16,7 +17,8 @@ class SceneManager:
         self.active_scene = self.scenes[default]
         self.active_scene.awake()
 
-    def change_scene(self, scene_name: str) -> None:
+    def change_scene(self, scene_name: str):
         self.active_scene.unload()
         self.active_scene = self.scenes[scene_name]
         self.active_scene.awake()
+        return self.active_scene

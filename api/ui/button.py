@@ -4,7 +4,7 @@ from pygame import Color, Surface
 import pygame
 from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
-from constants import ASSETS_PATH
+from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 from pygame.freetype import Font
 
 
@@ -38,7 +38,7 @@ class Button(UIElementBase):
 
         # Images
         # Either inactive_button, hover_button and pressed_button are given or button_style must be given
-        button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(ASSETS_PATH / Path("buttons/default_style")))
+        button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(DEFAULT_BUTTON_STYLE))
         self.inactive_button: Surface = kwargs.get("inactive_button", button_style.create_button((width, height))) # type: ignore
         self.hover_button: Surface = kwargs.get("hover_button", button_style.create_button((width, height))) # type: ignore
         self.pressed_button: Surface = kwargs.get("pressed_button", button_style.create_button((width, height))) # type: ignore
@@ -51,7 +51,7 @@ class Button(UIElementBase):
         self.text_color: Color = kwargs.get("text_color", (255, 255, 255))
         self.font_size: int = kwargs.get("font_size", 50)
         self.text: str = kwargs.get("text", "")
-        self.font: Font = kwargs.get("font", Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), self.font_size))
+        self.font: Font = kwargs.get("font", Font(DEFAULT_FONT, 75))
 
         self.text_y_align: str = kwargs.get("text_y_align", "center")
         self.text_x_align: str = kwargs.get("text_x_align", "center")

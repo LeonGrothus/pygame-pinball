@@ -6,7 +6,7 @@ import pygame
 from api.ui.ui_element_base import UIElementBase
 from pygame.freetype import Font 
 
-from constants import ASSETS_PATH
+from constants import ASSETS_PATH, DEFAULT_FONT
 
 
 class Text(UIElementBase):
@@ -40,7 +40,7 @@ class Text(UIElementBase):
                 height (int): The height of the text.
         """
         self.text = kwargs.get("text", "text")
-        self.font: Font = kwargs.get("font", Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), 75))
+        self.font: Font = kwargs.get("font", Font(DEFAULT_FONT, 75))
         self.color = kwargs.get("color", (255, 255, 255))
 
         # Font size

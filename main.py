@@ -2,6 +2,7 @@ from typing import Callable
 import pygame
 from pathlib import Path
 from api.management.scene_manager import SceneManager
+from api.management.sound_manager import SoundManager
 import constants
 from options import Options
 
@@ -17,6 +18,11 @@ clock = pygame.time.Clock()
 # Setup 
 running = True
 
+sound_manager = SoundManager()
+sound_manager.set_options(options)
+sound_manager.load_music()
+sound_manager.play_music()
+
 scene_manager = SceneManager(screen, "main_menu")
 # Main event loop
 while running:
@@ -24,6 +30,7 @@ while running:
     screen.blit(bg, pygame.Vector2())  # redraws background image
 
     events = pygame.event.get()  # Get all events
+    sound_manager.update(events)
     for event in events:
         if event.type == pygame.QUIT:  
             running = False

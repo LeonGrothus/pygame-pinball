@@ -1,5 +1,6 @@
 from pathlib import Path
 from api.management.json_manager import JsonManager
+from api.management.sound_manager import SoundManager
 from constants import PROJECT_PATH
 
 # Singelton
@@ -39,6 +40,7 @@ class Options:
         Returns:
             None
         """
+        self.sound_manager = SoundManager()
         self.json_manager = JsonManager(PROJECT_PATH  / Path("options.json"))
         self.load_entries()
 
@@ -73,5 +75,34 @@ class Options:
             'music_volume': self.music_volume,
             'sfx_volume': self.sfx_volume
         }
+        self.sound_manager.update_volume()
         self.resolution = (666 * self.asf, 1000 * self.asf)
+        self.json_manager.save_json(data)
+
+    def load_user_name(self) -> str:
+        """
+        Loads the user name from the JSON file.
+
+        Returns:
+            str: The user name.
+        """
+
+        data: dict = self.json_manager.load_json()
+        return data.get('username', "Player")
+    
+    def store_user_name(self, username) -> None:
+        """
+        Stores the user name and everything else in the JSON file.
+
+        Returns:
+            None
+        """
+
+        data: dict = {
+            'username': username,
+            'acf': self.asf,
+            'master_volume': self.master_volume,
+            'music_volume': self.music_volume,
+            'sfx_volume': self.sfx_volume
+        }
         self.json_manager.save_json(data)

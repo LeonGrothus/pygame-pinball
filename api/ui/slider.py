@@ -4,7 +4,7 @@ import pygame
 from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
 from api.utils.event_value import EventValue
-from constants import ASSETS_PATH
+from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE
 import api.utils.utils as utils
 
 class Slider(UIElementBase):
@@ -42,7 +42,7 @@ class Slider(UIElementBase):
 
         self.selected = False
 
-        button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(ASSETS_PATH / Path("buttons/default_style")))
+        button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(DEFAULT_BUTTON_STYLE))
         self.blob_image = kwargs.get("handle_image", button_style.create_button((int(height*1.5), int(height*1.5))))
         self.handle_image = kwargs.get("handle_image", button_style.create_button((width, height)))
 

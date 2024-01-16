@@ -62,17 +62,36 @@ class GameObject(ABC):
     def get_scene(self):
         return self.scene
     
-    def destroy(self):
+    # def serialize(self):
+    #     return {
+    #         self.__class__.__name__: {
+    #             "components": {c.__class__.__name__: c.serialize() for c in self.components},
+    #             "transform": self.transform.serialize()
+    #         }
+    #     }
+
+    # def deserialize(self, data):
+    #     self.transform.deserialize(data["transform"])
+    #     components = []
+    #     component_data = data["components"]
+    #     for component_class in data["components"]:
+    #         component = globals()[component_class]().deserialize(component_data[component_class])
+    #         components.append(component)
+    #     self.add_components(*components)
+    
+    # To be overriden
+    
+    def on_destroy(self):
         self.scene.all_active_gos.remove(self)
         for c in self.components:
             c.on_destroy()
     
-    def update(self, delta_time: float):
+    def on_update(self, delta_time: float):
         self.transform.update(delta_time)
         for c in self.components:
             c.on_update(delta_time)
 
-    def awake(self):
+    def on_awake(self):
         pass
     
     def on_trigger_enter(self, other):

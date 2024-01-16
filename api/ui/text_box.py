@@ -1,7 +1,11 @@
 import time
-from pygame import Surface
+from typing import Callable
+from pygame import Color, Surface
 import pygame
+from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
+from pygame.freetype import Font
+from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
 
 class TextBox(UIElementBase):
@@ -27,6 +31,7 @@ class TextBox(UIElementBase):
                 text_color (Color): The color of the text.
                 font_size (int): The size of the font.
                 font (Font): The font of the text.
+                margin (int): The margin between the text and the edge of the text box.
         """
         super().__init__(screen, rel_pos, width, height, rel_pos_self)
 
@@ -37,17 +42,22 @@ class TextBox(UIElementBase):
 
         self.text = kwargs.get("text", "")
 
-        self.inactive_image = kwargs.get("inactive_image", None)
-        self.active_image = kwargs.get("active_image", None)
+        button = None # type: ignore
+        if not "inactive_image" in kwargs and not "active_image" in kwargs:
+            button_style: ButtonStyle = kwargs.get("button_style", ButtonStyle(DEFAULT_BUTTON_STYLE))
+            button: Surface = button_style.create_button((width, height))
+        self.inactive_image: Surface = kwargs.get("inactive_image", button)
+        self.active_image: Surface = kwargs.get("active_image", button)
 
-        self.on_submit = kwargs.get("on_submit", lambda *args: None)
-        self.on_submit_args = kwargs.get("on_submit_args", [])
+        self.on_submit: Callable = kwargs.get("on_submit", lambda text: None)
 
-        self.placeholder = kwargs.get("placeholder", "")
-        self.placeholder_color = kwargs.get("placeholder_color", (255, 255, 255))
-        self.text_color = kwargs.get("text_color", (255, 255, 255))
-        self.font_size = kwargs.get("font_size", 50)
-        self.font = kwargs.get("font", None)
+        self.placeholder: str = kwargs.get("placeholder", "")
+        self.placeholder_color: Color = kwargs.get("placeholder_color", (255, 255, 255))
+        self.text_color: Color = kwargs.get("text_color", (255, 255, 255))
+        self.font_size: int = kwargs.get("font_size", 50)
+        self.font: Font = kwargs.get("font", Font(DEFAULT_FONT, 75))
+
+        self.margin: float = kwargs.get("margin", 10)
 
     def select(self) -> None:
         """
@@ -56,6 +66,7 @@ class TextBox(UIElementBase):
 
         self.selected = True
         self.show_cursor = True
+        self.cursor_pos = len(self.text)
         self.cursor_timer = time.time()
 
     def deselect(self) -> None:
@@ -77,13 +88,18 @@ class TextBox(UIElementBase):
 
         mouse_pos = pygame.mouse.get_pos()
 
+        if self.selected:
+            if time.time() - self.cursor_timer > 0.5:
+                self.show_cursor = not self.show_cursor
+                self.cursor_timer = time.time()
+
         for event in pygame_events:
             if event.type == pygame.MOUSEBUTTONDOWN:
                 if self.contains(mouse_pos[0], mouse_pos[1]):
                     self.select()
                 else:
                     if self.selected:
-                        self.on_submit(*self.on_submit_args)
+                        self.on_submit(self.text)
                     self.deselect()
 
             if event.type == pygame.KEYDOWN:
@@ -92,17 +108,18 @@ class TextBox(UIElementBase):
                         self.text = self.text[:-1]
                         self.cursor_pos -= 1
                     elif event.key == pygame.K_LEFT:
-                        self.cursor_pos -= 1
+                        self.cursor_pos = max(0, self.cursor_pos - 1)
                     elif event.key == pygame.K_RIGHT:
-                        self.cursor_pos += 1
-                    elif event.key == pygame.K_RETURN:
-                        self.on_submit(*self.on_submit_args)
+                        self.cursor_pos = min(len(self.text), self.cursor_pos + 1)
+                    elif event.key == pygame.K_RETURN or event.key == pygame.K_ESCAPE:
+                        self.on_submit(self.text)
                         self.deselect()
                     else:
-                        self.text += event.unicode
-                        self.cursor_pos += 1
-
-        return super().update_events(pygame_events)
+                        new_text = self.text + event.unicode
+                        text_width = self.font.get_rect(new_text).width
+                        if text_width < self._width - self.margin:
+                            self.text = new_text
+                            self.cursor_pos += 1
     
     def draw(self) -> None:
         """
@@ -118,11 +135,6 @@ class TextBox(UIElementBase):
             self.font.render_to(self.screen, (self._x + 10, self._y + self._height / 2 - self.font_size / 2), self.placeholder, self.placeholder_color, size=self.font_size)
         else:
             self.font.render_to(self.screen, (self._x + 10, self._y + self._height / 2 - self.font_size / 2), self.text, self.text_color, size=self.font_size)
-
-        if self.selected:
-            if time.time() - self.cursor_timer > 0.5:
-                self.show_cursor = not self.show_cursor
-                self.cursor_timer = time.time()
 
             if self.show_cursor:
                 cursor_x = self.font.get_rect(self.text[:self.cursor_pos], size=self.font_size).width + 10

@@ -5,7 +5,7 @@ import pygame
 from pygame.freetype import Font
 from api.ui.button_style import ButtonStyle
 from api.ui.ui_element_base import UIElementBase
-from constants import ASSETS_PATH
+from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
 
 class TextObject:
@@ -37,11 +37,11 @@ class Panel(UIElementBase):
         """
         super().__init__(screen, rel_pos, width, height, rel_pos_self)
 
-        self.panel_style: ButtonStyle = kwargs.get("panel_style", ButtonStyle(ASSETS_PATH / Path("buttons/default_style")))
+        self.panel_style: ButtonStyle = kwargs.get("panel_style", ButtonStyle(DEFAULT_BUTTON_STYLE))
         self.background: Surface = kwargs.get("background", self.panel_style.create_button((width, height)))
         self.margin: int = kwargs.get("margin", 50)
         self.text_objects: list[TextObject] = kwargs.get("text_objects", [])
-        self.font: Font = kwargs.get("font", Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), 75))
+        self.font: Font = kwargs.get("font", Font(DEFAULT_FONT, 75))
         
         # Precompute text surfaces
         self.text_surfaces: list[Surface] = []

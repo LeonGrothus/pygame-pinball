@@ -10,5 +10,42 @@
         "user8": 8000,
         "user9": 9000,
         "user10": 10000
+    },
+    "save_game": {
+        "active_ball_count": 0,
+        "object_counter": 4,
+        "all_balls": [
+            {
+                "Ball": {
+                    "components": {
+                        "CircleMesh": {
+                            "radius": 37.5
+                        },
+                        "CircleCollider": {
+                            "is_trigger": false
+                        },
+                        "Rigidbody": {
+                            "is_kinematic": false,
+                            "velocity": [
+                                0.0,
+                                656.1855900008178
+                            ],
+                            "acceleration": [
+                                0.0,
+                                0.0
+                            ]
+                        },
+                        "Renderer": {}
+                    },
+                    "transform": {
+                        "pos": [
+                            499.5,
+                            987.580055551021
+                        ],
+                        "rot": 0
+                    }
+                }
+            }
+        ]
     }
 }

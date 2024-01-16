@@ -8,8 +8,6 @@ class Transform:
         self.parent = parent
 
         self.pos: Vector2 = Vector2()
-        
-        self.scale: float = 1
 
         self.rotation_speed: float = PADDLE_SPEED
         self.do_smooth_rotation: bool = False
@@ -37,3 +35,13 @@ class Transform:
         else:
             angle = rotation_speed if rotation_difference > 0 else -rotation_speed
         self.rotate(angle)
+
+    def serialize(self) -> dict:
+        return {
+            "pos": [self.pos.x, self.pos.y],
+            "rot": self.rot.get_value()
+        }
+    
+    def deserialize(self, data: dict) -> None:
+        self.pos = Vector2(data["pos"])
+        self.rot.set_value(data["rot"])

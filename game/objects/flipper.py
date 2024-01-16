@@ -1,9 +1,7 @@
 from pygame import Vector2, Color
-import pygame
 from api.objects.game_object import GameObject
 from api.components.mesh import PolygonMesh
 from api.components.collider import PolygonCollider
-from api.components.ridigbody import Rigidbody
 from api.components.renderer import Renderer
 from options import Options
 
@@ -14,7 +12,7 @@ class Flipper(GameObject):
         self.initial_angle = initial_angle
         super().__init__(pos, 10)
 
-    def awake(self):
+    def on_awake(self):
         # Unscaled lenght is 225
 
         # Define the points for the plunger polygon
@@ -74,4 +72,4 @@ class Flipper(GameObject):
         )
 
         self.transform.rotate(self.initial_angle)
-        return super().awake()
+        return super().on_awake()
