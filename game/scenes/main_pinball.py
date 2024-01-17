@@ -13,6 +13,8 @@ from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 from game.objects.ball import Ball
 from game.objects.boundry import Boundry
 from game.objects.flipper import Flipper
+from game.objects.plunger import Plunger
+from game.objects.wall import Wall
 from options import Options
 from scipy.ndimage.filters import gaussian_filter
 
@@ -20,6 +22,7 @@ from scipy.ndimage.filters import gaussian_filter
 class MainPinball(Scene):
     def __init__(self, screen: pygame.Surface, scene_manager):
         super().__init__(screen, scene_manager)
+        self.ball_radius = 25 * Options().asf
 
         self.left_flipper: Flipper = None  # type: ignore
         self.right_flipper: Flipper = None  # type: ignore
@@ -27,22 +30,41 @@ class MainPinball(Scene):
         self.blured: Surface = None  # type: ignore
 
     def awake(self) -> None:
+
+        width = self.screen.get_width()
+        height = self.screen.get_height()
+
         self.pause_menu = PauseMenu(self.screen, lambda: self.change_scene("options_menu"),
                                     lambda: self.unpause(), lambda: self.change_scene("main_menu"))
         self.paused = False
 
         asf = Options().asf
-        self.left_flipper = Flipper(Vector2(self.screen.get_width() / 2 - 125 *
-                                    asf, self.screen.get_height() - 175*asf), 30)
-        self.right_flipper = Flipper(Vector2(self.screen.get_width() / 2 + 125 *
-                                     asf, self.screen.get_height() - 175*asf), 150)
+        self.left_flipper = Flipper(Vector2(width / 2 - 125 * asf, height - 175*asf), 30)
+        self.right_flipper = Flipper(Vector2(width / 2 + 125 * asf, height - 175*asf), 150)
         self.add_gameobject(self.left_flipper)
         self.add_gameobject(self.right_flipper)
 
-        self.add_gameobject(Ball(Vector2(self.screen.get_width() / 2, self.screen.get_height() / 2)))
+        self.add_gameobject(Plunger(Vector2(width - self.ball_radius*3, height), Vector2(width, height)))
 
-        # open_side="bottom"
-        self.add_gameobject(Boundry())
+        # outside wall
+        rel_points = [Vector2(0, 125*asf), Vector2(0, 0), Vector2(125*asf, -125*asf), Vector2(125*asf, -250*asf)]
+        self.add_gameobject(Wall(Vector2(width, height-125*asf), rel_points, visible=False))
+
+        # right side
+        rel_points = [Vector2(0, -125*asf - self.ball_radius*4), Vector2(0, -height/2), Vector2(0, -height)]
+        print(rel_points)
+        self.add_gameobject(Wall(Vector2(width, height), rel_points, visible=False))
+
+        # plunger wall
+        rel_points = [Vector2(0, 0), Vector2(0, -height/2), Vector2(0, -height)]
+        self.add_gameobject(Wall(Vector2(width - self.ball_radius*3, height), rel_points, visible=True))
+
+        # top wall
+        rel_points = [Vector2(0, 0), Vector2(0, -height/2), Vector2(0, -height)]
+        
+        self.add_gameobject(Wall(Vector2(width/2, 0), rel_points, visible=False))
+
+        # self.add_gameobject(Boundry())
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:
@@ -59,6 +81,8 @@ class MainPinball(Scene):
 
                 elif event.key == pygame.K_RIGHT:
                     self.right_flipper.transform.init_smooth_rotation(180)
+                elif event.key == pygame.K_SPACE:
+                    self.add_ball()
 
             elif event.type == pygame.KEYUP:
                 if event.key == pygame.K_LEFT:
@@ -71,6 +95,12 @@ class MainPinball(Scene):
             return self.pause_menu.update(events, self.blured)
 
         return super().update(0 if self.paused else delta_time, events)
+
+    def add_ball(self) -> None:
+        width = self.screen.get_width()
+        height = self.screen.get_height()
+        asf = Options().asf
+        self.add_gameobject(Ball(Vector2(width + self.ball_radius*2, height-250*asf)))
 
     def pause(self, events: list[Event]) -> None:
         # Update need to be called so that all objects are visible in the background

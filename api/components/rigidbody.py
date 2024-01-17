@@ -35,19 +35,19 @@ class Rigidbody(Component):
 
         self.collider = collider
 
-    def apply_force(self, force) -> None:
+    def apply_impuls(self, impuls) -> None:
         if not self.is_kinematic:
-            self.acceleration += force
+            self.velocity += impuls
+            print(self.velocity)
 
     def on_update(self, delta_time) -> None:
         if not self.is_kinematic:
             self.resolve_collisions()
 
-        if not self.is_kinematic:
-
             self.acceleration += GRAVITY
 
             self.velocity += self.acceleration * delta_time
+            # print(self.velocity)
             self.velocity *= (1 - AIR_FRICTION)
 
             self.parent.transform.pos += self.velocity * delta_time
@@ -81,6 +81,7 @@ class Rigidbody(Component):
                 continue
 
             self.resolve_collision(collision_point, normal, other_collider)
+            other_collider.parent.on_collision(self.parent, collision_point, normal)
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
         self.velocity = self.velocity.reflect(normal) * (1-COLLISION_FRICTION)
@@ -109,8 +110,8 @@ class Rigidbody(Component):
             # Scale the rotational velocity based on the alignment
             self.velocity += rotational_velocity * alignment / PADDLE_COLLISION_DAMPING
 
-            pygame.draw.line(self.parent.scene.screen, (255, 0, 255),
-                             collision_point, collision_point + normal * 100, 5)
+            # pygame.draw.line(self.parent.scene.screen, (255, 0, 255),
+            #                  collision_point, collision_point + normal * 100, 5)
 
     def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
         distance = self.parent.transform.pos.distance_to(other.parent.transform.pos)

@@ -77,6 +77,9 @@ class GameObject(ABC):
     def on_awake(self):
         pass
     
+    def on_collision(self, other, point, normal):
+        pass
+
     def on_trigger_enter(self, other):
         pass
 
