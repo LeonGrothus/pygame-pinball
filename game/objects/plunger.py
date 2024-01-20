@@ -28,6 +28,7 @@ class Plunger(GameObject):
         return super().on_awake()
     
     def on_collision(self, other, point, normal):
-        other.get_component_by_class(Rigidbody).velocity.x = 0
-        other.get_component_by_class(Rigidbody).apply_impuls(normal * 1000 * self.options.asf)
+        other_rb = other.get_component_by_class(Rigidbody)
+        other_rb.velocity.x = 0 # type: ignore
+        other_rb.apply_impuls(normal * 1000 * self.options.asf) # type: ignore
         return super().on_collision(other, point, normal)

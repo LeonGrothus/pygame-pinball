@@ -1,9 +1,10 @@
+import math
 from pygame import Vector2, Vector3
 import pygame
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
-from constants import GRAVITY, AIR_FRICTION, COLLISION_FRICTION, PADDLE_COLLISION_DAMPING
+from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING
 
 
 class Rigidbody(Component):
@@ -84,7 +85,7 @@ class Rigidbody(Component):
             other_collider.parent.on_collision(self.parent, collision_point, normal)
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
-        self.velocity = self.velocity.reflect(normal) * (1-COLLISION_FRICTION)
+        self.velocity = self.velocity.reflect(normal) * (1-other_collider.friction)
         self.parent.transform.pos += normal * (self.collider.mesh.radius -
                                                collision_point.distance_to(self.parent.transform.pos))
 
@@ -114,13 +115,13 @@ class Rigidbody(Component):
             #                  collision_point, collision_point + normal * 100, 5)
 
     def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
-        distance = self.parent.transform.pos.distance_to(other.parent.transform.pos)
-        if distance < self.collider.mesh.radius + other.mesh.radius:
-            if distance == 0:
-                print(f"{self.parent.transform.pos} {other.parent.transform.pos}")
+        distance_squared = self.parent.transform.pos.distance_squared_to(other.parent.transform.pos)
+        if distance_squared < (self.collider.mesh.radius + other.mesh.radius)**2:
+            if distance_squared == 0:
                 return None, None
-            normal = (self.parent.transform.pos - other.parent.transform.pos) / distance
-            return self.parent.transform.pos + other.mesh.radius * normal, normal
+            normal = (self.parent.transform.pos-other.parent.transform.pos) / math.sqrt(distance_squared)
+            collision_point = self.parent.transform.pos + self.collider.mesh.radius * normal
+            return collision_point, normal
         return None, None
 
     def check_circle_polygon_collision(self, other: PolygonCollider) -> tuple:

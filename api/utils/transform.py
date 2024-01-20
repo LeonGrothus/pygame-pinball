@@ -11,7 +11,7 @@ class Transform:
 
         self.rotation_speed: float = PADDLE_SPEED
         self.do_smooth_rotation: bool = False
-        self.target_smooth_rotation: float = 0
+        self.target_smooth_rotation: float = float("inf")
         self.rot: EventValue[float] = EventValue(0)
     
     def rotate(self, angle: float) -> None:

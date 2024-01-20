@@ -7,9 +7,9 @@ from api.components.renderer import Renderer
 from options import Options
 
 class Ball(GameObject):
-    def __init__(self, pos: Vector2, color: Color = Color(255, 255, 255)):
+    def __init__(self, pos: Vector2, radius = 25, color: Color = Color(255, 255, 255)):
         self.color = color
-        self.radius = 25 * Options().asf
+        self.radius = radius
         super().__init__(pos, 5)
 
     def on_awake(self):

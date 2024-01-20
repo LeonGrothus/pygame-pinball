@@ -13,10 +13,10 @@ PADDLE_SPEED = 1080 # degrees per second
 PADDLE_COLLISION_DAMPING = 100
 
 
-FRAMERATE = 120
+FRAMERATE = 180
 DELTA_TIME = (1 / FRAMERATE)
 
-PROJECT_PATH = Path(__file__).parents[0]
+PROJECT_PATH: Path = Path(__file__).parents[0]
 ASSETS_PATH = PROJECT_PATH / Path("assets")
 
 NORMALIZED_IMAGE_SIZE = (500, 500)
