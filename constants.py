@@ -7,7 +7,7 @@ from api.ui.button_style import ButtonStyle
 GRAVITY = Vector2(0, 1000)
 
 COLLISION_FRICTION = 0.1
-AIR_FRICTION = 0.0015
+AIR_FRICTION = 0.0035
 
 PADDLE_SPEED = 1080 # degrees per second
 PADDLE_COLLISION_DAMPING = 1

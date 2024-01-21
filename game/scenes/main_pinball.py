@@ -37,7 +37,7 @@ class MainPinball(Scene):
         asf = options.asf
         self.ball_radius = 15 * options.asf
 
-        bumper_strength = (25*asf, 50*asf)
+        bumper_strength = (100*asf, 125*asf)
 
         width = self.screen.get_width()
         height = self.screen.get_height()
