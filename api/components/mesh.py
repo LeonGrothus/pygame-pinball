@@ -2,6 +2,7 @@ from abc import ABC, abstractmethod
 
 from pygame import Color, Vector2
 from api.components.component import Component
+from options import Options
 
 
 class Mesh(Component, ABC):
@@ -32,11 +33,11 @@ class CircleMesh(Mesh):
 
     def serialize(self) -> dict:
         return {
-            "radius": self.radius
+            "radius": self.radius/Options().asf
         }
 
     def deserialize(self, data: dict) -> 'CircleMesh':
-        self.radius = data["radius"]
+        self.radius = data["radius"]*Options().asf
         return self
 
     def rotate(self, angle: float) -> None:

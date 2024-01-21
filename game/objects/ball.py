@@ -7,7 +7,7 @@ from api.components.renderer import Renderer
 from options import Options
 
 class Ball(GameObject):
-    def __init__(self, pos: Vector2, radius = 25, color: Color = Color(255, 255, 255)):
+    def __init__(self, pos: Vector2, color: Color = Color(255, 255, 255), radius=25):
         self.color = color
         self.radius = radius
         super().__init__(pos, 5)
@@ -20,10 +20,11 @@ class Ball(GameObject):
             Rigidbody(),
             Renderer()
         )
+        self.scene.active_balls += 1
         return super().on_awake()
-
-    def on_destroy(self) -> None:
-        self.scene.active_ball_count -= 1
+    
+    def on_destroy(self):
+        self.scene.active_balls -= 1
         return super().on_destroy()
     
     def on_update(self, delta_time: float):

@@ -2,6 +2,7 @@ from pygame import Vector2
 
 from api.utils.event_value import EventValue
 from constants import PADDLE_SPEED
+from options import Options
 
 class Transform:
     def __init__(self, parent) -> None:
@@ -37,11 +38,13 @@ class Transform:
         self.rotate(angle)
 
     def serialize(self) -> dict:
+        asf = Options().asf
         return {
-            "pos": [self.pos.x, self.pos.y],
+            "pos": [self.pos.x/asf, self.pos.y/asf],
             "rot": self.rot.get_value()
         }
     
     def deserialize(self, data: dict) -> None:
-        self.pos = Vector2(data["pos"])
+        self.pos = Vector2(data["pos"]) * Options().asf
+        print(self.pos)
         self.rot.set_value(data["rot"])

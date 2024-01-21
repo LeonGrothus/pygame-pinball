@@ -14,6 +14,8 @@ class EventValue(Generic[T]):
         self.events.remove(event)
 
     def set_value(self, new_value: T):
+        if self.value == new_value:
+            return
         self.value = new_value
         self.notify_all()
 

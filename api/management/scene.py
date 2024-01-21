@@ -1,7 +1,6 @@
 from abc import ABC
 from json import load
 from pathlib import Path
-from typing import Callable
 import pygame
 from pygame.event import Event
 from api.management.json_manager import JsonManager
@@ -10,6 +9,7 @@ from api.objects.game_object import GameObject
 from api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
 from game.objects.ball import Ball
+from options import Options
 
 class BaseDisplay(ABC):
     def __init__(self, screen: pygame.Surface, scene_manager) -> None:
@@ -31,8 +31,12 @@ class BaseDisplay(ABC):
 class Scene(BaseDisplay, ABC):
     def __init__(self, screen: pygame.Surface, scene_manager) -> None:
         super().__init__(screen, scene_manager)
+        options = Options()
 
-        self.active_ball_count: int = 0
+        self.active_balls = 0
+        self.remaining_balls: int = 1
+        self.score: int = 0
+        self.user_name: str = options.load_user_name()
         self.object_counter: int = 0
         self.all_active_gos: list = []
         self.all_active_rbs: list = []
@@ -64,8 +68,11 @@ class Scene(BaseDisplay, ABC):
             self.all_active_rbs.remove(game_object)
 
     def serialize(self) -> None:
+        self.save_score()
         data = {
-            "active_ball_count": self.active_ball_count,
+            "user_name": self.user_name,
+            "score": self.score,
+            "remaining_balls": self.remaining_balls,
             "object_counter": self.object_counter,
             "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
         }
@@ -73,14 +80,27 @@ class Scene(BaseDisplay, ABC):
         current_data = jm.load_json()
         current_data["save_game"] = data
         jm.save_json(current_data)
+
+    def save_score(self) -> None:
+        jm = JsonManager(PROJECT_PATH / Path("data.json"))
+        current_data = jm.load_json()
+        if "scoreboard" not in current_data:
+            current_data["scoreboard"] = {}
+        current_data["scoreboard"][self.user_name] = self.score
+        jm.save_json(current_data)
+
     
     def deserialize(self, data: dict):
-        self.active_ball_count = data["active_ball_count"]
+        self.user_name = data["user_name"]
+        self.score = data["score"]
+        self.remaining_balls = data["remaining_balls"]
         self.object_counter = data["object_counter"]
         for ball_data in data["all_balls"]:
             ball_class = list(ball_data.keys())[0]
             game_object = globals()[ball_class](pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
             self.add_gameobject(game_object)
+
+        print(self.active_balls, self.remaining_balls)
         return self
 
     ### Methods to be extended by the user ###
@@ -94,3 +114,8 @@ class Scene(BaseDisplay, ABC):
             game_object.on_destroy()
         self.all_active_gos.clear()
         self.all_active_rbs.clear()
+        self.object_counter = 0
+        self.active_balls = 0
+        self.remaining_balls = 0
+        self.score = 0
+        

@@ -114,6 +114,7 @@ class MainMenu(BaseDisplay):
             return []
 
         entries = data.get('scoreboard', {})
+        entries = dict(sorted(entries.items(), key=lambda x:x[1], reverse=True))
         text_objects = []
         for i, entry in enumerate(entries, start=1):
             text = f"{i:02}: {entry}: {entries[entry]}"
