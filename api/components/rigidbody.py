@@ -19,6 +19,7 @@ class Rigidbody(Component):
         self.acceleration: Vector2 = Vector2(0, 0)
 
         self.collider: CircleCollider = None  # type: ignore
+        self.asf = Options().asf
 
     def set_parent(self, parent: GameObject) -> None:
         return super().set_parent(parent)
@@ -48,7 +49,7 @@ class Rigidbody(Component):
             self.acceleration += GRAVITY
 
             self.velocity += self.acceleration * delta_time
-            self.velocity *= (1 - AIR_FRICTION)
+            self.velocity *= (1 - AIR_FRICTION*self.asf)
 
             self.parent.transform.pos += self.velocity * delta_time
 
@@ -93,7 +94,7 @@ class Rigidbody(Component):
             r = collision_point - other_collider.parent.transform.pos
             
             # Calculate the angular velocity vector
-            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * Options().asf
+            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * self.asf
             
             # Add the angular momentum to the velocity of the ball
             self.velocity = reflected_velocity + angular_velocity

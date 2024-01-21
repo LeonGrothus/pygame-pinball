@@ -1,15 +1,13 @@
 from pathlib import Path
 from pygame import Vector2
-from pygame.freetype import Font
 
-from api.ui.button_style import ButtonStyle
 
 GRAVITY = Vector2(0, 1000)
 
 COLLISION_FRICTION = 0.1
-AIR_FRICTION = 0.0035
+AIR_FRICTION = 0.002
 
-PADDLE_SPEED = 1080 # degrees per second
+PADDLE_SPEED = 1080  # degrees per second
 PADDLE_COLLISION_DAMPING = 1
 
 
