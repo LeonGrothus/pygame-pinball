@@ -3,12 +3,14 @@ from pygame import Vector2 as V2
 import pygame
 from pygame.event import Event
 from api.components.bumper import Bumper
+from api.components.simple_movement import SimpleMovement
 from api.management.scene import Scene
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 from game.objects.ball import Ball
 from game.objects.flipper import Flipper
 from game.objects.plunger import Plunger
+from game.objects.teleporter import Teleporter
 from game.objects.wall import CircleWall, PolygonWall
 from game.scenes.submenus.end_menu import EndMenu
 from game.scenes.submenus.pause_menu import PauseMenu
@@ -72,6 +74,7 @@ class MainPinball(Scene):
         # plunger cap wall with left outlet
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(526, 163), V2(474, 130), V2(451, 134), V2(440, 152), V2(447, 172), V2(498, 207), V2(
             532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(518, 456), V2(520, 481), V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546), V2(600, 570), V2(600, 900), V2(555, 915), V2(361, 1000)]))
+        
         self.add_gameobject(PolygonWall(rel_points, friction=0, visible=True))
         # left bottom outlet
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
@@ -138,12 +141,19 @@ class MainPinball(Scene):
                             add_to_score=50).add_components(Bumper(bumper_strength)))
         self.add_gameobject(CircleWall(V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231),
                             add_to_score=25).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(CircleWall(V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231),
+                            add_to_score=25).add_components(Bumper(bumper_strength), SimpleMovement(V2(250,700)*asf, V2(350,700)*asf, .75)))
+        
+        # teleporter
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546)]))
+        self.add_gameobject(Teleporter(rel_points, V2(337,100)*asf))
 
         # text
         self.score_text = Text(self.screen, (.01, .01), (0, 0), text=f"Score: {self.score}", font_size=50*asf)
         self.ui_elements.append(self.score_text)
         self.balls_text = Text(self.screen, (.97, .01), (1, 0), text=f"Balls: {self.remaining_balls}", font_size=50*asf)
         self.ui_elements.append(self.balls_text)
+
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:

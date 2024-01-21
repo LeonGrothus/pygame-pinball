@@ -27,7 +27,7 @@ image = pygame.transform.scale(image, STRETCH_SIZE)
 flip_x = 580/2 * scale
 
 # Default list of vectors
-default_vectors_str = "[V2(665, 248), V2(665, 0), V2(0, 0), V2(0, 253), V2(35, 176), V2(94, 115), V2(164, 73), V2(243, 46), V2(336, 36), V2(436, 46), V2(515, 78), V2(580, 120), V2(630, 177)]"
+default_vectors_str = "[V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(526, 163), V2(474, 130), V2(451, 134), V2(440, 152), V2(447, 172), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(518, 456), V2(520, 481), V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546), V2(600, 570), V2(600, 900), V2(555, 915), V2(361, 1000)]"
 
 # Extract the numbers from the string
 matches = re.findall(r'V2\((\d+), (\d+)\)', default_vectors_str)

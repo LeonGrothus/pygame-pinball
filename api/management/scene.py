@@ -34,7 +34,7 @@ class Scene(BaseDisplay, ABC):
         options = Options()
 
         self.active_balls = 0
-        self.remaining_balls: int = 1
+        self.remaining_balls: int = 5
         self.score: int = 0
         self.user_name: str = options.load_user_name()
         self.object_counter: int = 0
@@ -118,4 +118,4 @@ class Scene(BaseDisplay, ABC):
         self.active_balls = 0
         self.remaining_balls = 0
         self.score = 0
-        
+

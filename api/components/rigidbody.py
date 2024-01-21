@@ -49,7 +49,7 @@ class Rigidbody(Component):
             self.acceleration += GRAVITY
 
             self.velocity += self.acceleration * delta_time
-            self.velocity *= (1 - AIR_FRICTION*self.asf)
+            self.velocity *= (1 - AIR_FRICTION/self.asf)
 
             self.parent.transform.pos += self.velocity * delta_time
 
