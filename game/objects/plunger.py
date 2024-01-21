@@ -1,3 +1,4 @@
+import random
 from pygame import Color, Vector2
 from api.components.collider import PolygonCollider
 from api.components.mesh import PolygonMesh
@@ -7,9 +8,10 @@ from options import Options
 
 
 class Plunger(GameObject):
-    def __init__(self, first_point: Vector2, second_point: Vector2):
+    def __init__(self, first_point: Vector2, second_point: Vector2, impuls_range: tuple[int, int]= (1000, 1000)):
         self.first_point = first_point
         self.second_point = second_point
+        self.impuls_range = impuls_range
         self.options = Options()
         super().__init__(Vector2(), 0)
     
@@ -30,5 +32,7 @@ class Plunger(GameObject):
     def on_collision(self, other, point, normal):
         other_rb = other.get_component_by_class(Rigidbody)
         other_rb.velocity.x = 0 # type: ignore
-        other_rb.apply_impuls(normal * 1000 * self.options.asf) # type: ignore
+        impuls = random.randrange(self.impuls_range[0], self.impuls_range[1])
+        print(impuls)
+        other_rb.apply_impuls(normal * impuls * self.options.asf) # type: ignore
         return super().on_collision(other, point, normal)

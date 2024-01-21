@@ -39,7 +39,6 @@ class Rigidbody(Component):
     def apply_impuls(self, impuls) -> None:
         if not self.is_kinematic:
             self.velocity += impuls
-            print(self.velocity)
 
     def on_update(self, delta_time) -> None:
         if not self.is_kinematic:
@@ -48,7 +47,6 @@ class Rigidbody(Component):
             self.acceleration += GRAVITY
 
             self.velocity += self.acceleration * delta_time
-            # print(self.velocity)
             self.velocity *= (1 - AIR_FRICTION)
 
             self.parent.transform.pos += self.velocity * delta_time
@@ -85,35 +83,29 @@ class Rigidbody(Component):
             other_collider.parent.on_collision(self.parent, collision_point, normal)
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
-        self.velocity = self.velocity.reflect(normal) * (1-other_collider.friction)
-        self.parent.transform.pos += normal * (self.collider.mesh.radius -
-                                               collision_point.distance_to(self.parent.transform.pos))
-
+        # Calculate the new velocity of the ball after the collision
+        reflected_velocity = self.velocity.reflect(normal) * (1 - other_collider.friction)
+        
+        # If the other object has a rotation speed, calculate the angular momentum
         if other_collider.parent.transform.do_smooth_rotation:
-            # Calculate the vector from the center of rotation to the point of contact
-            rotation_vector = collision_point - other_collider.parent.transform.pos
-
+            # Calculate the distance from the collision point to the center of the other object
+            r = collision_point - other_collider.parent.transform.pos
+            
             # Calculate the angular velocity vector
-            angular_velocity_vector = Vector3(0, 0, other_collider.parent.transform.rotation_speed)
+            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING
+            
+            # Add the angular momentum to the velocity of the ball
+            self.velocity = reflected_velocity + angular_velocity
+        else:
+            self.velocity = reflected_velocity
 
-            # Calculate the 3D rotation vector
-            rotation_vector_3d = Vector3(rotation_vector.x, rotation_vector.y, 0)
+        # Calculate the overlap between the ball and the other object
+        overlap = self.collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos)
 
-            # Calculate the rotational velocity as the cross product of the angular velocity vector and the rotation vector
-            rotational_velocity_3d = angular_velocity_vector.cross(rotation_vector_3d)
-
-            # Convert the 3D rotational velocity back to 2D
-            rotational_velocity = Vector2(rotational_velocity_3d.x, rotational_velocity_3d.y)
-
-            # Calculate the alignment of the normal vector with the rotational velocity vector
-            alignment = normal.dot(rotational_velocity.normalize())
-
-            # Scale the rotational velocity based on the alignment
-            self.velocity += rotational_velocity * alignment / PADDLE_COLLISION_DAMPING
-
-            # pygame.draw.line(self.parent.scene.screen, (255, 0, 255),
-            #                  collision_point, collision_point + normal * 100, 5)
-
+        # If there is an overlap, move the ball by the overlap amount along the collision normal
+        if overlap > 0:
+            self.parent.transform.pos += normal * overlap
+        
     def check_circle_circle_collision(self, other: CircleCollider) -> tuple:
         distance_squared = self.parent.transform.pos.distance_squared_to(other.parent.transform.pos)
         if distance_squared < (self.collider.mesh.radius + other.mesh.radius)**2:

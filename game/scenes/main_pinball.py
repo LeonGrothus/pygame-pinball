@@ -41,6 +41,7 @@ class MainPinball(Scene):
         self.pause_menu = PauseMenu(self.screen, lambda: self.change_scene("options_menu"),
                                     lambda: self.unpause(), lambda: self.change_scene("main_menu"))
         self.paused = False
+        friction = 0.1
 
         asf = Options().asf
 
@@ -49,19 +50,19 @@ class MainPinball(Scene):
         self.add_gameobject(self.left_flipper)
         self.add_gameobject(self.right_flipper)
 
-        self.add_gameobject(Plunger(V2(width - self.ball_radius*3, height), V2(width, height)))
+        self.add_gameobject(Plunger(V2(width - self.ball_radius*3, height), V2(width, height), impuls_range=(950, 1000)))
 
         # ball spawn container
         rel_points = [V2(0, 125*asf), V2(0, 0), V2(125*asf, -125*asf), V2(125*asf, -250*asf)]
-        self.add_gameobject(Wall(rel_points, friction=0, pos=V2(width, height-125*asf), visible=False))
+        self.add_gameobject(Wall(rel_points, friction=friction, pos=V2(width, height-125*asf), visible=False))
 
         # right wall
         rel_points = [V2(0, -125*asf - self.ball_radius*4), V2(0, -height/2), V2(0, -height)]
         print(rel_points)
-        self.add_gameobject(Wall(rel_points, friction=0, pos=V2(width, height), visible=False))
+        self.add_gameobject(Wall(rel_points, friction=friction, pos=V2(width, height), visible=False))
         # left wall
         rel_points = [V2(0, 0), V2(0, height/2), V2(0, height)]
-        self.add_gameobject(Wall(rel_points, friction=0, pos=V2(0, 0), visible=False))
+        self.add_gameobject(Wall(rel_points, friction=friction, pos=V2(0, 0), visible=False))
         # plunger cap wall
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(580, 1000), V2(580, 275), V2(600, 275), V2(600, 1000)]))
         self.add_gameobject(Wall(rel_points, visible=True))
@@ -71,47 +72,47 @@ class MainPinball(Scene):
 
         # left bottom outlet
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(50, 865), V2(180, 935), V2(210, 963), V2(225, 1000), V2(0, 1000), V2(0, 805), V2(10, 835), V2(30, 850)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # right bottom outlet
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(530, 865), V2(400, 935), V2(370, 963), V2(355, 1000), V2(580, 1000), V2(580, 805), V2(570, 835), V2(550, 850)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
 
         # center top obstacle
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(290, 129), V2(295, 122), V2(325, 122), V2(330, 129), V2(330, 218), V2(325, 224), V2(295, 224), V2(290, 218)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # first obstacle to the left of the center obstacle
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(200, 150), V2(210, 140), V2(220, 150), V2(220, 200), V2(210, 210), V2(200, 200)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # second obstacle to the left of the center obstacle
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(200-70, 150), V2(210-70, 140), V2(220-70, 150), V2(220-70, 200), V2(210-70, 210), V2(200-70, 200)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
 
 
         # top right obstacle
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(485, 137), V2(451, 170), V2(448, 176), V2(451, 183), V2(505, 255), V2(511, 259), V2(517, 255), V2(557, 206), V2(557, 199), V2(550, 188), V2(504, 143), V2(494, 137)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # other top right obstacle
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(580, 275), V2(482, 393), V2(482, 412), V2(580, 485)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # center obstacle
-        rel_points = list(map(lambda x: utils.ceil_vector((x+V2(20,00))*asf), [V2(193, 499), V2(193, 484), V2(246, 461), V2(264, 461), V2(319, 483), V2(320, 500), V2(267, 523), V2(247, 523)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        rel_points = list(map(lambda x: utils.ceil_vector((x+V2(20,00))*asf), [V2(230, 500), V2(230, 475), V2(245, 450), V2(270, 450), V2(285, 475), V2(285, 500), V2(270, 525), V2(245, 525)]))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
 
 
         # left plunger extension
         rel_points = list(map(lambda x: utils.ceil_vector((x+V2(0,74))*asf), [V2(50, 641), V2(65, 721), V2(157, 762), V2(171, 739), V2(113, 715), V2(86, 689)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # right plunger extension
         rel_points = list(map(lambda x: utils.ceil_vector((x+V2(0,74))*asf), [V2(530, 641), V2(515, 721), V2(423, 762), V2(409, 739), V2(467, 715), V2(494, 689)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
 
 
         # obstacle on top of the left plunger extension
         rel_points = list(map(lambda x: utils.ceil_vector((x+V2(30,45))*asf), [V2(123, 564), V2(104, 555), V2(88, 567), V2(87, 638), V2(99, 655), V2(151, 679), V2(169, 675), V2(175, 656)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
         # obstacle on top of the right plunger extension
         rel_points = list(map(lambda x: utils.ceil_vector((x+V2(-30,45))*asf), [V2(457, 564), V2(476, 555), V2(492, 567), V2(492, 638), V2(481, 655), V2(428, 679), V2(410, 675), V2(404, 656)]))
-        self.add_gameobject(Wall(rel_points, friction=0, visible=True))
+        self.add_gameobject(Wall(rel_points, friction=friction, visible=True))
 
         # bumpers
         self.add_gameobject(Bumper(V2(65, 290)*asf, 20*asf, 100*asf, color=Color(255, 0, 0)))
