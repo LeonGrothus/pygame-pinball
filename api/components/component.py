@@ -1,5 +1,7 @@
 from abc import ABC, abstractmethod
 
+from pygame import Vector2
+
 from api.objects.game_object import GameObject
 
 
@@ -18,6 +20,9 @@ class Component(ABC):
         pass
 
     def on_update(self, delta_time: float) -> None:
+        pass
+
+    def on_collision(self, other: GameObject, point: Vector2, normal: Vector2):
         pass
 
     @abstractmethod

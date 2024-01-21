@@ -33,6 +33,5 @@ class Plunger(GameObject):
         other_rb = other.get_component_by_class(Rigidbody)
         other_rb.velocity.x = 0 # type: ignore
         impuls = random.randrange(self.impuls_range[0], self.impuls_range[1])
-        print(impuls)
-        other_rb.apply_impuls(normal * impuls * self.options.asf) # type: ignore
+        other_rb.apply_impuls(normal * impuls) # type: ignore
         return super().on_collision(other, point, normal)

@@ -62,12 +62,12 @@ class Flipper(GameObject):
         asf = Options().asf
 
         for point in points:
-            point *= (asf * 0.5)
+            point *= (asf * 0.55)
 
         # Add the necessary components
         self.add_components(
             PolygonMesh(self.color, points),
-            PolygonCollider(),
+            PolygonCollider(friction=0 ),
             Renderer()
         )
 

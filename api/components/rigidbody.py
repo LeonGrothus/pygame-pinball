@@ -5,6 +5,7 @@ from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING
+from options import Options
 
 
 class Rigidbody(Component):
@@ -92,7 +93,7 @@ class Rigidbody(Component):
             r = collision_point - other_collider.parent.transform.pos
             
             # Calculate the angular velocity vector
-            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING
+            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * Options().asf
             
             # Add the angular momentum to the velocity of the ball
             self.velocity = reflected_velocity + angular_velocity

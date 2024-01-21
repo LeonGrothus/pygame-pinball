@@ -8,7 +8,7 @@ pygame.init()
 
 # Define constants
 scale = 2
-SCREEN_WIDTH = int(580 * scale)
+SCREEN_WIDTH = int(666 * scale)
 SCREEN_HEIGHT = int(1000 * scale)
 IMAGE_PATH = Path("image_fit.png")
 STRETCH_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
@@ -27,7 +27,7 @@ image = pygame.transform.scale(image, STRETCH_SIZE)
 flip_x = 580/2 * scale
 
 # Default list of vectors
-default_vectors_str = "[V2(193, 499), V2(193, 484), V2(246, 461), V2(264, 461), V2(319, 483), V2(320, 500), V2(267, 523), V2(247, 523)]"
+default_vectors_str = "[V2(665, 248), V2(665, 0), V2(0, 0), V2(0, 253), V2(35, 176), V2(94, 115), V2(164, 73), V2(243, 46), V2(336, 36), V2(436, 46), V2(515, 78), V2(580, 120), V2(630, 177)]"
 
 # Extract the numbers from the string
 matches = re.findall(r'V2\((\d+), (\d+)\)', default_vectors_str)
