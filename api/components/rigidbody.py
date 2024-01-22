@@ -4,7 +4,7 @@ import pygame
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
-from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING
+from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
 from options import Options
 
 
@@ -43,17 +43,19 @@ class Rigidbody(Component):
             self.velocity += impuls
 
     def on_update(self, delta_time) -> None:
-        if not self.is_kinematic:
-            self.resolve_collisions()
+        scaled_delta_time = delta_time / PTPF
+        for _ in range(PTPF):
+            if not self.is_kinematic:
+                self.resolve_collisions()
 
-            self.acceleration += GRAVITY
+                self.acceleration += GRAVITY
 
-            self.velocity += self.acceleration * delta_time
-            self.velocity *= (1 - AIR_FRICTION/self.asf)
+                self.velocity += self.acceleration * scaled_delta_time
+                self.velocity *= (1 - AIR_FRICTION/(self.asf*PTPF))
 
-            self.parent.transform.pos += self.velocity * delta_time
+                self.parent.transform.pos += self.velocity * scaled_delta_time
 
-        self.acceleration = Vector2(0, 0)
+            self.acceleration = Vector2(0, 0)
 
     def resolve_collisions(self) -> None:
         game_object: GameObject

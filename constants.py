@@ -5,13 +5,14 @@ from pygame import Vector2
 GRAVITY = Vector2(0, 1000)
 
 COLLISION_FRICTION = 0.1
-AIR_FRICTION = 0.004
+AIR_FRICTION = 0.012
 
 PADDLE_SPEED = 1080  # degrees per second
 PADDLE_COLLISION_DAMPING = 1
 
 
-FRAMERATE = 180
+FRAMERATE = 60
+PTPF = 6 # Physics ticks per frame
 DELTA_TIME = (1 / FRAMERATE)
 
 PROJECT_PATH: Path = Path(__file__).parents[0]

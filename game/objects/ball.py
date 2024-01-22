@@ -7,21 +7,17 @@ from api.components.renderer import Renderer
 from options import Options
 
 class Ball(GameObject):
-    def __init__(self, pos: Vector2, color: Color = Color(255, 255, 255), radius=25):
-        self.color = color
+    def __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25):
         self.radius = radius
-        super().__init__(pos, 5)
+        super().__init__(pos, 5, scene)
 
-    def on_awake(self):
-        # Add the necessary components
         self.add_components(
-            CircleMesh(self.color, self.radius),
+            CircleMesh(color, self.radius),
             CircleCollider(),
             Rigidbody(),
             Renderer()
         )
         self.scene.active_balls += 1
-        return super().on_awake()
     
     def on_destroy(self):
         self.scene.active_balls -= 1

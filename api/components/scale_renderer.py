@@ -19,6 +19,7 @@ class ScaleRenderer(Component):
             self.avg_point = (sum(x for x, _ in self.mesh.points) / len(self.mesh.points), 
                             sum(y for _, y in self.mesh.points) / len(self.mesh.points))
         return super().on_init()
+    
 
     def on_collision(self, other, point, normal) -> None:
         self.duration = self.original_duration
@@ -29,7 +30,7 @@ class ScaleRenderer(Component):
             return super().on_update(delta_time)
         
         self.duration -= delta_time
-        scale = abs(math.sin(math.pi * (self.original_duration - self.duration) / self.original_duration))
+        scale = 1 + abs(math.sin(math.pi * (self.original_duration - self.duration) / self.original_duration)) * self.strength
 
         if self.mesh_type == CircleMesh:
             self.mesh: CircleMesh = self.mesh # type: ignore

@@ -3,13 +3,13 @@ from pygame import Surface, Vector2
 from api.utils.transform import Transform
 
 class GameObject(ABC):
-    def __init__(self, pos: Vector2, render_layer: int) -> None:
+    def __init__(self, pos: Vector2, render_layer: int, scene) -> None:
         self.render_layer: int = render_layer
         self.components: list = []
         self.transform: Transform = Transform(self)
         self.transform.pos = pos
 
-        self.scene: Scene = None # type: ignore
+        self.scene = scene
     
     def add_components(self, *args) -> 'GameObject':
         for c in args:

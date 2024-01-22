@@ -44,7 +44,6 @@ class Scene(BaseDisplay, ABC):
         self.game_manager: GameManager = None  # type: ignore
 
     def add_gameobject(self, game_object: GameObject) -> None:
-        game_object.set_scene(self)
         self.all_active_gos.append(game_object)
         self.all_active_gos.sort(key=lambda x: x.render_layer)
         self.object_counter += 1

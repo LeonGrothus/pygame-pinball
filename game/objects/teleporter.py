@@ -8,23 +8,17 @@ from api.objects.game_object import GameObject
 
 
 class Teleporter(GameObject):
-    def __init__(self, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=.5):
-        super().__init__(pos, 0)
-        self.color = color
-        self.rel_points = rel_points
-        self.pos = pos
+    def __init__(self, scene, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=.5):
+        super().__init__(pos, 0, scene)
         self.teleport_location = teleport_location
         self.delay = delay
         self.objects_to_teleport = []
 
-    def on_awake(self):
-        # Add the necessary components
         self.add_components(
-            PolygonMesh(self.color, self.rel_points),
+            PolygonMesh(color, rel_points),
             PolygonCollider(),
             Renderer()
         )
-        return super().on_awake()
 
     def on_collision(self, other: GameObject, point: Vector2, normal: Vector2) -> None:
         if any(obj == other for obj, _ in self.objects_to_teleport):
