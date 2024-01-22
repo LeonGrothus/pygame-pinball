@@ -3,6 +3,7 @@ from pygame import Vector2 as V2
 import pygame
 from pygame.event import Event
 from api.components.bumper import Bumper
+from api.components.change_score import ChangeScore
 from api.components.simple_movement import SimpleMovement
 from api.management.scene import Scene
 from api.ui.text import Text
@@ -102,29 +103,25 @@ class MainPinball(Scene):
         # obstacle above the left flipper extension
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(105, 729), V2(110, 746), V2(163, 774), V2(
             179, 779), V2(191, 769), V2(193, 754), V2(140, 650), V2(127, 645), V2(114, 646), V2(105, 656)]))
-        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True,
-                            add_to_score=20).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True ).add_components(Bumper(bumper_strength), ChangeScore(20)))
         # obstacle above the right flipper extension
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(498, 734), V2(491, 747), V2(433, 780), V2(
             422, 779), V2(411, 770), V2(410, 752), V2(462, 653), V2(475, 645), V2(489, 647), V2(496, 658)]))
-        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True,
-                            add_to_score=20).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True).add_components(Bumper(bumper_strength), ChangeScore(20)))
 
         # center obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf), [V2(260, 556), V2(255, 567), V2(262, 578), V2(
             305, 598), V2(320, 600), V2(334, 598), V2(375, 579), V2(382, 568), V2(377, 556), V2(330, 535), V2(307, 535)]))
-        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True,
-                            add_to_score=10).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True).add_components(Bumper(bumper_strength), ChangeScore(10)))
         # left side obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
                           [V2(169, 410), V2(177, 394), V2(199, 396), V2(232, 457), V2(223, 476), V2(201, 473)]))
-        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True,
-                            add_to_score=10).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True)
+                            .add_components(Bumper(bumper_strength), ChangeScore(10)))
         # right side obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
                           [V2(480, 412), V2(471, 394), V2(451, 397), V2(417, 457), V2(426, 476), V2(447, 475)]))
-        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True,
-                            add_to_score=10).add_components(Bumper(bumper_strength)))
+        self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True).add_components(Bumper(bumper_strength), ChangeScore(10)))
         # top left obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
                           [V2(298, 104), V2(286, 116), V2(285, 174), V2(297, 188), V2(308, 175), V2(309, 116)]))
@@ -135,14 +132,10 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True))
 
         # bumpers
-        self.add_gameobject(CircleWall(V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0),
-                            add_to_score=100).add_components(Bumper(bumper_strength)))
-        self.add_gameobject(CircleWall(V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88),
-                            add_to_score=50).add_components(Bumper(bumper_strength)))
-        self.add_gameobject(CircleWall(V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231),
-                            add_to_score=25).add_components(Bumper(bumper_strength)))
-        self.add_gameobject(CircleWall(V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231),
-                            add_to_score=25).add_components(Bumper(bumper_strength), SimpleMovement(V2(250,700)*asf, V2(350,700)*asf, .75)))
+        self.add_gameobject(CircleWall(V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0)).add_components(Bumper(bumper_strength), ChangeScore(100)))
+        self.add_gameobject(CircleWall(V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88)).add_components(Bumper(bumper_strength), ChangeScore(50)))
+        self.add_gameobject(CircleWall(V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25)))
+        self.add_gameobject(CircleWall(V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25), SimpleMovement(V2(250,700)*asf, V2(350,700)*asf, .75)))
         
         # teleporter
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546)]))

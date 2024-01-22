@@ -8,7 +8,7 @@ from api.objects.game_object import GameObject
 
 
 class Teleporter(GameObject):
-    def __init__(self, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=.5, add_to_score=400):
+    def __init__(self, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=.5):
         super().__init__(pos, 0)
         self.color = color
         self.rel_points = rel_points
@@ -16,7 +16,6 @@ class Teleporter(GameObject):
         self.teleport_location = teleport_location
         self.delay = delay
         self.objects_to_teleport = []
-        self.add_to_score = add_to_score
 
     def on_awake(self):
         # Add the necessary components
@@ -30,7 +29,6 @@ class Teleporter(GameObject):
     def on_collision(self, other: GameObject, point: Vector2, normal: Vector2) -> None:
         if any(obj == other for obj, _ in self.objects_to_teleport):
             return
-        self.scene.score += self.add_to_score
         self.objects_to_teleport.append((other, self.delay))
         return super().on_collision(other, point, normal)
 
