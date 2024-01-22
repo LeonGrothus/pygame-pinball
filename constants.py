@@ -1,7 +1,6 @@
 from pathlib import Path
 from pygame import Vector2
 
-
 GRAVITY = Vector2(0, 1000)
 
 COLLISION_FRICTION = 0.1
@@ -17,8 +16,6 @@ DELTA_TIME = (1 / FRAMERATE)
 
 PROJECT_PATH: Path = Path(__file__).parents[0]
 ASSETS_PATH = PROJECT_PATH / Path("assets")
-
-NORMALIZED_IMAGE_SIZE = (500, 500)
 
 DEFAULT_BUTTON_STYLE = ASSETS_PATH / Path("buttons/default_style")
 DEFAULT_FONT = ASSETS_PATH / Path("fonts/Tektur-Regular.ttf")

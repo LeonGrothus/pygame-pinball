@@ -1,7 +1,7 @@
 from pygame import Vector2
 
 from api.utils.event_value import EventValue
-from constants import PADDLE_SPEED
+from constants import PADDLE_SPEED, PTPF
 from options import Options
 
 class Transform:
@@ -20,7 +20,9 @@ class Transform:
 
     def update(self, delta_time: float) -> None:
         if self.do_smooth_rotation:
-            self._rotate_towards(self.rotation_speed * delta_time)
+            scaled_delta = delta_time / PTPF
+            for _ in range(PTPF):
+                self._rotate_towards(self.rotation_speed * scaled_delta)
 
     def init_smooth_rotation(self, target: float) -> None:
         if target == self.target_smooth_rotation:
