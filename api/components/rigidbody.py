@@ -5,6 +5,7 @@ from api.components.component import Component
 from api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
 from options import Options
+from api.utils.utils import clamp
 
 
 class Rigidbody(Component):
@@ -87,7 +88,16 @@ class Rigidbody(Component):
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
         # Calculate the new velocity of the ball after the collision
-        reflected_velocity = self.velocity.reflect(normal) * (1 - other_collider.friction)
+        reflected_velocity = self.velocity.reflect(normal)
+        # Calculate the angle of impact
+        angle_of_impact = abs(normal.dot(self.velocity.normalize()))
+        # Calculate the velocity magnitude
+        velocity_magnitude = self.velocity.length()
+        # Adjust the friction based on the velocity and the angle of impact
+        adjusted_friction = other_collider.friction * (1 + velocity_magnitude / 5000) * (1 + angle_of_impact/10)
+        print((1 + velocity_magnitude / 5000), (1 + angle_of_impact/10))
+
+        reflected_velocity *= clamp(1 - adjusted_friction, 0.5, 1)
         
         # If the other object has a rotation speed, calculate the angular momentum
         if other_collider.parent.transform.do_smooth_rotation:
