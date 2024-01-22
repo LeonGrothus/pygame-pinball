@@ -1,6 +1,5 @@
 import math
-from pygame import Vector2, Vector3
-import pygame
+from pygame import Vector2
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
@@ -145,17 +144,17 @@ class Rigidbody(Component):
         return {
             "is_kinematic": self.is_kinematic,
             "velocity": [
-                self.velocity.x,
-                self.velocity.y
+                self.velocity.x/self.asf,
+                self.velocity.y/self.asf
             ],
             "acceleration": [
-                self.acceleration.x,
-                self.acceleration.y
+                self.acceleration.x/self.asf,
+                self.acceleration.y/self.asf
             ]
         }
 
     def deserialize(self, data: dict) -> 'Rigidbody':
         self.is_kinematic = data["is_kinematic"]
-        self.velocity = Vector2(data["velocity"][0], data["velocity"][1])
-        self.acceleration = Vector2(data["acceleration"][0], data["acceleration"][1])
+        self.velocity = Vector2(data["velocity"][0], data["velocity"][1]) * self.asf
+        self.acceleration = Vector2(data["acceleration"][0], data["acceleration"][1]) * self.asf
         return self

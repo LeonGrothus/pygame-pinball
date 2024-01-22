@@ -37,6 +37,7 @@ class Ball(GameObject):
         }
 
     def deserialize(self, data):
+        self.components.clear()
         self.transform.deserialize(data["transform"])
         components = []
         component_data = data["components"]

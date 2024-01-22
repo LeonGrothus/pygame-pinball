@@ -23,7 +23,7 @@ sound_manager.set_options(options)
 sound_manager.load_music()
 sound_manager.play_music()
 
-scene_manager = SceneManager(screen, "main_pinball")
+scene_manager = SceneManager(screen, "main_menu")
 # Main event loop
 while running:
     bg = pygame.transform.scale(bg_orig, (screen.get_width(), screen.get_height()))  # scales background image to fit screen size

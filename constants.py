@@ -12,7 +12,7 @@ PADDLE_COLLISION_DAMPING = 1
 
 
 FRAMERATE = 60
-PTPF = 6 # Physics ticks per frame
+PTPF = 10 # Physics ticks per frame
 DELTA_TIME = (1 / FRAMERATE)
 
 PROJECT_PATH: Path = Path(__file__).parents[0]

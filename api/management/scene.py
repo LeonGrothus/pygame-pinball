@@ -96,10 +96,8 @@ class Scene(BaseDisplay, ABC):
         self.object_counter = data["object_counter"]
         for ball_data in data["all_balls"]:
             ball_class = list(ball_data.keys())[0]
-            game_object = globals()[ball_class](pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
+            game_object = globals()[ball_class](self, pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
             self.add_gameobject(game_object)
-
-        print(self.active_balls, self.remaining_balls)
         return self
 
     ### Methods to be extended by the user ###
@@ -115,6 +113,6 @@ class Scene(BaseDisplay, ABC):
         self.all_active_rbs.clear()
         self.object_counter = 0
         self.active_balls = 0
-        self.remaining_balls = 0
-        self.score = 0
+        self.remaining_balls: int = 5
+        self.score: int = 0
 
