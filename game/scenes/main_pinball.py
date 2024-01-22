@@ -4,6 +4,7 @@ import pygame
 from pygame.event import Event
 from api.components.bumper import Bumper
 from api.components.change_score import ChangeScore
+from api.components.scale_renderer import ScaleRenderer
 from api.components.simple_movement import SimpleMovement
 from api.management.scene import Scene
 from api.ui.text import Text
@@ -132,10 +133,10 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(rel_points, friction=friction, visible=True))
 
         # bumpers
-        self.add_gameobject(CircleWall(V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0)).add_components(Bumper(bumper_strength), ChangeScore(100)))
-        self.add_gameobject(CircleWall(V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88)).add_components(Bumper(bumper_strength), ChangeScore(50)))
-        self.add_gameobject(CircleWall(V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25)))
-        self.add_gameobject(CircleWall(V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25), SimpleMovement(V2(250,700)*asf, V2(350,700)*asf, .75)))
+        self.add_gameobject(CircleWall(V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0)).add_components(Bumper(bumper_strength), ChangeScore(100), ScaleRenderer(1, .1)))
+        self.add_gameobject(CircleWall(V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88)).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(1, .1)))
+        self.add_gameobject(CircleWall(V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25), ScaleRenderer(1, .1)))
+        self.add_gameobject(CircleWall(V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231)).add_components(Bumper(bumper_strength), ChangeScore(25), ScaleRenderer(1, .1), SimpleMovement(V2(250,700)*asf, V2(350,700)*asf, .75)))
         
         # teleporter
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546)]))
