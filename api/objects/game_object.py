@@ -1,5 +1,6 @@
 from abc import ABC
 from pygame import Surface, Vector2
+from api.management.sound_manager import SoundManager
 from api.utils.transform import Transform
 
 class GameObject(ABC):
@@ -10,6 +11,7 @@ class GameObject(ABC):
         self.transform.pos = pos
 
         self.scene = scene
+        self.sound_manager: SoundManager = scene.sound_manager
     
     def add_components(self, *args) -> 'GameObject':
         for c in args:

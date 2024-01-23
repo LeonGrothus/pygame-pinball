@@ -4,6 +4,7 @@ from pathlib import Path
 import pygame
 from pygame.event import Event
 from api.management.json_manager import JsonManager
+from api.management.sound_manager import SoundManager
 
 from api.objects.game_object import GameObject
 from api.components.rigidbody import Rigidbody
@@ -42,6 +43,7 @@ class Scene(BaseDisplay, ABC):
         self.all_active_rbs: list = []
 
         self.game_manager: GameManager = None  # type: ignore
+        self.sound_manager: SoundManager = SoundManager()
 
     def add_gameobject(self, game_object: GameObject) -> None:
         self.all_active_gos.append(game_object)

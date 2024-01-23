@@ -53,7 +53,7 @@ class SoundManager:
         """
         Loads all music files from the specified directory.
         """
-        music_dir = ASSETS_PATH / Path('sounds/music')
+        music_dir = ASSETS_PATH / Path('music')
         for file in os.listdir(music_dir):
             if file.endswith('.mp3'):
                 self.music_files.append(os.path.join(music_dir, file))

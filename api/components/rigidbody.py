@@ -84,6 +84,7 @@ class Rigidbody(Component):
                 continue
 
             self.resolve_collision(collision_point, normal, other_collider)
+            self.parent.on_collision(other_collider.parent, collision_point, normal)
             other_collider.parent.on_collision(self.parent, collision_point, normal)
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
@@ -95,8 +96,6 @@ class Rigidbody(Component):
         velocity_magnitude = self.velocity.length()
         # Adjust the friction based on the velocity and the angle of impact
         adjusted_friction = other_collider.friction * (1 + velocity_magnitude / 5000) * (1 + angle_of_impact/10)
-        print((1 + velocity_magnitude / 5000), (1 + angle_of_impact/10))
-
         reflected_velocity *= clamp(1 - adjusted_friction, 0.5, 1)
         
         # If the other object has a rotation speed, calculate the angular momentum
