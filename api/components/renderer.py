@@ -16,7 +16,7 @@ class Renderer(Component):
         self.get_mesh()
         return super().on_init()
     
-    def on_update(self, delta_time: float) -> None:
+    def on_late_update(self, delta_time: float) -> None:
         if not self.visible:
             return super().on_update(delta_time)
 

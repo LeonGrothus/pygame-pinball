@@ -77,6 +77,10 @@ class GameObject(ABC):
         for c in self.components:
             c.on_update(delta_time)
 
+    def on_late_update(self, delta_time: float) -> None:
+        for c in self.components:
+            c.on_late_update(delta_time)
+
     def on_awake(self) -> None:
         pass
     

@@ -7,6 +7,7 @@ from api.components.bumper import Bumper
 from api.components.change_score import ChangeScore
 from api.components.scale_renderer import ScaleRenderer
 from api.components.simple_movement import SimpleMovement
+from api.components.tray import Tray
 from api.management.scene import Scene
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
@@ -39,6 +40,7 @@ class MainPinball(Scene):
 
     def awake(self) -> None:
         bumper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper.wav"))
+        bumper_sound01 = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper01.wav"))
 
         options = Options()
         asf = options.asf
@@ -147,13 +149,13 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
 
         # bumpers
-        self.add_gameobject(CircleWall(self, V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0)
+        self.add_gameobject(CircleWall(self, V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0), hit_sound=bumper_sound01
                                        ).add_components(Bumper(bumper_strength), ChangeScore(100), ScaleRenderer(scale_duration, scale_strength)))
-        self.add_gameobject(CircleWall(self, V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88)
+        self.add_gameobject(CircleWall(self, V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88), hit_sound=bumper_sound01
                                        ).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength)))
-        self.add_gameobject(CircleWall(self, V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231)
+        self.add_gameobject(CircleWall(self, V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01
                                        ).add_components(Bumper(bumper_strength), ChangeScore(25), ScaleRenderer(scale_duration, scale_strength)))
-        self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231)).add_components(Bumper(
+        self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01).add_components(Bumper(
             bumper_strength), ChangeScore(25), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
 
         # teleporter
@@ -220,6 +222,7 @@ class MainPinball(Scene):
         width = self.screen.get_width()
         height = self.screen.get_height()
         asf = Options().asf
+        # .add_components(Tray(5, Color(200,200,200)))
         self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf), radius=self.ball_radius))
 
     def pause(self, events: list[Event]) -> None:

@@ -107,6 +107,9 @@ class Scene(BaseDisplay, ABC):
     def update(self, delta_time: float, events: list[Event]) -> None:
         for game_object in self.all_active_gos:
             game_object.on_update(delta_time)
+        for game_object in self.all_active_gos:
+            game_object.on_late_update(delta_time)
+        return super().update(delta_time, events)
 
     def unload(self) -> None:
         for game_object in self.all_active_gos:

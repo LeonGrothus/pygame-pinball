@@ -25,6 +25,7 @@ class Plunger(GameObject):
 
 
     def on_collision(self, other, point, normal):
+        self.sound_manager.play_sfx(self.plunger_sound)
         other_rb = other.get_component_by_class(Rigidbody)
         other_rb.velocity.x = 0 # type: ignore
         impuls = random.randrange(self.impuls_range[0], self.impuls_range[1])

@@ -9,7 +9,7 @@ from game.objects.ball import Ball
 
 
 class Teleporter(GameObject):
-    def __init__(self, scene, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=1):
+    def __init__(self, scene, rel_points: list[Vector2], teleport_location: Vector2, pos: Vector2 = Vector2(0, 0), color: Color = Color(80, 80, 80), delay=2):
         super().__init__(pos, 0, scene)
         self.teleport_location = teleport_location
         self.delay = delay
@@ -27,6 +27,7 @@ class Teleporter(GameObject):
     def on_collision(self, other: Ball, point: Vector2, normal: Vector2) -> None:
         if any(obj == other for obj, _ in self.objects_to_teleport):
             return
+        self.sound_manager.play_sfx(self.on_teleport_sound)
         self.objects_to_teleport.append((other, self.delay))
         other.hide_ball()
         return super().on_collision(other, point, normal)
@@ -40,6 +41,7 @@ class Teleporter(GameObject):
                 obj.hide = False
                 obj.get_component_by_class(Rigidbody).velocity = Vector2(0, 0) # type: ignore
                 self.objects_to_teleport.pop(i)
+                self.sound_manager.play_sfx(self.exit_teleport_sound)
             else:
                 self.objects_to_teleport[i] = (obj, time)
         return super().on_update(delta_time)

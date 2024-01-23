@@ -15,6 +15,7 @@ class Mesh(Component, ABC):
 
     def on_init(self) -> None:
         self.parent.transform.rot.subscribe(self.rotate)
+        self.size = self._set_size()
         return super().on_init()
 
     def on_destroy(self) -> None:
@@ -23,6 +24,10 @@ class Mesh(Component, ABC):
 
     @abstractmethod
     def rotate(self, angle: float) -> None:
+        pass
+
+    @abstractmethod
+    def _set_size(self) -> Vector2:
         pass
 
 
@@ -42,6 +47,9 @@ class CircleMesh(Mesh):
 
     def rotate(self, angle: float) -> None:
         return super().rotate(angle)
+    
+    def _set_size(self) -> Vector2:
+        return Vector2(self.radius*2, self.radius*2)
 
 
 class PolygonMesh(Mesh):
@@ -72,3 +80,7 @@ class PolygonMesh(Mesh):
     def rotate(self, angle: float) -> None:
         self.points = [self.parent.transform.pos + p.rotate(angle) for p in self._relative_points]
         return super().rotate(angle)
+    
+    def _set_size(self) -> Vector2:
+        return Vector2(max(p.x for p in self.points) - min(p.x for p in self.points),
+                            max(p.y for p in self.points) - min(p.y for p in self.points))

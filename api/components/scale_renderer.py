@@ -30,7 +30,7 @@ class ScaleRenderer(Component):
         self.duration = self.original_duration
         return super().on_collision(other, point, normal)
 
-    def on_update(self, delta_time: float) -> None:
+    def on_late_update(self, delta_time: float) -> None:
         if self.duration <= 0:
             return super().on_update(delta_time)
         

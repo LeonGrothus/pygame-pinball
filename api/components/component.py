@@ -22,6 +22,9 @@ class Component(ABC):
     def on_update(self, delta_time: float) -> None:
         pass
 
+    def on_late_update(self, delta_time: float) -> None:
+        pass
+
     def on_collision(self, other: GameObject, point: Vector2, normal: Vector2):
         pass
 
