@@ -145,6 +145,9 @@ class Rigidbody(Component):
 
             distance: float = closest_point.distance_to(self.parent.transform.pos)
             if distance < self.collider.mesh.radius:
+                if math.isclose(distance, 0, abs_tol=1e-5):
+                    normal: Vector2 = edge_direction
+                    return closest_point, normal
                 normal: Vector2 = (self.parent.transform.pos - closest_point) / distance
                 return closest_point, normal
         return None, None

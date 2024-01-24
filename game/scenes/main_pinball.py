@@ -15,6 +15,7 @@ from constants import ASSETS_PATH
 from game.objects.ball import Ball
 from game.objects.flipper import Flipper
 from game.objects.plunger import Plunger
+from game.objects.spring import Spring
 from game.objects.teleporter import Teleporter
 from game.objects.wall import CircleWall, PolygonWall
 from game.scenes.submenus.end_menu import EndMenu
@@ -150,18 +151,30 @@ class MainPinball(Scene):
 
         # bumpers
         self.add_gameobject(CircleWall(self, V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(100), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ChangeScore(200), ScaleRenderer(scale_duration, scale_strength)))
         self.add_gameobject(CircleWall(self, V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ChangeScore(100), ScaleRenderer(scale_duration, scale_strength)))
         self.add_gameobject(CircleWall(self, V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(25), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength)))
         self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01).add_components(Bumper(
-            bumper_strength), ChangeScore(25), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
+            bumper_strength), ChangeScore(150), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
 
         # teleporter
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
                           [V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546)]))
         self.add_gameobject(Teleporter(self, rel_points, V2(337, 100)*asf))
+
+        # springs
+        # left
+        self.add_gameobject(Spring(self, V2(20, 750)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(70, 700)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        # right
+        self.add_gameobject(Spring(self, V2(580, 750)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(540, 700)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        # center
+        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        # tube 
+        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25, rotation=-35))
 
         # text
         self.score_text = Text(self.screen, (.01, .01), (0, 0), text=f"Score: {self.score}", font_size=50*asf)

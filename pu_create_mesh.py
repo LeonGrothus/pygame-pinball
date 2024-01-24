@@ -24,7 +24,7 @@ pygame.display.set_caption("Image Rendering Scene")
 image = pygame.image.load(IMAGE_PATH)
 image = pygame.transform.scale(image, STRETCH_SIZE)
 
-flip_x = 580/2 * scale
+flip_x = 600/2 * scale
 
 # Default list of vectors
 default_vectors_str = "[V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(526, 163), V2(474, 130), V2(451, 134), V2(440, 152), V2(447, 172), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(518, 456), V2(520, 481), V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546), V2(600, 570), V2(600, 900), V2(555, 915), V2(361, 1000)]"
