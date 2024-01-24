@@ -70,11 +70,13 @@ class PolygonMesh(Mesh):
                     "x": p.x,
                     "y": p.y
                 } for p in self._relative_points
-            ]
+            ],
+            "color": self.color
         }
 
     def deserialize(self, data: dict) -> 'PolygonMesh':
         self._relative_points = [Vector2(p["x"], p["y"]) for p in data["relative_points"]]
+        self.color = data["color"]
         return self
 
     def rotate(self, angle: float) -> None:

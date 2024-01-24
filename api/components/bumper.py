@@ -6,7 +6,7 @@ from api.objects.game_object import GameObject
 
 
 class Bumper(Component):
-    def __init__(self, bumper_force: tuple[int, int]) -> None:
+    def __init__(self, bumper_force: tuple[int, int] = (100,100)) -> None:
         self.bumper_force = bumper_force
         super().__init__()
 

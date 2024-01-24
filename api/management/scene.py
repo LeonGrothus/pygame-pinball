@@ -3,6 +3,7 @@ from json import load
 from pathlib import Path
 import pygame
 from pygame.event import Event
+from api.components.life_timer import LifeTimer
 from api.management.json_manager import JsonManager
 from api.management.sound_manager import SoundManager
 
@@ -10,6 +11,7 @@ from api.objects.game_object import GameObject
 from api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
 from game.objects.ball import Ball
+from game.objects.wall import CircleWall
 from options import Options
 
 class BaseDisplay(ABC):
@@ -76,6 +78,7 @@ class Scene(BaseDisplay, ABC):
             "remaining_balls": self.remaining_balls,
             "object_counter": self.object_counter,
             "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
+            "all_life_time_bumpers": [go.serialize() for go in self.all_active_gos if go.has_component_by_class(LifeTimer)],
         }
         jm = JsonManager(PROJECT_PATH / Path("data.json"))
         current_data = jm.load_json()
@@ -92,6 +95,10 @@ class Scene(BaseDisplay, ABC):
 
     
     def deserialize(self, data: dict):
+        for game_object in self.all_active_gos:
+            if game_object.has_component_by_class(LifeTimer):
+                game_object.on_destroy()
+
         self.user_name = data["user_name"]
         self.score = data["score"]
         self.remaining_balls = data["remaining_balls"]
@@ -99,6 +106,11 @@ class Scene(BaseDisplay, ABC):
         for ball_data in data["all_balls"]:
             ball_class = list(ball_data.keys())[0]
             game_object = globals()[ball_class](self, pygame.Vector2(0,0)).deserialize(ball_data[ball_class])
+            self.add_gameobject(game_object)
+
+        for bumper_data in data["all_life_time_bumpers"]:
+            bumper_class = list(bumper_data.keys())[0]
+            game_object = globals()[bumper_class](self, pygame.Vector2(0,0), 0).deserialize(bumper_data[bumper_class])
             self.add_gameobject(game_object)
         return self
 

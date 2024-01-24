@@ -4,7 +4,7 @@ from api.components.component import Component
 from api.components.mesh import CircleMesh, Mesh, PolygonMesh
 
 class ScaleRenderer(Component):
-    def __init__(self, duration: float, strength: float, overlay_effect = True, overlay_effect_size = 1) -> None:
+    def __init__(self, duration: float = .1, strength: float = .2, overlay_effect = True, overlay_effect_size = 1) -> None:
         super().__init__()
         self.original_duration: float = duration
         self.strength: float = strength

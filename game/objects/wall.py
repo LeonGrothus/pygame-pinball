@@ -2,6 +2,9 @@ from pathlib import Path
 from pygame import Vector2, Color
 import pygame
 from api.components.bumper import Bumper
+from api.components.change_score import ChangeScore
+from api.components.life_timer import LifeTimer
+from api.components.scale_renderer import ScaleRenderer
 from api.objects.game_object import GameObject
 from api.components.mesh import CircleMesh, PolygonMesh
 from api.components.collider import CircleCollider, PolygonCollider
@@ -48,3 +51,22 @@ class CircleWall(GameObject):
     def on_collision(self, other: GameObject, point: Vector2, normal: Vector2) -> None:
         self.sound_manager.play_sfx(self.hit_sound)
         return super().on_collision(other, point, normal)
+    
+    def serialize(self) -> dict:
+        return {
+            self.__class__.__name__: {
+                "components": {c.__class__.__name__: c.serialize() for c in self.components},
+                "transform": self.transform.serialize()
+            }
+        }
+    
+    def deserialize(self, data: dict) -> 'CircleWall':
+        self.components.clear()
+        self.transform.deserialize(data["transform"])
+        components = []
+        component_data = data["components"]
+        for component_class in data["components"]:
+            component = globals()[component_class]().deserialize(component_data[component_class])
+            components.append(component)
+        self.add_components(*components)
+        return self

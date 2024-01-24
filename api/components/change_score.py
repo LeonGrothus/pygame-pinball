@@ -6,7 +6,7 @@ from api.objects.game_object import GameObject
 
 
 class ChangeScore(Component):
-    def __init__(self, add_to_score: int) -> None:
+    def __init__(self, add_to_score: int = 10) -> None:
         self.add_to_score = add_to_score
         super().__init__()
 

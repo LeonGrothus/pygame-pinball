@@ -40,6 +40,9 @@ class GameObject(ABC):
                 return c
         return None
     
+    def has_component_by_class(self, comp_type: type) -> bool:
+        return self.get_component_by_class(comp_type) is not None
+    
     def get_components_by_class_scuffed(self, *class_names: str):
         """
         Returns the first component that matches the given class name.
