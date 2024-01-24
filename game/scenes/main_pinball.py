@@ -5,6 +5,7 @@ import pygame
 from pygame.event import Event
 from api.components.bumper import Bumper
 from api.components.change_score import ChangeScore
+from api.components.life_timer import LifeTimer
 from api.components.scale_renderer import ScaleRenderer
 from api.components.simple_movement import SimpleMovement
 from api.components.tray import Tray
@@ -158,6 +159,13 @@ class MainPinball(Scene):
                                        ).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength)))
         self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01).add_components(Bumper(
             bumper_strength), ChangeScore(150), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
+        # live bumpers
+        colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194)]
+        self.add_gameobject(CircleWall(self, V2(25, 760)*asf, 15*asf, color=Color(2, 132, 207)).add_components(
+                            Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 7)))
+        self.add_gameobject(CircleWall(self, V2(575, 760)*asf, 15*asf, color=Color(2, 132, 207)).add_components(
+                            Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 7)))
+
 
         # teleporter
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
@@ -166,15 +174,15 @@ class MainPinball(Scene):
 
         # springs
         # left
-        self.add_gameobject(Spring(self, V2(20, 750)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(70, 700)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(20, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # right
-        self.add_gameobject(Spring(self, V2(580, 750)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(540, 700)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(540, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # center
-        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # tube 
-        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=15*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25, rotation=-35))
+        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25, rotation=-35))
 
         # text
         self.score_text = Text(self.screen, (.01, .01), (0, 0), text=f"Score: {self.score}", font_size=50*asf)
