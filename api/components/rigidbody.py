@@ -131,6 +131,7 @@ class Rigidbody(Component):
     def check_circle_polygon_collision(self, other: PolygonCollider) -> tuple:
         for i in range(len(other.mesh.points)):
             p1: Vector2 = other.mesh.points[i]
+
             p2: Vector2 = other.mesh.points[(i + 1) % len(other.mesh.points)]
             edge: Vector2 = p2 - p1
             edge_length: float = edge.length()
