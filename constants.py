@@ -1,10 +1,10 @@
 from pathlib import Path
 from pygame import Vector2
 
-GRAVITY = Vector2(0, 1000)
+GRAVITY = Vector2(0, 666)
 
 COLLISION_FRICTION = 0.1
-AIR_FRICTION = 0.012
+AIR_FRICTION = 0.008
 
 PADDLE_SPEED = 1080  # degrees per second
 PADDLE_COLLISION_DAMPING = 1

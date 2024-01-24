@@ -48,12 +48,12 @@ class Rigidbody(Component):
             if not self.is_kinematic:
                 self.resolve_collisions()
 
-                self.acceleration += GRAVITY
+                self.acceleration += GRAVITY * self.asf
 
-                self.velocity += self.acceleration * scaled_delta_time
-                self.velocity *= (1 - AIR_FRICTION/(self.asf*PTPF))
+                self.velocity += (self.acceleration * scaled_delta_time)
+                self.velocity *= (1 - AIR_FRICTION/(PTPF/self.asf))
 
-                self.parent.transform.pos += self.velocity * scaled_delta_time
+                self.parent.transform.pos += (self.velocity * scaled_delta_time)
 
             self.acceleration = Vector2(0, 0)
 

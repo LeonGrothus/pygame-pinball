@@ -55,8 +55,7 @@ class SoundManager:
         """
         music_dir = ASSETS_PATH / Path('music')
         for file in os.listdir(music_dir):
-            if file.endswith('.mp3'):
-                self.music_files.append(os.path.join(music_dir, file))
+            self.music_files.append(os.path.join(music_dir, file))
 
     def play_music(self):
         """
