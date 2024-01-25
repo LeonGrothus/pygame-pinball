@@ -2,6 +2,7 @@ from abc import ABC
 from pygame import Surface, Vector2
 from api.management.sound_manager import SoundManager
 from api.utils.transform import Transform
+from constants import PTPF
 
 class GameObject(ABC):
     def __init__(self, pos: Vector2, render_layer: int, scene) -> None:
@@ -12,6 +13,7 @@ class GameObject(ABC):
 
         self.scene = scene
         self.sound_manager: SoundManager = scene.sound_manager
+        self.rigidbody = None
     
     def add_components(self, *args) -> 'GameObject':
         for c in args:
@@ -21,6 +23,8 @@ class GameObject(ABC):
         return self
 
     def _add_component(self, comp) -> bool:
+        if comp.__class__.__name__ == "Rigidbody": # scuffed
+            self.rigidbody = comp
         comp.set_parent(self)
 
         if self.get_component_by_class(type(comp)) is not None:
@@ -76,9 +80,16 @@ class GameObject(ABC):
             c.on_destroy()
     
     def on_update(self, delta_time: float) -> None:
-        self.transform.update(delta_time)
         for c in self.components:
+            if c == self.rigidbody:
+                continue
             c.on_update(delta_time)
+        
+        scaled_delta_time = delta_time / PTPF
+        for _ in range(PTPF):
+            self.transform.update(scaled_delta_time)
+            if self.rigidbody:
+                self.rigidbody.on_update(scaled_delta_time)
 
     def on_late_update(self, delta_time: float) -> None:
         for c in self.components:

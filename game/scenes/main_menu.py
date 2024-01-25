@@ -29,6 +29,8 @@ class MainMenu(BaseDisplay):
         self.json_manager = JsonManager(PROJECT_PATH / Path("data.json"))
 
         asf = Options().asf
+        user_name = Options().user_name
+
         button_width = int(285 * asf)
         button_height = int(125 * asf)
         button_font_size = int(50 * asf)
@@ -72,8 +74,7 @@ class MainMenu(BaseDisplay):
         text_button_set = self.button_style.create_button_set(
             (scoreboard_width, button_height), 0.03, 2, left_sided=True)
 
-        username = Options().load_user_name()
-        text = "" if username == "Player" else username
+        text = "" if user_name == "Player" else user_name
         self.ui_elements.append(TextBox(self.screen, (0, .75), (0, 0), scoreboard_width, button_height, placeholder="Username", 
                                         margin=20*asf, placeholder_color=(150, 150, 150), text=text,
                                         inactive_image=text_button_set[0], active_image=text_button_set[1],
@@ -102,10 +103,10 @@ class MainMenu(BaseDisplay):
     def load_save_game(self, save_game: dict) -> None:
         self.scene_manager.change_scene("main_pinball").deserialize(save_game)
     
-    def save_user_name(self, username: str) -> None:
-        if username == "":
-            username = "Player"
-        Options().store_user_name(username)
+    def save_user_name(self, user_name: str) -> None:
+        if user_name != "":
+            Options().user_name = user_name
+            Options().save()
 
     def load_scoreboard_entries(self):
         json_manager = JsonManager(PROJECT_PATH / Path("data.json"))

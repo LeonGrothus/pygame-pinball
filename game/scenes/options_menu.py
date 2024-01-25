@@ -154,7 +154,7 @@ class OptionsMenu(BaseDisplay):
         Returns:
             None
         """
-        self.options.save_entries()
+        self.options.save()
         self.ui_elements.clear()
         return super().unload()
 
@@ -217,7 +217,7 @@ class OptionsMenu(BaseDisplay):
         self.options.music_volume = self.new_music_volume
         self.options.sfx_volume = self.new_sfx_volume
         self.options.asf = self.asf
-        self.options.save_entries()
+        self.options.save()
 
         pygame.display.set_mode(self.options.resolution)
         self.scene_manager.change_scene("options_menu")

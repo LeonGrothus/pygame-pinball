@@ -4,10 +4,11 @@ import random
 
 import pygame
 from pygame.mixer import Sound
-from api.management.json_manager import JsonManager
 from constants import ASSETS_PATH
 
 # Singelton
+
+
 class SoundManager:
     """
     A class to represent the options.
@@ -34,7 +35,7 @@ class SoundManager:
             cls._instance = super(SoundManager, cls).__new__(cls)
             cls._instance.init()
         return cls._instance
-    
+
     def set_options(self, options):
         """
         Sets the options. This method is needed, because of circular imports.
@@ -43,6 +44,7 @@ class SoundManager:
             options (Options): The options.
         """
         self.options = options
+        self.update_volume()
 
     def init(self):
         pygame.mixer.init()
@@ -96,7 +98,6 @@ class SoundManager:
         """
         sound.set_volume((self.options.sfx_volume / 100) * (self.options.master_volume / 100))
         sound.play()
-
 
     def update_volume(self) -> None:
         """

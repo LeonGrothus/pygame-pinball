@@ -162,9 +162,9 @@ class MainPinball(Scene):
         # live bumpers
         colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194), Color(2, 132, 207)]
         self.add_gameobject(CircleWall(self, V2(25, 760)*asf, 15*asf, ).add_components(
-                            Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
+                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
         self.add_gameobject(CircleWall(self, V2(575, 760)*asf, 15*asf).add_components(
-                            Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
+                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
 
 
         # teleporter

@@ -42,28 +42,29 @@ class Options:
         """
         self.sound_manager = SoundManager()
         self.json_manager = JsonManager(PROJECT_PATH  / Path("options.json"))
-        self.load_entries()
+        self.load()
 
-    def load_entries(self) -> None:
+    def load(self) -> None:
         """
-        Loads the entries from the JSON file.
+        Loads the options from the JSON file.
 
         Returns:
             None
         """
 
-        data: dict = self.json_manager.load_json()
+        data: dict = self.json_manager.load_json() # Load the JSON file
         # ASF = Application Scale Factor
         self.asf = data.get('acf', 1)  # Default to 1 if 'acf' is not in the JSON file
-        self.resolution = (666 * self.asf, 1000 * self.asf)
+        self.resolution = (666 * self.asf, 1000 * self.asf) # Default to 666x1000 if 'acf' is not in the JSON file
 
         self.master_volume = data.get('master_volume', 50)  # Default to 50 if 'master_volume' is not in the JSON file
         self.music_volume = data.get('music_volume', 50)  # Default to 50 if 'music_volume' is not in the JSON file
         self.sfx_volume = data.get('sfx_volume', 50)  # Default to 50 if 'sfx_volume' is not in the JSON file
+        self.user_name = data.get('user_name', 'Player')  # Default to 'Player' if 'user_name' is not in the JSON file
 
-    def save_entries(self) -> None:
+    def save(self) -> None:
         """
-        Saves the entries to the JSON file.
+        Saves the options to the JSON file.
 
         Returns:
             None
@@ -73,36 +74,9 @@ class Options:
             'acf': self.asf,
             'master_volume': self.master_volume,
             'music_volume': self.music_volume,
-            'sfx_volume': self.sfx_volume
+            'sfx_volume': self.sfx_volume,
+            'user_name': self.user_name
         }
         self.sound_manager.update_volume()
         self.resolution = (666 * self.asf, 1000 * self.asf)
-        self.json_manager.save_json(data)
-
-    def load_user_name(self) -> str:
-        """
-        Loads the user name from the JSON file.
-
-        Returns:
-            str: The user name.
-        """
-
-        data: dict = self.json_manager.load_json()
-        return data.get('username', "Player")
-    
-    def store_user_name(self, username) -> None:
-        """
-        Stores the user name and everything else in the JSON file.
-
-        Returns:
-            None
-        """
-
-        data: dict = {
-            'username': username,
-            'acf': self.asf,
-            'master_volume': self.master_volume,
-            'music_volume': self.music_volume,
-            'sfx_volume': self.sfx_volume
-        }
         self.json_manager.save_json(data)

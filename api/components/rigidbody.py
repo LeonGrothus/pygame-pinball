@@ -42,20 +42,18 @@ class Rigidbody(Component):
         if not self.is_kinematic:
             self.velocity += impuls
 
-    def on_update(self, delta_time) -> None:
-        scaled_delta_time = delta_time / PTPF
-        for _ in range(PTPF):
-            if not self.is_kinematic:
-                self.resolve_collisions()
+    def on_update(self, scaled_delta_time) -> None:
+        if not self.is_kinematic:
+            self.resolve_collisions()
 
-                self.acceleration += GRAVITY * self.asf
+            self.acceleration += GRAVITY * self.asf
 
-                self.velocity += (self.acceleration * scaled_delta_time)
-                self.velocity *= (1 - AIR_FRICTION/(PTPF/self.asf))
+            self.velocity += (self.acceleration * scaled_delta_time)
+            self.velocity *= (1 - AIR_FRICTION/(PTPF/self.asf))
 
-                self.parent.transform.pos += (self.velocity * scaled_delta_time)
+            self.parent.transform.pos += (self.velocity * scaled_delta_time)
 
-            self.acceleration = Vector2(0, 0)
+        self.acceleration = Vector2(0, 0)
 
     def resolve_collisions(self) -> None:
         game_object: GameObject

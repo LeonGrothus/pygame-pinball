@@ -18,11 +18,9 @@ class Transform:
     def rotate(self, angle: float) -> None:
         self.rot.set_value(self.rot.get_value() + angle)
 
-    def update(self, delta_time: float) -> None:
+    def update(self, scaled_delta_time: float) -> None:
         if self.do_smooth_rotation:
-            scaled_delta = delta_time / PTPF
-            for _ in range(PTPF):
-                self._rotate_towards(self.rotation_speed * scaled_delta)
+            self._rotate_towards(self.rotation_speed * scaled_delta_time)
 
     def init_smooth_rotation(self, target: float) -> None:
         if target == self.target_smooth_rotation:
