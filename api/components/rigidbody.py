@@ -1,5 +1,6 @@
 import math
 from pygame import Vector2
+import pygame
 from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
@@ -86,31 +87,38 @@ class Rigidbody(Component):
             other_collider.parent.on_collision(self.parent, collision_point, normal)
 
     def resolve_collision(self, collision_point: Vector2, normal: Vector2, other_collider: Collider) -> None:
-        # Calculate the new velocity of the ball after the collision
-        reflected_velocity = self.velocity.reflect(normal)
-        # Calculate the angle of impact
-        angle_of_impact = abs(normal.dot(self.velocity.normalize()))
-        # Calculate the velocity magnitude
-        velocity_magnitude = self.velocity.length()
-        # Adjust the friction based on the velocity and the angle of impact
-        adjusted_friction = other_collider.friction * (1 + velocity_magnitude / 5000) * (1 + angle_of_impact/10)
-        reflected_velocity *= clamp(1 - adjusted_friction, 0.5, 1)
-        
-        # If the other object has a rotation speed, calculate the angular momentum
-        if other_collider.parent.transform.do_smooth_rotation:
-            # Calculate the distance from the collision point to the center of the other object
-            r = collision_point - other_collider.parent.transform.pos
-            
-            # Calculate the angular velocity vector
-            angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * self.asf
-            
-            # Add the angular momentum to the velocity of the ball
-            self.velocity = reflected_velocity + angular_velocity
+        # If the other object is a RigidBody, calculate the impulse
+        if (other_rb := other_collider.parent.get_component_by_class(Rigidbody)):
+            v_rel = self.velocity - other_rb.velocity # Relative velocity
+            j = -v_rel.dot(normal) # Calculate the impulse magnitude
+            # Apply the impulse
+            self.velocity += j * normal
+            other_rb.velocity -= j * normal
         else:
-            self.velocity = reflected_velocity
+            # Calculate the new velocity of the ball after the collision
+            reflected_velocity = self.velocity.reflect(normal)
+            # Calculate the angle of impact
+            angle_of_impact = abs(normal.dot(self.velocity.normalize()))
+            # Calculate the velocity magnitude
+            velocity_magnitude = self.velocity.length()
+            # Adjust the friction based on the velocity and the angle of impact
+            adjusted_friction = other_collider.friction * (clamp(velocity_magnitude / (500*self.asf), .2, 1)) * (1 + angle_of_impact/10)
+            reflected_velocity *= clamp(1 - adjusted_friction, 0.5, 1)
+            
+            # If the other object has a rotation speed, calculate the angular momentum
+            if other_collider.parent.transform.do_smooth_rotation:
+                # Calculate the angular velocity vector
+                angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * self.asf
+                
+                # Add the angular momentum to the velocity of the ball
+                self.velocity = reflected_velocity + angular_velocity
+            else:
+                self.velocity = reflected_velocity
 
         # Calculate the overlap between the ball and the other object
         overlap = self.collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos)
+        if other_rb:
+            overlap = self.collider.mesh.radius + other_collider.mesh.radius - collision_point.distance_to(self.parent.transform.pos) # type: ignore
 
         # If there is an overlap, move the ball by the overlap amount along the collision normal
         if overlap > 0:

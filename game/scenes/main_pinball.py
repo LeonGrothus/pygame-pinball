@@ -1,3 +1,4 @@
+import math
 from pathlib import Path
 from pygame import Color, Surface
 from pygame import Vector2 as V2
@@ -39,6 +40,10 @@ class MainPinball(Scene):
         self.flipper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/flipper.wav"))
         self.spawn_ball_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/spawn_ball.wav"))
         self.game_over_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/game_over.wav"))
+        self.bonus_ball_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bonus_ball.wav"))
+
+        self.score_threshold = 5000
+
 
     def awake(self) -> None:
         bumper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper.wav"))
@@ -59,6 +64,7 @@ class MainPinball(Scene):
 
         self.paused = False
         self.end_game = False
+        
         friction = 0.1
         scale_duration = .075
         scale_strength = .25
@@ -193,6 +199,11 @@ class MainPinball(Scene):
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:
+        if self.score >= self.score_threshold:
+            self.add_ball()
+            self.sound_manager.play_sfx(self.bonus_ball_sound)
+            self.score_threshold *= 2.25
+
         self.score_text.text.set_value(f"Score: {self.score}")
         self.balls_text.text.set_value(f"Balls: {self.remaining_balls}")
         if (self.remaining_balls <= 0 and self.active_balls <= 0) and not self.end_game:
