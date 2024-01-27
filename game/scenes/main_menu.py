@@ -95,13 +95,12 @@ class MainMenu(BaseDisplay):
     
     def new_game(self) -> None:
         data = self.json_manager.load_json()
-        if "save_game" in data:
-            del data["save_game"]
-            self.json_manager.save_json(data)
+        data["save_game"] = {}
+        self.json_manager.save_json(data)
         self.scene_manager.change_scene("main_pinball")
     
-    def load_save_game(self, save_game: dict) -> None:
-        self.scene_manager.change_scene("main_pinball").deserialize(save_game)
+    def load_save_game(self) -> None:
+        self.scene_manager.change_scene("main_pinball").deserialize()
     
     def save_user_name(self, user_name: str) -> None:
         if user_name != "":

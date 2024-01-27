@@ -47,6 +47,8 @@ class Scene(BaseDisplay, ABC):
         self.game_manager: GameManager = None  # type: ignore
         self.sound_manager: SoundManager = SoundManager()
 
+        self.jm = JsonManager(PROJECT_PATH / Path("data.json"))
+
     def add_gameobject(self, game_object: GameObject) -> None:
         self.all_active_gos.append(game_object)
         self.all_active_gos.sort(key=lambda x: x.render_layer)
@@ -80,21 +82,24 @@ class Scene(BaseDisplay, ABC):
             "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
             "all_life_time_bumpers": [go.serialize() for go in self.all_active_gos if go.has_component_by_class(LifeTimer)],
         }
-        jm = JsonManager(PROJECT_PATH / Path("data.json"))
-        current_data = jm.load_json()
+        
+        current_data = self.jm.load_json()
         current_data["save_game"] = data
-        jm.save_json(current_data)
+        self.jm.save_json(current_data)
 
     def save_score(self) -> None:
-        jm = JsonManager(PROJECT_PATH / Path("data.json"))
-        current_data = jm.load_json()
-        if "scoreboard" not in current_data:
-            current_data["scoreboard"] = {}
-        current_data["scoreboard"][self.user_name] = self.score
-        jm.save_json(current_data)
+        current_data = self.jm.load_json()
+
+        user_score = current_data.get("scoreboard", {}).get(self.user_name, 0)
+        if user_score < self.score:
+            current_data.setdefault("scoreboard", {})[self.user_name] = self.score
+
+        self.jm.save_json(current_data)
 
     
-    def deserialize(self, data: dict):
+    def deserialize(self):
+        json = self.jm.load_json()
+        data = json["save_game"]
         for game_object in self.all_active_gos:
             if game_object.has_component_by_class(LifeTimer):
                 game_object.on_destroy()
@@ -112,6 +117,9 @@ class Scene(BaseDisplay, ABC):
             bumper_class = list(bumper_data.keys())[0]
             game_object = globals()[bumper_class](self, pygame.Vector2(0,0), 0).deserialize(bumper_data[bumper_class])
             self.add_gameobject(game_object)
+        
+        json["save_game"] = {}
+        self.jm.save_json(json)
         return self
 
     ### Methods to be extended by the user ###
