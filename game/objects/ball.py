@@ -1,6 +1,7 @@
 from pathlib import Path
 from pygame import Vector2, Color
 import pygame
+from api.components.tray import Tray
 from api.objects.game_object import GameObject
 from api.components.mesh import CircleMesh
 from api.components.collider import CircleCollider

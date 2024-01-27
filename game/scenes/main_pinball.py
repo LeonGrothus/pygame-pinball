@@ -56,7 +56,7 @@ class MainPinball(Scene):
         unload(self)
     """
 
-    def __init__(self, screen: pygame.Surface, scene_manager):
+    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path):
         """
         Creates the main pinball scene.
 
@@ -65,7 +65,7 @@ class MainPinball(Scene):
             scene_manager (SceneManager): The scene manager.
         """
 
-        super().__init__(screen, scene_manager)
+        super().__init__(screen, scene_manager, background_path)
 
         self.left_flipper: Flipper = None  # type: ignore
         self.right_flipper: Flipper = None  # type: ignore
@@ -222,7 +222,7 @@ class MainPinball(Scene):
         self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # right
         self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(540, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(530, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # center
         self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # tube 
@@ -247,6 +247,7 @@ class MainPinball(Scene):
         Returns:
             None
         """
+        super().update(0 if (self.paused or self.end_game) else delta_time, events) # update the scene
 
         if self.score >= self.score_threshold:
             self.add_ball(True)
@@ -289,7 +290,6 @@ class MainPinball(Scene):
         if self.end_game: # if the game is over, update the end menu
             return self.end_menu.update(events, self.blured)
 
-        super().update(0 if (self.paused or self.end_game) else delta_time, events) # update the scene
         if self.paused:  # if the game is paused, return
             return
 

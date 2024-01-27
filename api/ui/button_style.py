@@ -163,7 +163,7 @@ if __name__ == "__main__":
 
     button_manager = ButtonStyle(
         Path(os.path.join(os.path.dirname(__file__), '..', '..', 'assets', 'buttons', 'default_style')))
-    button = button_manager.create_button((200, 140), left_sided=True, top_sided=True)
+    button = button_manager.create_button((200, 140), left_sided=True, top_sided=False)
 
     running = True
     while running:

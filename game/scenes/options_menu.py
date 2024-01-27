@@ -11,7 +11,7 @@ from api.ui.slider import Slider
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 
-from constants import ASSETS_PATH
+from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 from data.options import Options
 
 
@@ -43,7 +43,7 @@ class OptionsMenu(BaseDisplay):
         _apply_changes(self)
     """
 
-    def __init__(self, screen: Surface, scene_manager) -> None:
+    def __init__(self, screen: Surface, scene_manager, background_path: Path) -> None:
         """
         Initializes the options menu.
 
@@ -52,9 +52,9 @@ class OptionsMenu(BaseDisplay):
             scene_manager (SceneManager): The scene manager.
         """
 
-        self.button_style = ButtonStyle(ASSETS_PATH / Path("buttons/default_style"))
+        self.button_style = ButtonStyle(DEFAULT_BUTTON_STYLE)
 
-        self.font = Font(ASSETS_PATH / Path("fonts/Tektur-Regular.ttf"), 75)
+        self.font = Font(DEFAULT_FONT, 75)
         self.ui_elements: list[UIElementBase] = []
 
         self.options = Options()
@@ -63,7 +63,7 @@ class OptionsMenu(BaseDisplay):
         self.new_sfx_volume = self.options.sfx_volume
         self.asf = self.options.asf
 
-        super().__init__(screen, scene_manager)
+        super().__init__(screen, scene_manager, background_path)
 
     def awake(self) -> None:
         """
@@ -147,6 +147,8 @@ class OptionsMenu(BaseDisplay):
         Returns:
             None
         """
+        super().update(delta_time, events)
+
         for element in self.ui_elements:
             element.draw()
             element.update_events(events)
@@ -155,8 +157,6 @@ class OptionsMenu(BaseDisplay):
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
                     self.scene_manager.change_scene("main_menu")
-
-        return super().update(delta_time, events)
     
     def unload(self) -> None:
         """

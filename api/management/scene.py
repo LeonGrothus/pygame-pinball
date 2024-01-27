@@ -27,7 +27,7 @@ class BaseDisplay(ABC):
         update(self, delta_time: float, events: list[Event])
         unload(self)
     """
-    def __init__(self, screen: pygame.Surface, scene_manager) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path) -> None:
         """
         Inits BaseDisplay with screen and scene_manager
 
@@ -35,11 +35,12 @@ class BaseDisplay(ABC):
             screen: pygame.Surface, the screen to draw on
             scene_manager: SceneManager, the scene manager
         """
+        self.background = pygame.image.load(background_path).convert() # Load background image
 
         self.screen: pygame.Surface = screen
         self.scene_manager = scene_manager
 
-    ### Methods to be overriden by the user ###
+    ### Methods to be extended by the user ###
 
     def awake(self) -> None:
         """
@@ -48,7 +49,7 @@ class BaseDisplay(ABC):
         Returns:
             None
         """
-        pass
+        self.scaled_background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))  # scales background image to fit screen size
 
     def update(self, delta_time: float, events: list[Event]) -> None:
         """
@@ -61,7 +62,7 @@ class BaseDisplay(ABC):
         Returns:
             None
         """
-        pass
+        self.screen.blit(self.scaled_background, pygame.Vector2())  # redraws background image
 
     def unload(self) -> None:
         """
@@ -97,7 +98,7 @@ class Scene(BaseDisplay, ABC):
         deserialize(self)
     """
 
-    def __init__(self, screen: pygame.Surface, scene_manager) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path) -> None:
         """
         Inits Scene with screen and scene_manager
 
@@ -105,7 +106,7 @@ class Scene(BaseDisplay, ABC):
             screen: pygame.Surface, the screen to draw on
             scene_manager: SceneManager, the scene manager
         """
-        super().__init__(screen, scene_manager)
+        super().__init__(screen, scene_manager, background_path)
         self.active_balls = 0
         self.remaining_balls: int = 5
         self.score: int = 0
@@ -262,11 +263,11 @@ class Scene(BaseDisplay, ABC):
         Returns:
             None
         """
+        super().update(delta_time, events)
         for game_object in self.all_active_gos:
             game_object.on_update(delta_time)
         for game_object in self.all_active_gos:
             game_object.on_late_update(delta_time)
-        return super().update(delta_time, events)
 
     def unload(self) -> None:
         """

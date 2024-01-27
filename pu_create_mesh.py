@@ -11,7 +11,7 @@ This file is ONLY intended to be used to create the mesh from the image_fit.png 
 pygame.init()
 
 # Define constants
-scale = 4
+scale = 2
 SCREEN_WIDTH = int(666 * scale)
 SCREEN_HEIGHT = int(1000 * scale)
 IMAGE_PATH = Path("image_fit.png")

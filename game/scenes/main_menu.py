@@ -39,7 +39,7 @@ class MainMenu(BaseDisplay):
         load_scoreboard_entries(self)
         _quit(self)
     """
-    def __init__(self, screen: Surface, scene_manager) -> None:
+    def __init__(self, screen: Surface, scene_manager, background_path: Path) -> None:
         """
         Creates the main menu.
 
@@ -51,7 +51,7 @@ class MainMenu(BaseDisplay):
         self.button_style = ButtonStyle(DEFAULT_BUTTON_STYLE)
         self.ui_elements: list[UIElementBase] = []
 
-        super().__init__(screen, scene_manager)
+        super().__init__(screen, scene_manager, background_path)
 
     def awake(self) -> None:
         """
@@ -128,12 +128,11 @@ class MainMenu(BaseDisplay):
         Returns:
             None
         """
-
+        super().update(delta_time, events)
+        
         for element in self.ui_elements:
             element.draw()
             element.update_events(events)
-
-        return super().update(delta_time, events)
 
     def unload(self) -> None:
         """

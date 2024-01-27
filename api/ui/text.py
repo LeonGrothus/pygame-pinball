@@ -66,8 +66,8 @@ class Text(UIElementBase):
         rect = self.font.get_rect(self.text.value, size=self.font_size)
         super().__init__(screen, rel_pos, rect.width, rect.height, rel_pos_self)
 
-        self.text_surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
-        self.font.render_to(self.text_surface, (0, 0), self.text.value, fgcolor=self.color, size=self.font_size)
+        self.text_surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA) # Create a surface for the text
+        self.font.render_to(self.text_surface, (0, 0), self.text.value, fgcolor=self.color, size=self.font_size) # Render the text onto the surface
 
     def update_text(self, text) -> None:
         """
