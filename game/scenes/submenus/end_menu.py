@@ -10,7 +10,7 @@ from api.ui.text import Text
 
 from api.ui.ui_element_base import UIElementBase
 from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
-from options import Options
+from data.options import Options
 
 
 class EndMenu:

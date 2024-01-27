@@ -9,6 +9,7 @@ from api.management.sound_manager import SoundManager
 from api.objects.game_object import GameObject
 from api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
+from game.objects.wall import CircleWall
 from game.objects.ball import Ball
 from data.options import Options
 

@@ -3,7 +3,7 @@ from api.objects.game_object import GameObject
 from api.components.mesh import PolygonMesh
 from api.components.collider import PolygonCollider
 from api.components.renderer import Renderer
-from options import Options
+from data.options import Options
 
 
 class Flipper(GameObject):

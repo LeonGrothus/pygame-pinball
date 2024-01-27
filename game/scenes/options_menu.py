@@ -12,7 +12,7 @@ from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
 
 from constants import ASSETS_PATH
-from options import Options
+from data.options import Options
 
 
 class OptionsMenu(BaseDisplay):

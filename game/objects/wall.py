@@ -6,6 +6,13 @@ from api.objects.game_object import GameObject
 from api.components.mesh import CircleMesh, PolygonMesh
 from api.components.collider import CircleCollider, PolygonCollider
 from api.components.renderer import Renderer
+from api.components.mesh import CircleMesh, PolygonMesh
+from api.components.collider import CircleCollider, PolygonCollider
+from api.components.renderer import Renderer
+from api.components.bumper import Bumper
+from api.components.change_score import ChangeScore
+from api.components.life_timer import LifeTimer
+from api.components.simple_movement import SimpleMovement
 from constants import ASSETS_PATH, COLLISION_FRICTION as CF
 
 

@@ -21,7 +21,7 @@ from game.objects.teleporter import Teleporter
 from game.objects.wall import CircleWall, PolygonWall
 from game.scenes.submenus.end_menu import EndMenu
 from game.scenes.submenus.pause_menu import PauseMenu
-from options import Options
+from data.options import Options
 from scipy.ndimage.filters import gaussian_filter
 from api.utils import utils
 
