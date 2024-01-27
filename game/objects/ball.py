@@ -26,7 +26,7 @@ class Ball(GameObject):
         hide_ball(self)
     """
 
-    def __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25) -> None:
+    def __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25, forced_spawn = False) -> None:
         """
         Inits Ball with pos, color and radius
 
@@ -35,10 +35,12 @@ class Ball(GameObject):
             pos: Vector2, the position of the Ball
             color: Color, the color of the Ball
             radius: int, the radius of the Ball
+            forced_spawn: bool, whether the ball is forced to spawn
         """
 
         self.radius = radius
         self.hide = False
+        self.forced_spawn = forced_spawn
         super().__init__(pos, 5, scene)
 
         self.add_components(
@@ -60,7 +62,8 @@ class Ball(GameObject):
         """
 
         self.sound_manager.play_sfx(self.ball_destroyed_sound)
-        self.scene.active_balls -= 1
+        if not self.forced_spawn:
+            self.scene.active_balls -= 1
         return super().on_destroy()
 
     def on_update(self, delta_time: float) -> None:

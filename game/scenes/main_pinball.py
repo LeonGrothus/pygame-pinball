@@ -114,7 +114,7 @@ class MainPinball(Scene):
 
 
         self.add_gameobject(Plunger(self, V2(width - self.ball_radius*3, height),
-                            V2(width, height), impuls_range=(1300*asf, 1400*asf)))
+                            V2(width, height), impuls_range=(int(1300*(asf**1.3)), int(1400*(asf**1.3)))))
 
         self.left_flipper = Flipper(self, V2(300*asf - 130 * asf, height - 125*asf), 30)
         self.right_flipper = Flipper(self, V2(300*asf + 130 * asf, height - 125*asf), 150)
@@ -137,8 +137,7 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
 
         # plunger cap wall with left outlet
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(526, 163), V2(474, 130), V2(451, 134), V2(440, 152), V2(447, 172), V2(498, 207), V2(
-            532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(518, 456), V2(520, 481), V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546), V2(600, 570), V2(600, 900), V2(555, 915), V2(361, 1000)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(524, 163), V2(474, 130), V2(459, 131), V2(447, 137), V2(439, 149), V2(441, 164), V2(449, 174), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(517, 461), V2(518, 482), V2(557, 482), V2(602, 522), V2(600, 900), V2(555, 915), V2(361, 1000)]))
 
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
         # left bottom outlet
@@ -147,8 +146,7 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
 
         # upper thing of left side ball guidence
-        rel_points = list(map(lambda x: utils.ceil_vector((x)*asf), [V2(135, 512), V2(146, 508), V2(147, 497), V2(115, 424), V2(104, 354), V2(115, 289), V2(145, 236), V2(186, 199), V2(
-            222, 173), V2(232, 156), V2(223, 138), V2(202, 131), V2(165, 149), V2(114, 191), V2(80, 242), V2(62, 298), V2(60, 359), V2(72, 416), V2(101, 480), V2(124, 506)]))
+        rel_points = list(map(lambda x: utils.ceil_vector((x)*asf), [V2(136, 510), V2(145, 510), V2(149, 503), V2(146, 494), V2(115, 424), V2(104, 354), V2(114, 288), V2(145, 236), V2(186, 199), V2(225, 171), V2(231, 157), V2(226, 141), V2(210, 131), V2(191, 133), V2(165, 149), V2(114, 191), V2(80, 242), V2(62, 298), V2(60, 359), V2(75, 424), V2(100, 474), V2(118, 497)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
         # lower thing of left side ball guidence
         rel_points = list(map(lambda x: utils.ceil_vector(
@@ -157,21 +155,19 @@ class MainPinball(Scene):
 
         # left flipper extension
         rel_points = list(map(lambda x: utils.ceil_vector(
-            x*asf), [V2(45, 758), V2(43, 821), V2(51, 832), V2(162, 888), V2(177, 862), V2(68, 806), V2(53, 792)]))
+            x*asf), [V2(44, 787), V2(43, 821), V2(53, 838), V2(162, 889), V2(177, 862), V2(63, 807), V2(56, 800), V2(53, 787), V2(49, 785)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
         # right flipper extension
         rel_points = list(map(lambda x: utils.ceil_vector(
-            x*asf), [V2(559, 757), V2(558, 825), V2(548, 837), V2(437, 890), V2(423, 860), V2(538, 804), V2(550, 792)]))
+            x*asf), [V2(555, 787), V2(557, 821), V2(546, 838), V2(437, 889), V2(423, 862), V2(536, 807), V2(543, 800), V2(546, 787), V2(550, 785)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
 
         # obstacle above the left flipper extension
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(105, 729), V2(110, 746), V2(163, 774), V2(
-            179, 779), V2(191, 769), V2(193, 754), V2(140, 650), V2(127, 645), V2(114, 646), V2(105, 656)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(105, 729), V2(112, 748), V2(161, 774), V2(175, 779), V2(187, 774), V2(193, 766), V2(193, 754), V2(143, 656), V2(134, 646), V2(123, 643), V2(111, 647), V2(104, 659)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound).add_components(
             Bumper(bumper_strength), ChangeScore(20), ScaleRenderer(scale_duration, scale_strength)))
         # obstacle above the right flipper extension
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(498, 734), V2(491, 747), V2(433, 780), V2(
-            422, 779), V2(411, 770), V2(410, 752), V2(462, 653), V2(475, 645), V2(489, 647), V2(496, 658)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(495, 729), V2(488, 748), V2(439, 774), V2(424, 779), V2(412, 774), V2(406, 766), V2(407, 754), V2(457, 656), V2(465, 646), V2(476, 643), V2(489, 647), V2(495, 659)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound).add_components(
             Bumper(bumper_strength), ChangeScore(20), ScaleRenderer(scale_duration, scale_strength)))
 
@@ -182,21 +178,21 @@ class MainPinball(Scene):
             Bumper(bumper_strength), ChangeScore(10), ScaleRenderer(scale_duration, scale_strength)))
         # left side obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
-                          [V2(169, 410), V2(177, 394), V2(199, 396), V2(232, 457), V2(223, 476), V2(201, 473)]))
+                          [V2(169, 411), V2(174, 398), V2(185, 393), V2(199, 397), V2(232, 457), V2(228, 473), V2(216, 479), V2(201, 471)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound)
                             .add_components(Bumper(bumper_strength), ChangeScore(10), ScaleRenderer(scale_duration, scale_strength)))
         # right side obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
-                          [V2(480, 412), V2(471, 394), V2(451, 397), V2(417, 457), V2(426, 476), V2(447, 475)]))
+                          [V2(481, 411), V2(476, 398), V2(465, 393), V2(451, 397), V2(418, 457), V2(422, 473), V2(434, 479), V2(449, 471)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound).add_components(
             Bumper(bumper_strength), ChangeScore(10), ScaleRenderer(scale_duration, scale_strength)))
         # top left obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
-                          [V2(298, 104), V2(286, 116), V2(285, 174), V2(297, 188), V2(308, 175), V2(309, 116)]))
+                          [V2(291, 108), V2(285, 117), V2(285, 177), V2(292, 186), V2(303, 186), V2(309, 176), V2(309, 117), V2(304, 108)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
         # top right obstacle
         rel_points = list(map(lambda x: utils.ceil_vector((x)*asf),
-                          [V2(375, 106), V2(363, 118), V2(362, 175), V2(374, 188), V2(387, 177), V2(387, 119)]))
+                          [V2(379, 108), V2(385, 117), V2(385, 177), V2(378, 186), V2(367, 186), V2(361, 176), V2(361, 117), V2(366, 108)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
 
         # bumpers
@@ -217,8 +213,7 @@ class MainPinball(Scene):
 
 
         # teleporter
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
-                          [V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(518, 482), V2(557, 482), V2(602, 522), V2(601, 565)]))
         self.add_gameobject(Teleporter(self, rel_points, V2(337, 100)*asf))
 
         # springs
@@ -254,7 +249,7 @@ class MainPinball(Scene):
         """
 
         if self.score >= self.score_threshold:
-            self.add_ball()
+            self.add_ball(True)
             self.sound_manager.play_sfx(self.bonus_ball_sound)
             self.score_threshold *= 2.25
 
@@ -302,9 +297,12 @@ class MainPinball(Scene):
             element.update_events(events)
             element.draw()
 
-    def add_ball(self) -> None:
+    def add_ball(self, froced_spawn = False) -> None:
         """
         Adds a ball to the scene.
+
+        Arguments:
+            froced_spawn (bool): If the ball should be spawned even if there are no balls left.
 
         Returns:
             None
@@ -316,7 +314,7 @@ class MainPinball(Scene):
         height = self.screen.get_height()
         asf = Options().asf
         # .add_components(Tray(5, Color(200,200,200)))
-        self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf), radius=self.ball_radius))
+        self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf), radius=self.ball_radius, forced_spawn=froced_spawn))
 
     def pause(self, events: list[Event]) -> None:
         """

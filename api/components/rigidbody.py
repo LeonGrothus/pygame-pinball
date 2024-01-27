@@ -193,7 +193,7 @@ class Rigidbody(Component):
             # If the other object has a rotation speed, calculate the angular momentum
             if other_collider.parent.transform.do_smooth_rotation:
                 # Calculate the angular velocity vector
-                angular_velocity = normal * other_collider.parent.transform.rotation_speed/PADDLE_COLLISION_DAMPING * self.asf
+                angular_velocity = normal * (other_collider.parent.transform.rotation_speed*max(self.asf, 1))/PADDLE_COLLISION_DAMPING * self.asf
                 
                 # Add the angular momentum to the velocity of the ball
                 self.velocity = reflected_velocity + angular_velocity

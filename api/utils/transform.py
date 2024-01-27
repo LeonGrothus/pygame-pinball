@@ -38,7 +38,7 @@ class Transform:
 
         self.pos: Vector2 = Vector2()
 
-        self.rotation_speed: float = PADDLE_SPEED
+        self.rotation_speed: float = PADDLE_SPEED / max(Options().asf, 1)
         self.do_smooth_rotation: bool = False
         self.target_smooth_rotation: float = float("inf")
         self.rot: EventValue[float] = EventValue(0)

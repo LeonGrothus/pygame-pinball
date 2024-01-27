@@ -11,7 +11,7 @@ This file is ONLY intended to be used to create the mesh from the image_fit.png 
 pygame.init()
 
 # Define constants
-scale = 2
+scale = 4
 SCREEN_WIDTH = int(666 * scale)
 SCREEN_HEIGHT = int(1000 * scale)
 IMAGE_PATH = Path("image_fit.png")
@@ -28,10 +28,10 @@ pygame.display.set_caption("Image Rendering Scene")
 image = pygame.image.load(IMAGE_PATH)
 image = pygame.transform.scale(image, STRETCH_SIZE)
 
-flip_x = 600/2 * scale
+flip_x = 335 * scale
 
 # Default list of vectors
-default_vectors_str = "[V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(526, 163), V2(474, 130), V2(451, 134), V2(440, 152), V2(447, 172), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(518, 456), V2(520, 481), V2(535, 504), V2(557, 482), V2(598, 521), V2(578, 546), V2(600, 570), V2(600, 900), V2(555, 915), V2(361, 1000)]"
+default_vectors_str = "[V2(291, 108), V2(285, 117), V2(285, 177), V2(292, 186), V2(303, 186), V2(309, 176), V2(309, 117), V2(304, 108)]"
 
 # Extract the numbers from the string
 matches = re.findall(r'V2\((\d+), (\d+)\)', default_vectors_str)
