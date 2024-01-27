@@ -35,6 +35,7 @@ class JsonManager:
                 if not data:
                     self.save_json({})
                     return {}
+                print(data)
                 return json.loads(data)
         except Exception as e:
             print(f"File {path} was not found!")

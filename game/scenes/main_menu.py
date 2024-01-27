@@ -3,10 +3,9 @@ import sys
 from turtle import left
 from pygame import Color, Surface, Vector2
 import pygame
-from api.management.json_manager import JsonManager
+from api.management.image_manager import ImageManager
 from api.management.scene import BaseDisplay
 from pygame.event import Event
-from pygame.freetype import Font
 from api.ui.button import Button
 from api.ui.button_style import ButtonStyle
 from api.ui.panel import Panel, TextObject
@@ -26,7 +25,7 @@ class MainMenu(BaseDisplay):
         super().__init__(screen, scene_manager)
 
     def awake(self) -> None:
-        self.json_manager = JsonManager(PROJECT_PATH / Path("data.json"))
+        self.image_manager = ImageManager(PROJECT_PATH / Path("data.png"))
 
         asf = Options().asf
         user_name = Options().user_name
@@ -45,9 +44,9 @@ class MainMenu(BaseDisplay):
                                 inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
                                 text="New Game", font_size=button_font_size, on_click=self.new_game))
 
-        save_game = self.json_manager.load_json().get("save_game", None)
+        save_game = self.image_manager.load_json().get("save_game", None)
         resume_text = "Resume" if save_game else "No Safe"
-        resume_action = lambda: self.load_save_game(save_game) if save_game else lambda: None
+        resume_action = lambda: self.load_save_game() if save_game else lambda: None
         self.ui_elements.append(Button(self.screen, (1, .45), (1, 0), button_width, button_height,
                                        inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
                                        text=resume_text, font_size=button_font_size, on_click=resume_action))
@@ -94,9 +93,9 @@ class MainMenu(BaseDisplay):
         return super().unload()
     
     def new_game(self) -> None:
-        data = self.json_manager.load_json()
+        data = self.image_manager.load_json()
         data["save_game"] = {}
-        self.json_manager.save_json(data)
+        self.image_manager.save_json(data)
         self.scene_manager.change_scene("main_pinball")
     
     def load_save_game(self) -> None:
@@ -108,7 +107,7 @@ class MainMenu(BaseDisplay):
             Options().save()
 
     def load_scoreboard_entries(self):
-        json_manager = JsonManager(PROJECT_PATH / Path("data.json"))
+        json_manager = ImageManager(PROJECT_PATH / Path("data.png"))
         data = json_manager.load_json()
         if data is None:
             return []

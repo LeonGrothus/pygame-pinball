@@ -4,7 +4,7 @@ from pathlib import Path
 import pygame
 from pygame.event import Event
 from api.components.life_timer import LifeTimer
-from api.management.json_manager import JsonManager
+from api.management.image_manager import ImageManager
 from api.management.sound_manager import SoundManager
 
 from api.objects.game_object import GameObject
@@ -34,12 +34,9 @@ class BaseDisplay(ABC):
 class Scene(BaseDisplay, ABC):
     def __init__(self, screen: pygame.Surface, scene_manager) -> None:
         super().__init__(screen, scene_manager)
-        options = Options()
-
         self.active_balls = 0
         self.remaining_balls: int = 5
         self.score: int = 0
-        self.user_name: str = options.user_name
         self.object_counter: int = 0
         self.all_active_gos: list = []
         self.all_active_rbs: list = []
@@ -47,7 +44,11 @@ class Scene(BaseDisplay, ABC):
         self.game_manager: GameManager = None  # type: ignore
         self.sound_manager: SoundManager = SoundManager()
 
-        self.jm = JsonManager(PROJECT_PATH / Path("data.json"))
+        self.im = ImageManager(PROJECT_PATH / Path("data.png"))
+
+    def awake(self) -> None:
+        self.user_name: str = Options().user_name
+        return super().awake()
 
     def add_gameobject(self, game_object: GameObject) -> None:
         self.all_active_gos.append(game_object)
@@ -83,22 +84,22 @@ class Scene(BaseDisplay, ABC):
             "all_life_time_bumpers": [go.serialize() for go in self.all_active_gos if go.has_component_by_class(LifeTimer)],
         }
         
-        current_data = self.jm.load_json()
+        current_data = self.im.load_json()
         current_data["save_game"] = data
-        self.jm.save_json(current_data)
+        self.im.save_json(current_data)
 
     def save_score(self) -> None:
-        current_data = self.jm.load_json()
+        current_data = self.im.load_json()
 
         user_score = current_data.get("scoreboard", {}).get(self.user_name, 0)
         if user_score < self.score:
             current_data.setdefault("scoreboard", {})[self.user_name] = self.score
 
-        self.jm.save_json(current_data)
+        self.im.save_json(current_data)
 
     
     def deserialize(self):
-        json = self.jm.load_json()
+        json = self.im.load_json()
         data = json["save_game"]
         for game_object in self.all_active_gos:
             if game_object.has_component_by_class(LifeTimer):
@@ -119,7 +120,7 @@ class Scene(BaseDisplay, ABC):
             self.add_gameobject(game_object)
         
         json["save_game"] = {}
-        self.jm.save_json(json)
+        self.im.save_json(json)
         return self
 
     ### Methods to be extended by the user ###
