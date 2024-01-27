@@ -11,7 +11,7 @@ from api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
 from game.objects.wall import CircleWall
 from game.objects.ball import Ball
-from data.options import Options
+from api.management.options import Options
 
 class BaseDisplay(ABC):
     """

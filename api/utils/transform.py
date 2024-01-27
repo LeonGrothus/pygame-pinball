@@ -2,7 +2,7 @@ from pygame import Vector2
 
 from api.utils.event_value import EventValue
 from constants import PADDLE_SPEED, PTPF
-from data.options import Options
+from api.management.options import Options
 
 class Transform:
     """

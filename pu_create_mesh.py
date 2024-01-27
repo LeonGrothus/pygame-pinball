@@ -28,10 +28,10 @@ pygame.display.set_caption("Image Rendering Scene")
 image = pygame.image.load(IMAGE_PATH)
 image = pygame.transform.scale(image, STRETCH_SIZE)
 
-flip_x = 335 * scale
+flip_x = 300 * scale
 
 # Default list of vectors
-default_vectors_str = "[V2(291, 108), V2(285, 117), V2(285, 177), V2(292, 186), V2(303, 186), V2(309, 176), V2(309, 117), V2(304, 108)]"
+default_vectors_str = "[V2(25, 760)]"
 
 # Extract the numbers from the string
 matches = re.findall(r'V2\((\d+), (\d+)\)', default_vectors_str)

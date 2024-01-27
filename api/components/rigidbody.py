@@ -5,7 +5,7 @@ from api.components.collider import CircleCollider, Collider, PolygonCollider
 from api.components.component import Component
 from api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
-from data.options import Options
+from api.management.options import Options
 from api.utils.utils import clamp
 
 

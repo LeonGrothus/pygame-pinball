@@ -50,7 +50,8 @@ class Ball(GameObject):
             Rigidbody(),
             Renderer()
         )
-        self.scene.active_balls += 1
+        if not self.forced_spawn:
+            self.scene.active_balls += 1
 
         self.ball_destroyed_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/ball_destroyed.wav"))
 

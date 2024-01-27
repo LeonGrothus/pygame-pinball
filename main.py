@@ -3,7 +3,7 @@ import pygame
 from api.management.scene_manager import SceneManager
 from api.management.sound_manager import SoundManager
 import constants
-from data.options import Options
+from api.management.options import Options
 
 # Initialize PyGame
 pygame.init()

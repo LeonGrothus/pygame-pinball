@@ -2,7 +2,7 @@ import pygame
 import math
 
 from api.components.component import Component
-from data.options import Options
+from api.management.options import Options
 
 class SimpleMovement(Component):
     """

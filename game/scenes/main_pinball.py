@@ -21,7 +21,7 @@ from game.objects.teleporter import Teleporter
 from game.objects.wall import CircleWall, PolygonWall
 from game.scenes.submenus.end_menu import EndMenu
 from game.scenes.submenus.pause_menu import PauseMenu
-from data.options import Options
+from api.management.options import Options
 from scipy.ndimage.filters import gaussian_filter
 from api.utils import utils
 
@@ -208,7 +208,7 @@ class MainPinball(Scene):
         colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194), Color(2, 132, 207)]
         self.add_gameobject(CircleWall(self, V2(25, 760)*asf, 15*asf, ).add_components(
                             Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
-        self.add_gameobject(CircleWall(self, V2(575, 760)*asf, 15*asf).add_components(
+        self.add_gameobject(CircleWall(self, V2(578, 760)*asf, 15*asf).add_components(
                             Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
 
 
@@ -218,11 +218,11 @@ class MainPinball(Scene):
 
         # springs
         # left
-        self.add_gameobject(Spring(self, V2(20, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(23, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # right
         self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(530, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(532, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # center
         self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
         # tube 

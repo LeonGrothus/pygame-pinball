@@ -14,7 +14,7 @@ from api.ui.text_box import TextBox
 from api.ui.ui_element_base import UIElementBase
 
 from constants import DEFAULT_BUTTON_STYLE, PROJECT_PATH
-from data.options import Options
+from api.management.options import Options
 
 
 class MainMenu(BaseDisplay):
