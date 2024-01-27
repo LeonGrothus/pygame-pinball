@@ -9,7 +9,6 @@ from api.components.change_score import ChangeScore
 from api.components.life_timer import LifeTimer
 from api.components.scale_renderer import ScaleRenderer
 from api.components.simple_movement import SimpleMovement
-from api.components.tray import Tray
 from api.management.scene import Scene
 from api.ui.text import Text
 from api.ui.ui_element_base import UIElementBase
@@ -28,7 +27,44 @@ from api.utils import utils
 
 
 class MainPinball(Scene):
+    """
+    A class to represent the main pinball scene. This class is used to create the main pinball scene.
+
+    Attributes:
+        screen (Surface): The screen to draw the scene on.
+        scene_manager (SceneManager): The scene manager.
+        ui_elements (list): A list of UI elements.
+        left_flipper (Flipper): The left flipper.
+        right_flipper (Flipper): The right flipper.
+        blured (Surface): The blured background.
+        flipper_sound (pygame.mixer.Sound): The sound to play when the flipper is hit.
+        spawn_ball_sound (pygame.mixer.Sound): The sound to play when a ball is spawned.
+        game_over_sound (pygame.mixer.Sound): The sound to play when the game is over.
+        bonus_ball_sound (pygame.mixer.Sound): The sound to play when a bonus ball is spawned.
+        score_threshold (int): The score threshold to spawn a bonus ball.
+        
+    Methods:
+        __init__(self, screen: Surface, scene_manager)
+        awake(self)
+        update(self, delta_time: float, events: list[Event])
+        add_ball(self)
+        pause(self, events: list[Event])
+        unpause(self)
+        change_scene(self, scene_name: str)
+        get_blured(self, events: list[Event])
+        game_ended(self, events: list[Event])
+        unload(self)
+    """
+
     def __init__(self, screen: pygame.Surface, scene_manager):
+        """
+        Creates the main pinball scene.
+
+        Arguments:
+            screen (Surface): The screen to draw the scene on.
+            scene_manager (SceneManager): The scene manager.
+        """
+
         super().__init__(screen, scene_manager)
 
         self.left_flipper: Flipper = None  # type: ignore
@@ -46,6 +82,13 @@ class MainPinball(Scene):
 
 
     def awake(self) -> None:
+        """
+        Creates the main pinball scene.
+
+        Returns:
+            None
+        """
+
         bumper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper.wav"))
         bumper_sound01 = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper01.wav"))
 
@@ -199,6 +242,17 @@ class MainPinball(Scene):
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:
+        """
+        Updates the main pinball scene.
+
+        Arguments:
+            delta_time (float): The time since the last frame.
+            events (list): A list of pygame events.
+
+        Returns:
+            None
+        """
+
         if self.score >= self.score_threshold:
             self.add_ball()
             self.sound_manager.play_sfx(self.bonus_ball_sound)
@@ -210,46 +264,53 @@ class MainPinball(Scene):
             self.game_ended(events)
 
         for event in events:
-            if event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_ESCAPE:
+            if event.type == pygame.KEYDOWN: # flipper rotation
+                if event.key == pygame.K_ESCAPE: # pause
                     if self.paused:
                         self.unpause()
                     else:
                         self.pause(events)
 
-                elif event.key == pygame.K_LEFT:
+                elif event.key == pygame.K_LEFT: # left flipper
                     self.left_flipper.transform.init_smooth_rotation(-10)
                     self.sound_manager.play_sfx(self.flipper_sound)
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT: # right flipper
                     self.right_flipper.transform.init_smooth_rotation(190)
                     self.sound_manager.play_sfx(self.flipper_sound)
-                elif event.key == pygame.K_SPACE:
-                    if self.remaining_balls > 0 and self.active_balls <= 0:
+                elif event.key == pygame.K_SPACE: # plunger
+                    if self.remaining_balls > 0 and self.active_balls <= 0: # if there are balls left and no active balls
                         self.add_ball()
 
-            elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_LEFT:
+            elif event.type == pygame.KEYUP: # stop flipper rotation
+                if event.key == pygame.K_LEFT: # left flipper
                     self.left_flipper.transform.init_smooth_rotation(30)
 
-                elif event.key == pygame.K_RIGHT:
+                elif event.key == pygame.K_RIGHT: # right flipper
                     self.right_flipper.transform.init_smooth_rotation(150)
 
-        if self.paused:
+        if self.paused: # if the game is paused, update the pause menu
             return self.pause_menu.update(events, self.blured)
 
-        if self.end_game:
+        if self.end_game: # if the game is over, update the end menu
             return self.end_menu.update(events, self.blured)
 
-        super().update(0 if (self.paused or self.end_game) else delta_time, events)
-        if self.paused:
+        super().update(0 if (self.paused or self.end_game) else delta_time, events) # update the scene
+        if self.paused:  # if the game is paused, return
             return
 
-        for element in self.ui_elements:
+        for element in self.ui_elements: # update the ui elements
             element.update_events(events)
             element.draw()
 
     def add_ball(self) -> None:
-        self.sound_manager.play_sfx(self.spawn_ball_sound)
+        """
+        Adds a ball to the scene.
+
+        Returns:
+            None
+        """
+
+        self.sound_manager.play_sfx(self.spawn_ball_sound) 
         self.remaining_balls -= 1
         width = self.screen.get_width()
         height = self.screen.get_height()
@@ -258,26 +319,64 @@ class MainPinball(Scene):
         self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf), radius=self.ball_radius))
 
     def pause(self, events: list[Event]) -> None:
+        """
+        Pauses the game.
+
+        Arguments:
+            events (list): A list of pygame events.
+
+        Returns:
+            None
+        """
+
         # Update need to be called so that all objects are visible in the background
-        self.blured = self.get_blured(events)
-        self.paused = True
+        self.blured = self.get_blured(events) # get the blured background
+        self.paused = True # pause the game
 
     def unpause(self) -> None:
+        """
+        Unpauses the game.
+
+        Returns:
+            None
+        """
+
         self.paused = False
 
     def change_scene(self, scene_name: str) -> None:
+        """
+        Changes the scene.
+
+        Arguments:
+            scene_name (str): The name of the scene to change to.
+
+        Returns:
+            None
+        """
+
         self.serialize()
         self.scene_manager.change_scene(scene_name)
 
     def get_blured(self, events: list[Event]) -> Surface:
-        super().update(0, events)
-        for element in self.ui_elements:
-            element.update_events(events)
-            element.draw()
-        background = self.screen.copy()
+        """
+        Gets the blured background.
+
+        Arguments:
+            events (list): A list of pygame events.
+
+        Returns:
+            Surface: The blured background.
+        """
+
+        # Update need to be called so that all objects are visible in the background
+        super().update(0, events) # update the scene
+        for element in self.ui_elements: # update the ui elements
+            element.update_events(events) # update the ui elements
+            element.draw() # draw the ui elements
+        background = self.screen.copy() # copy the screen to a surface
         radius = Options().asf * 10
 
-        # Convert the surface to a numpy array
+        # Convert the surface to an array
         array = pygame.surfarray.pixels3d(background)
 
         # Apply a Gaussian blur to the array
@@ -285,9 +384,19 @@ class MainPinball(Scene):
 
         # Convert the blurred array back to a surface
         blurred_surface = pygame.surfarray.make_surface(blurred_array)
-        return blurred_surface
+        return blurred_surface # return the blurred surface
 
     def game_ended(self, events: list[Event]) -> None:
+        """
+        Ends the game.
+
+        Arguments:
+            events (list): A list of pygame events.
+
+        Returns:
+            None
+        """
+
         self.end_menu = EndMenu(self.screen, self.scene_manager, self.score)
         self.end_game = True
         self.blured = self.get_blured(events)
@@ -295,5 +404,11 @@ class MainPinball(Scene):
         self.sound_manager.play_sfx(self.game_over_sound)
 
     def unload(self) -> None:
+        """
+        Unloads the main pinball scene.
+
+        Returns:
+            None
+        """
         self.ui_elements.clear()
         return super().unload()

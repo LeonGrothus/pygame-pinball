@@ -7,7 +7,34 @@ from options import Options
 
 
 class Flipper(GameObject):
-    def __init__(self, scene, pos: Vector2, initial_angle: float, color: Color = Color(255, 255, 255)):
+    """
+    A class to represent a Flipper. A Flipper is a GameObject that is used to hit the ball.
+
+    Attributes:
+        scene: Scene, the scene of the Flipper
+        pos: Vector2, the position of the Flipper
+        color: Color, the color of the Flipper
+        initial_angle: float, the initial angle of the Flipper
+
+    Methods:
+        __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25)
+        on_destroy(self)
+        on_update(self, delta_time: float)
+        serialize(self) -> dict
+        deserialize(self, data: dict) -> 'Ball'
+        hide_ball(self)
+    """
+
+    def __init__(self, scene, pos: Vector2, initial_angle: float, color: Color = Color(255, 255, 255)) -> None:
+        """
+        Inits Flipper with pos, color and radius
+
+        Arguments:
+            scene: Scene, the scene of the Flipper
+            pos: Vector2, the position of the Flipper
+            color: Color, the color of the Flipper
+            initial_angle: float, the initial angle of the Flipper
+        """
         super().__init__(pos, 10, scene)
 
         points: list[Vector2] = [

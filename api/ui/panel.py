@@ -9,13 +9,53 @@ from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
 
 class TextObject:
-    def __init__(self, text, color=(255, 255, 255), font_size=None):
+    """
+    A class to represent a text object. Used by the Panel class as data structure.
+
+    Attributes:
+        text (str): The text to display.
+        color (Color): The color of the text.
+        font_size (int): The size of the font.
+
+    Methods:
+        __init__(self, text: str, color: Color = (255, 255, 255), font_size: int = None)
+    """
+    def __init__(self, text, color=(255, 255, 255), font_size=None) -> None:
+        """
+        Creates a text object.
+
+        Parameters:
+            text (str): The text to display.
+            color (Color): The color of the text.
+            font_size (int): The size of the font.
+        """
         self.text = text
         self.color = color
         self.font_size = font_size
 
 
 class Panel(UIElementBase):
+    """
+    A class to represent a panel.
+
+    This class is used to create panels. A panel is a UI element that can display text.
+
+    Attributes:
+        panel_style (ButtonStyle): The style of the panel.
+        background (Surface): The background of the panel.
+        margin (int): The margin between the text objects and the panel.
+        text_objects (list[TextObject]): The text objects to display on the panel.
+        font (Font): The font to use for the text objects.
+        text_surfaces (list[Surface]): The precomputed text surfaces.
+
+    Methods:
+        __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs)
+        add_text_object(self, text_object: TextObject)
+        _scale_and_precompute_text(self, text_object: TextObject)
+        draw(self)
+        update_events(self, pygame_events)
+    """
+
     def __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs):
         """
         Creates a panel.

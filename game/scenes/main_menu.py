@@ -14,18 +14,54 @@ from api.ui.text_box import TextBox
 from api.ui.ui_element_base import UIElementBase
 
 from constants import DEFAULT_BUTTON_STYLE, PROJECT_PATH
-from options import Options
+from data.options import Options
 
 
 class MainMenu(BaseDisplay):
+    """
+    A class to represent the main menu. This class is used to create the main menu.
+
+    Attributes:
+        screen (Surface): The screen to draw the menu on.
+        scene_manager (SceneManager): The scene manager.
+        ui_elements (list): A list of UI elements.
+        button_style (ButtonStyle): The style of the buttons.
+        image_manager (ImageManager): The image manager.
+
+    Methods:
+        __init__(self, screen: Surface, scene_manager)
+        awake(self)
+        update(self, delta_time: float, events: list[Event])
+        unload(self)
+        new_game(self)
+        load_save_game(self)
+        save_user_name(self, user_name: str)
+        load_scoreboard_entries(self)
+        _quit(self)
+    """
     def __init__(self, screen: Surface, scene_manager) -> None:
+        """
+        Creates the main menu.
+
+        Arguments:
+            screen (Surface): The screen to draw the menu on.
+            scene_manager (SceneManager): The scene manager.
+        """
+        
         self.button_style = ButtonStyle(DEFAULT_BUTTON_STYLE)
         self.ui_elements: list[UIElementBase] = []
 
         super().__init__(screen, scene_manager)
 
     def awake(self) -> None:
-        self.image_manager = ImageManager(PROJECT_PATH / Path("data.png"))
+        """
+        Creates the main menu.
+
+        Returns:
+            None
+        """
+
+        self.image_manager = ImageManager(PROJECT_PATH / Path("data/data.png"))
 
         asf = Options().asf
         user_name = Options().user_name
@@ -82,6 +118,17 @@ class MainMenu(BaseDisplay):
         return super().awake()
 
     def update(self, delta_time: float, events: list[Event]) -> None:
+        """
+        Updates the main menu.
+
+        Arguments:
+            delta_time (float): The time since the last frame.
+            events (list[Event]): The events that happened since the last frame.
+
+        Returns:
+            None
+        """
+
         for element in self.ui_elements:
             element.draw()
             element.update_events(events)
@@ -89,16 +136,37 @@ class MainMenu(BaseDisplay):
         return super().update(delta_time, events)
 
     def unload(self) -> None:
+        """
+        Unloads the main menu.
+
+        Returns:
+            None
+        """
+
         self.ui_elements.clear()
         return super().unload()
     
     def new_game(self) -> None:
+        """
+        Starts a new game.
+
+        Returns:
+            None
+        """
+
         data = self.image_manager.load_json()
         data["save_game"] = {}
         self.image_manager.save_json(data)
         self.scene_manager.change_scene("main_pinball")
     
     def load_save_game(self) -> None:
+        """
+        Loads the save game.
+
+        Returns:
+            None
+        """
+
         self.scene_manager.change_scene("main_pinball").deserialize()
     
     def save_user_name(self, user_name: str) -> None:
@@ -106,22 +174,33 @@ class MainMenu(BaseDisplay):
             Options().user_name = user_name
             Options().save()
 
-    def load_scoreboard_entries(self):
-        json_manager = ImageManager(PROJECT_PATH / Path("data.png"))
-        data = json_manager.load_json()
-        if data is None:
-            return []
+    def load_scoreboard_entries(self) -> list[TextObject]:
+        """
+        Loads the scoreboard entries.
 
-        entries = data.get('scoreboard', {})
-        entries = dict(sorted(entries.items(), key=lambda x:x[1], reverse=True))
-        text_objects = []
-        for i, entry in enumerate(entries, start=1):
-            text = f"{i:02}: {entry}: {entries[entry]}"
-            text_object = TextObject(text, font_size=None, color=(255, 255, 255))
-            text_objects.append(text_object)
+        Returns:
+            list: A list of scoreboard entries.
+        """
+        data = self.image_manager.load_json()
+        if data is None: # if there is no data, return an empty list
+            return []
+ 
+        entries = data.get('scoreboard', {}) # get the scoreboard entries
+        entries = dict(sorted(entries.items(), key=lambda x:x[1], reverse=True)) # sort the entries by score
+        text_objects = [] # create a list of text objects
+        for i, entry in enumerate(entries, start=1): # iterate over the entries
+            text = f"{i:02}: {entry}: {entries[entry]}" # create the text
+            text_object = TextObject(text, font_size=None, color=(255, 255, 255)) # create the text object
+            text_objects.append(text_object) # append the text object to the list
 
         return text_objects
 
-    def _quit(self):
+    def _quit(self) -> None:
+        """
+        Quits the game.
+
+        Returns:
+            None
+        """
         pygame.quit()
         sys.exit()

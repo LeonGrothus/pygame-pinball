@@ -10,6 +10,20 @@ from typing import Tuple
 
 
 class ButtonStyle:
+    """
+    A class to represent a button style.
+
+    This class is used to create buttons with a specific style. The style is loaded from a folder containing the tile images.
+
+    Attributes:
+        tiles (List[Surface]): The tiles used to create the buttons.
+
+    Methods:
+        __init__(self, folder_path: Path)
+        create_button(self, size: Tuple[int, int], left_sided=False, right_sided=False, top_sided=False, bottom_sided=False, tint=None, gamma: float=0) -> Surface
+        create_button_set(self, size: Tuple[int, int], gamma_offset: float, num_buttons: int, **kwargs) -> Tuple[Surface, ...]
+    """
+
     def __init__(self, folder_path: Path):
         """
         Initializes a new instance of the ButtonStyle class.

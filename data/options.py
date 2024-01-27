@@ -6,6 +6,8 @@ from constants import PROJECT_PATH
 # Singelton
 class Options:
     """
+    Singleton class to represent the options.
+
     A class to represent the options.
 
     This class is a singleton and can be accessed by calling Options().
@@ -15,6 +17,12 @@ class Options:
         master_volume (float): The master volume.
         music_volume (float): The music volume.
         sfx_volume (float): The sound effects volume.
+
+    Methods:
+        __new__(cls) -> 'Options'
+        init(self) -> None
+        load(self) -> None
+        save(self) -> None
     """
 
     _instance = None
@@ -41,7 +49,7 @@ class Options:
             None
         """
         self.sound_manager = SoundManager()
-        self.json_manager = JsonManager(PROJECT_PATH  / Path("options.json"))
+        self.json_manager = JsonManager(PROJECT_PATH  / Path("data/options.json"))
         self.load()
 
     def load(self) -> None:

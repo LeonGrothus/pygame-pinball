@@ -7,10 +7,36 @@ from api.components.collider import CircleCollider
 from api.components.rigidbody import Rigidbody
 from api.components.renderer import Renderer
 from constants import ASSETS_PATH
-from options import Options
+
 
 class Ball(GameObject):
-    def __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25):
+    """
+    A class to represent a Ball. A Ball is a GameObject that is used to destroy bricks and bounce off the paddle.
+
+    Attributes:
+        radius: int, the radius of the ball
+        hide: bool, whether the ball is hidden
+
+    Methods:
+        __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25)
+        on_destroy(self)
+        on_update(self, delta_time: float)
+        serialize(self) -> dict
+        deserialize(self, data: dict) -> 'Ball'
+        hide_ball(self)
+    """
+
+    def __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25) -> None:
+        """
+        Inits Ball with pos, color and radius
+
+        Arguments:
+            scene: Scene, the scene of the Ball
+            pos: Vector2, the position of the Ball
+            color: Color, the color of the Ball
+            radius: int, the radius of the Ball
+        """
+
         self.radius = radius
         self.hide = False
         super().__init__(pos, 5, scene)
@@ -24,20 +50,44 @@ class Ball(GameObject):
         self.scene.active_balls += 1
 
         self.ball_destroyed_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/ball_destroyed.wav"))
-    
-    def on_destroy(self):
+
+    def on_destroy(self) -> None:
+        """
+        Plays the ball_destroyed_sound and decreases the amount of active balls
+
+        Returns:
+            None
+        """
+
         self.sound_manager.play_sfx(self.ball_destroyed_sound)
         self.scene.active_balls -= 1
         return super().on_destroy()
-    
-    def on_update(self, delta_time: float):
+
+    def on_update(self, delta_time: float) -> None:
+        """
+        Overrides the on_update method of GameObject. If the ball is hidden, it does not update.
+
+        Arguments:
+            delta_time: float, the time since the last frame
+
+        Returns:
+            None
+        """
+
         if self.hide:
             return
         if self.transform.pos.y > self.scene.screen.get_height() + self.radius/2:
             self.on_destroy()
         return super().on_update(delta_time)
-    
-    def serialize(self):
+
+    def serialize(self) -> dict:
+        """
+        Serializes the Ball
+
+        Returns:
+            dict: the serialized Ball
+        """
+
         return {
             self.__class__.__name__: {
                 "components": {c.__class__.__name__: c.serialize() for c in self.components},
@@ -45,7 +95,17 @@ class Ball(GameObject):
             }
         }
 
-    def deserialize(self, data):
+    def deserialize(self, data) -> 'Ball':
+        """
+        Deserializes the Ball
+
+        Arguments:
+            data: dict, the serialized Ball
+
+        Returns:
+            Ball: the deserialized Ball
+        """
+
         self.components.clear()
         self.transform.deserialize(data["transform"])
         components = []
@@ -55,9 +115,13 @@ class Ball(GameObject):
             components.append(component)
         self.add_components(*components)
         return self
-    
+
     def hide_ball(self):
+        """
+        Hides the ball
+
+        Returns:
+            None
+        """
         self.transform.pos = Vector2(-100, -100)
         self.hide = True
-    
-    

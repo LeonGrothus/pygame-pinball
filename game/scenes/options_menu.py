@@ -30,6 +30,17 @@ class OptionsMenu(BaseDisplay):
         new_music_volume (float): The new music volume.
         new_sfx_volume (float): The new sfx volume.
         asf (float): The global scale.
+
+    Methods:
+        __init__(self, screen: Surface, scene_manager)
+        awake(self)
+        update(self, delta_time: float, events: list[Event])
+        unload(self)
+        set_master_volume(self, value: float)
+        set_music_volume(self, value: float)
+        set_sfx_volume(self, value: float)
+        set_global_scale(self, value: float)
+        _apply_changes(self)
     """
 
     def __init__(self, screen: Surface, scene_manager) -> None:

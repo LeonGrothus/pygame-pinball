@@ -8,6 +8,32 @@ from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE
 import api.utils.utils as utils
 
 class Slider(UIElementBase):
+    """
+    A class to represent a button.
+
+    This class is used to create buttons. The button can be clicked and has a text.
+
+    Attributes:
+        inactive_button (Surface): The image of the button when it is inactive.
+        hover_button (Surface): The image of the button when the mouse is hovering over it.
+        pressed_button (Surface): The image of the button when it is pressed.
+        on_click (Callable): The function to call when the button is clicked.
+        text_color (Color): The color of the text.
+        font_size (int): The size of the font.
+        text (str): The text of the button.
+        font (Font): The font of the text.
+        text_y_align (str): The vertical alignment of the text.
+        text_x_align (str): The horizontal alignment of the text.
+        margin (int): The margin between the text and the edge of the button.
+
+    Methods:
+        __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs)
+        update_events(self, pygame_events)
+        draw(self)
+        set_text(self, text: str)
+        set_font_size(self, font_size: int)
+    """
+
     def __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], width: int, height: int, **kwargs):
         """
         Creates a button.

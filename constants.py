@@ -1,21 +1,25 @@
 from pathlib import Path
 from pygame import Vector2
 
-GRAVITY = Vector2(0, 666)
+"""
+A file to store constants in
+"""
 
-COLLISION_FRICTION = 0.1
-AIR_FRICTION = 0.008
+GRAVITY = Vector2(0, 666) # Gravity applied to all objects
+
+COLLISION_FRICTION = 0.1 # Friction applied when the object is colliding
+AIR_FRICTION = 0.008 # Friction applied when the object is in the air
 
 PADDLE_SPEED = 666  # degrees per second
-PADDLE_COLLISION_DAMPING = .66
+PADDLE_COLLISION_DAMPING = .66 # Factor to scale the velocity with when the paddle is hit
 
 
-FRAMERATE = 60
+FRAMERATE = 60 # Frames per second
 PTPF = 12 # Physics ticks per frame
-DELTA_TIME = (1 / FRAMERATE)
+DELTA_TIME = (1 / FRAMERATE) # Delta time for updates
 
-PROJECT_PATH: Path = Path(__file__).parents[0]
-ASSETS_PATH = PROJECT_PATH / Path("assets")
+PROJECT_PATH: Path = Path(__file__).parents[0] # Path to the project directory
+ASSETS_PATH = PROJECT_PATH / Path("assets") # Path to the assets directory
 
-DEFAULT_BUTTON_STYLE = ASSETS_PATH / Path("buttons/default_style")
-DEFAULT_FONT = ASSETS_PATH / Path("fonts/Tektur-Regular.ttf")
+DEFAULT_BUTTON_STYLE = ASSETS_PATH / Path("buttons/default_style") # Path to the default button style
+DEFAULT_FONT = ASSETS_PATH / Path("fonts/Tektur-Regular.ttf") # Path to the default font

@@ -1,13 +1,11 @@
 import math
-from pathlib import Path
-from time import sleep
 from pygame import Surface
 import pygame
 from api.ui.ui_element_base import UIElementBase
 from pygame.freetype import Font
-from api.utils.event_value import EventValue 
+from api.utils.event_value import EventValue
 
-from constants import ASSETS_PATH, DEFAULT_FONT
+from constants import DEFAULT_FONT
 
 
 class Text(UIElementBase):
@@ -21,12 +19,20 @@ class Text(UIElementBase):
         font (Font): The font to use for the text.
         font_size (int): The size of the font.
         color (Tuple[int, int, int]): The color of the text.
+
+    Methods:
+        __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], **kwargs)
+        update_text(self, text)
+        calculate_font_size(self)
+        draw(self)
+        update_events(self, pygame_events)
     """
+
     def __init__(self, screen: Surface, rel_pos: tuple[float, float], rel_pos_self: tuple[float, float], **kwargs):
         """
         Initializes a Text object with the given position, surface, and keyword arguments.
 
-        Parameters:
+        Arguments:
             screen (Surface): The screen to draw the Text on.
             rel_pos (tuple): The position of the UI element relative to the size of the screen.
             rel_pos_self (tuple): The position of the UI element relative to its own size.
@@ -65,41 +71,61 @@ class Text(UIElementBase):
 
     def update_text(self, text) -> None:
         """
-        Updates the text surface.
+        Updates the text surface. Should be called whenever the text changes.
+
+        Arguments:
+            text (str): The new text to display.
 
         Returns:
             None
         """
-        rect = self.font.get_rect(text, size=self.font_size)
+        rect = self.font.get_rect(text, size=self.font_size)  # Get the size of the text
         self._width = rect.width
         self._height = rect.height
+        # Create a new surface with the new size
         self.text_surface = pygame.Surface((self._width, self._height), pygame.SRCALPHA)
-        self.font.render_to(self.text_surface, (0, 0), text, fgcolor=self.color, size=self.font_size)
-    
-    def calculate_font_size(self):
-        font_size = 1
-        text_rect = self.font.get_rect(self.text.value, size=font_size)
-        text_width, text_height = text_rect.size
+        self.font.render_to(self.text_surface, (0, 0), text, fgcolor=self.color,
+                            size=self.font_size)  # Render the text onto the surface
 
-        desired_width =  math.inf if self.desired_width is None else self.desired_width
+    def calculate_font_size(self) -> int:
+        """
+        Calculates the font size based on the desired width and height.
+
+        Returns:
+            int: The font size.
+        """
+
+        font_size = 1  # Start with a font size of 1
+        text_rect = self.font.get_rect(self.text.value, size=font_size)  # Get the size of the text
+        text_width, text_height = text_rect.size  # Get the width and height of the text
+
+        # If the desired width is not given, set it to infinity
+        desired_width = math.inf if self.desired_width is None else self.desired_width
+        # If the desired height is not given, set it to infinity
         desired_height = math.inf if self.desired_height is None else self.desired_height
 
-        while text_width < desired_width and text_height < desired_height:
-            font_size += 1
-            text_rect = self.font.get_rect(self.text.value, size=font_size)
-            text_width, text_height = text_rect.size
-        return font_size - 1
+        while text_width < desired_width and text_height < desired_height:  # While the text is smaller than the desired size
+            font_size += 1  # Increase the font size by 1
+            text_rect = self.font.get_rect(self.text.value, size=font_size)  # Get the size of the text
+            text_width, text_height = text_rect.size  # Get the width and height of the text
+        return font_size - 1  # Return the font size minus 1
 
-    def draw(self):
+    def draw(self) -> None:
         """
         Draws the text on the surface.
 
         This method uses the font, text, and color attributes to render the text and then blits it onto the surface.
+
+        Returns:
+            None
         """
-        self.screen.blit(self.text_surface, (self._x, self._y))    
-    
+        self.screen.blit(self.text_surface, (self._x, self._y))
+
     def update_events(self, pygame_events) -> None:
         return super().update_events(pygame_events)
+
+### Test Code ###
+
 
 if __name__ == "__main__":
     pygame.init()

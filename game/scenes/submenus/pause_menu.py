@@ -12,7 +12,32 @@ from options import Options
 
 
 class PauseMenu:
+    """
+    A class to represent the pause menu.
+
+    This class is used to create the pause menu. The pause menu is shown when the player pauses the game.
+
+    Attributes:
+        screen (Surface): The screen to draw the menu on.
+        ui_elements (list): A list of UI elements.
+        font (Font): The font of the text.
+        button_style (ButtonStyle): The style of the buttons.
+
+    Methods:
+        __init__(self, screen: Surface, options_action: Callable, resume_action: Callable, main_menu_action: Callable)
+        update(self, events: list[Event], background: Surface)
+    """
+
     def __init__(self, screen: Surface, options_action: Callable, resume_action: Callable, main_menu_action: Callable) -> None:
+        """
+        Creates the pause menu.
+
+        Arguments:
+            screen (Surface): The screen to draw the menu on.
+            options_action (Callable): The function to call when the options button is clicked.
+            resume_action (Callable): The function to call when the resume button is clicked.
+            main_menu_action (Callable): The function to call when the main menu button is clicked.
+        """
         self.screen: Surface = screen
 
         self.ui_elements: list[UIElementBase] = []
@@ -44,6 +69,13 @@ class PauseMenu:
                                        text="Menu", font_size=button_font_size, on_click=main_menu_action))
 
     def update(self, events: list[Event], background: Surface) -> None:
+        """
+        Updates the pause menu.
+
+        Arguments:
+            events (list): A list of pygame events.
+            background (Surface): The background to draw on the screen.
+        """
         self.screen.blit(background, (0, 0))
         for element in self.ui_elements:
             element.update_events(events)

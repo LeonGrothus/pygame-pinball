@@ -4,13 +4,39 @@ from pygame import Surface
 
 
 class UIElementBase(ABC):
-    def __init__(self, screen: Surface, rel_pos: tuple[float, float], width: int, height: int, rel_pos_self: tuple[float, float] = (0, 0)):
+    """
+    A class to represent a UI element. A UI element is an element in the UI. A UI element can be updated and drawn.
+    This is the base class for all UI elements.
+
+    Attributes:
+        screen (Surface): The screen where the UI element will be displayed.
+        _rel_pos (tuple): The position of the UI element relative to the size of the screen.
+        _rel_pos_self (tuple): The position of the UI element relative to its own size.
+        _width (int): The width of the UI element.
+        _height (int): The height of the UI element.
+        _x (int): The x-coordinate of the UI element.
+        _y (int): The y-coordinate of the UI element.
+
+    Methods:
+        __init__(self, screen: Surface, rel_pos: tuple[float, float], width: int, height: int, rel_pos_self: tuple[float, float] = (0, 0))
+        update_events(self, pygame_events)
+        draw(self)
+        contains(self, x: int, y: int)
+        move_to_rel(self, rel_x: float, rel_y: float)
+        get_rel_pos(self)
+        get_rel_pos_self(self)
+        get_y(self)
+        get_width(self)
+        get_height(self)
+    """
+
+    def __init__(self, screen: Surface, rel_pos: tuple[float, float], width: int, height: int, rel_pos_self: tuple[float, float] = (0, 0)) -> None:
         """
         Initializes a new instance of the UIElementBase class.
 
         This method sets the screen where the UI element will be displayed and its relative position and size.
 
-        Parameters:
+        Arguments:
             screen (Surface): The screen where the UI element will be displayed.
             rel_pos (tuple): The position of the UI element relative to the size of the screen.
             width (int): The width of the UI element.
@@ -32,7 +58,7 @@ class UIElementBase(ABC):
 
         This method must be overridden in derived classes.
 
-        Parameters:
+        Arguments:
             pygame_events (list): A list of pygame events occurred in the last frame.
         """
         pass
@@ -43,6 +69,12 @@ class UIElementBase(ABC):
         Draws the UI element.
 
         This method must be overridden in derived classes.
+
+        Arguments:
+            None
+
+        Returns:
+            None
         """
         pass
 
@@ -63,7 +95,7 @@ class UIElementBase(ABC):
         """
         Moves the UI element to the given relative position.
 
-        Parameters:
+        Arguments:
             rel_x (float): The x-coordinate of the new position relative to the size of the screen.
             rel_y (float): The y-coordinate of the new position relative to the size of the screen.
         """
@@ -72,9 +104,7 @@ class UIElementBase(ABC):
         self._x = int(self.screen.get_width() * self._rel_x)
         self._y = int(self.screen.get_height() * self._rel_y)
 
-    ###############
     ### Getters ###
-    ###############
 
     def get_rel_pos(self) -> tuple:
         """

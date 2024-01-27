@@ -3,6 +3,10 @@ import sys
 import re
 from pathlib import Path
 
+"""
+This file is ONLY intended to be used to create the mesh from the image_fit.png file. It has no other purpose.
+"""
+
 # Initialize Pygame
 pygame.init()
 
@@ -38,8 +42,18 @@ click_positions = default_vectors
 dragged_point = None
 show_circles = True
 
-def point_line_distance(point, line_start, line_end):
-    """Calculate the minimum distance between a point and a line segment."""
+def point_line_distance(point, line_start, line_end) -> float:
+    """
+    Calculate the distance between a point and a line segment.
+
+    Arguments:
+        point (Vector2): The point
+        line_start (Vector2): The start of the line segment
+        line_end (Vector2): The end of the line segment
+
+    Returns:
+        float: The distance between the point and the line segment
+    """
     line_length = (line_end - line_start).length()
     if line_length == 0:
         return (point - line_start).length()
@@ -53,42 +67,42 @@ while True:
         if event.type == pygame.QUIT:
             pygame.quit()
             sys.exit()
-        elif event.type == pygame.MOUSEBUTTONDOWN:
-            mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-            for i, pos in enumerate(click_positions):
-                if (pos - mouse_pos).length() <= POINT_RADIUS:
-                    dragged_point = i
+        elif event.type == pygame.MOUSEBUTTONDOWN: # If the mouse is clicked
+            mouse_pos = pygame.Vector2(pygame.mouse.get_pos()) # Get the mouse position
+            for i, pos in enumerate(click_positions): # Loop through all the points
+                if (pos - mouse_pos).length() <= POINT_RADIUS: # If the mouse is close to a point
+                    dragged_point = i # Set the dragged point to the index of the point
                     break
             else:
                 # Save the mouse position when clicking
                 click_positions.append(mouse_pos)
-        elif event.type == pygame.MOUSEBUTTONUP:
-            dragged_point = None
-        elif event.type == pygame.MOUSEMOTION and dragged_point is not None:
-            click_positions[dragged_point] = pygame.Vector2(pygame.mouse.get_pos())
-        elif event.type == pygame.KEYDOWN:
-            if event.key == pygame.K_DELETE or event.key == pygame.K_KP_MINUS or event.key == pygame.K_MINUS:
-                mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-                for i, pos in enumerate(click_positions):
-                    if (pos - mouse_pos).length() <= POINT_RADIUS:
-                        del click_positions[i]
-                        break
+        elif event.type == pygame.MOUSEBUTTONUP: # If the mouse is released
+            dragged_point = None # Stop dragging the point
+        elif event.type == pygame.MOUSEMOTION and dragged_point is not None: # If the mouse is moved and a point is being dragged
+            click_positions[dragged_point] = pygame.Vector2(pygame.mouse.get_pos()) # Set the position of the dragged point to the mouse position
+        elif event.type == pygame.KEYDOWN: # If a key is pressed
+            if event.key == pygame.K_DELETE or event.key == pygame.K_KP_MINUS or event.key == pygame.K_MINUS: # If the delete key is pressed
+                mouse_pos = pygame.Vector2(pygame.mouse.get_pos()) # Get the mouse position
+                for i, pos in enumerate(click_positions): # Loop through all the points 
+                    if (pos - mouse_pos).length() <= POINT_RADIUS: # If the mouse is close to a point
+                        del click_positions[i] # Delete the point
+                        break # Stop looping
             elif event.key == pygame.K_h:
                 # Toggle the value of show_circles
-                show_circles = not show_circles
-            elif event.key == pygame.K_RETURN:
-                positions_str = ', '.join(f'V2({int(pos.x/scale)}, {int(pos.y/scale)})' for pos in click_positions)
-                print(f"[{positions_str}]")
-            elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS:
-                mouse_pos = pygame.Vector2(pygame.mouse.get_pos())
-                min_distance = float('inf')
-                insert_index = None
-                for i in range(len(click_positions)):
-                    start, end = click_positions[i], click_positions[(i+1)%len(click_positions)]
-                    distance = point_line_distance(mouse_pos, start, end)
-                    if distance < min_distance:
-                        min_distance = distance
-                        insert_index = i + 1
+                show_circles = not show_circles 
+            elif event.key == pygame.K_RETURN: # If the enter key is pressed 
+                positions_str = ', '.join(f'V2({int(pos.x/scale)}, {int(pos.y/scale)})' for pos in click_positions) # Create a string of all the positions
+                print(f"[{positions_str}]") # Print the string
+            elif event.key == pygame.K_PLUS or event.key == pygame.K_KP_PLUS: # If the plus key is pressed
+                mouse_pos = pygame.Vector2(pygame.mouse.get_pos()) # Get the mouse position
+                min_distance = float('inf') # Set the minimum distance to infinity
+                insert_index = None # Set the insert index to None
+                for i in range(len(click_positions)): # Loop through all the points
+                    start, end = click_positions[i], click_positions[(i+1)%len(click_positions)] # Get the start and end of the line segment
+                    distance = point_line_distance(mouse_pos, start, end) # Calculate the distance between the mouse and the line segment
+                    if distance < min_distance: # If the distance is smaller than the minimum distance
+                        min_distance = distance # Set the minimum distance to the distance
+                        insert_index = i + 1 # Set the insert index to the index of the point after the start point 
                 if insert_index is not None:
                     click_positions.insert(insert_index, mouse_pos)
             elif event.key == pygame.K_f:  # Flip the inputs around the specified x position
@@ -96,16 +110,16 @@ while True:
             elif event.key == pygame.K_c:  # Clear the inputs
                 click_positions = []
             elif event.key == pygame.K_SPACE:
-                print(pygame.mouse.get_pos()[0]/scale, pygame.mouse.get_pos()[1]/scale)
+                print(pygame.mouse.get_pos()[0]/scale, pygame.mouse.get_pos()[1]/scale) # Print the mouse position
 
-    screen.blit(image, pygame.Vector2(0, 0))
+    screen.blit(image, pygame.Vector2(0, 0)) # Draw the image
 
-    if len(click_positions) > 2:
-        pygame.draw.polygon(screen, POLYGON_COLOR, click_positions, 1)
+    if len(click_positions) > 2: # If there are more than 2 points
+        pygame.draw.polygon(screen, POLYGON_COLOR, click_positions, 1) # Draw the polygon
 
-    if show_circles:
-        for pos in click_positions:
-            pygame.draw.circle(screen, POINT_COLOR, pos, POINT_RADIUS)
+    if show_circles: # If the circles should be shown
+        for pos in click_positions: # Loop through all the points
+            pygame.draw.circle(screen, POINT_COLOR, pos, POINT_RADIUS) # Draw the point
 
     # Update the screen
     pygame.display.flip()
