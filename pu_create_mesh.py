@@ -31,11 +31,11 @@ image = pygame.transform.scale(image, STRETCH_SIZE)
 flip_x = 300 * scale
 
 # Default list of vectors
-default_vectors_str = "[V2(25, 760)]"
+default_vectors_str = "[V2(-24, -3),V2(-23, -6),V2(-22, -10),V2(-21, -12),V2(-20, -14),V2(-15, -19),V2(-10, -22),V2(-6, -24),V2(0, -25),V2(20, -24),V2(40, -24),V2(60, -23),V2(80, -22),V2(100, -21),V2(120, -19),V2(140, -17),V2(160, -14),V2(180, -10),V2(200, -6),V2(207, -4),V2(210, 0),V2(207, 4),V2(200, 6),V2(180, 10),V2(160, 14),V2(140, 17),V2(120, 19),V2(100, 21),V2(80, 22),V2(60, 23),V2(40, 24),V2(20, 25),V2(0, 25),V2(-6, 24),V2(-10, 22),V2(-15, 19),V2(-20, 14),V2(-21, 12),V2(-22, 10),V2(-23, 6),V2(-24, 3),]"
 
 # Extract the numbers from the string
-matches = re.findall(r'V2\((\d+), (\d+)\)', default_vectors_str)
-default_vectors = [pygame.Vector2(int(x), int(y))*scale for x, y in matches]
+matches = re.findall(r'V2\((-?\d+), (-?\d+)\)', default_vectors_str)
+default_vectors = [pygame.Vector2(int(x)+100, int(y)+100)*scale for x, y in matches]
 
 # Use the default vectors as the initial click positions
 click_positions = default_vectors

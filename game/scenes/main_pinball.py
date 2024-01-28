@@ -42,7 +42,7 @@ class MainPinball(Scene):
         game_over_sound (pygame.mixer.Sound): The sound to play when the game is over.
         bonus_ball_sound (pygame.mixer.Sound): The sound to play when a bonus ball is spawned.
         score_threshold (int): The score threshold to spawn a bonus ball.
-        
+
     Methods:
         __init__(self, screen: Surface, scene_manager)
         awake(self)
@@ -78,9 +78,6 @@ class MainPinball(Scene):
         self.game_over_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/game_over.wav"))
         self.bonus_ball_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bonus_ball.wav"))
 
-        self.score_threshold = 5000
-
-
     def awake(self) -> None:
         """
         Creates the main pinball scene.
@@ -89,6 +86,7 @@ class MainPinball(Scene):
             None
         """
 
+        self.score_threshold = 5000
         bumper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper.wav"))
         bumper_sound01 = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper01.wav"))
 
@@ -107,11 +105,10 @@ class MainPinball(Scene):
 
         self.paused = False
         self.end_game = False
-        
+
         friction = 0.1
         scale_duration = .075
         scale_strength = .25
-
 
         self.add_gameobject(Plunger(self, V2(width - self.ball_radius*3, height),
                             V2(width, height), impuls_range=(int(1300*(asf**1.3)), int(1400*(asf**1.3)))))
@@ -137,7 +134,8 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
 
         # plunger cap wall with left outlet
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(524, 163), V2(474, 130), V2(459, 131), V2(447, 137), V2(439, 149), V2(441, 164), V2(449, 174), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(517, 461), V2(518, 482), V2(557, 482), V2(602, 522), V2(600, 900), V2(555, 915), V2(361, 1000)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(616, 1000), V2(619, 341), V2(603, 265), V2(568, 203), V2(524, 163), V2(474, 130), V2(459, 131), V2(447, 137), V2(439, 149), V2(
+            441, 164), V2(449, 174), V2(498, 207), V2(532, 241), V2(556, 289), V2(563, 334), V2(543, 407), V2(517, 461), V2(518, 482), V2(557, 482), V2(602, 522), V2(600, 900), V2(555, 915), V2(361, 1000)]))
 
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
         # left bottom outlet
@@ -146,7 +144,8 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=0, visible=True))
 
         # upper thing of left side ball guidence
-        rel_points = list(map(lambda x: utils.ceil_vector((x)*asf), [V2(136, 510), V2(145, 510), V2(149, 503), V2(146, 494), V2(115, 424), V2(104, 354), V2(114, 288), V2(145, 236), V2(186, 199), V2(225, 171), V2(231, 157), V2(226, 141), V2(210, 131), V2(191, 133), V2(165, 149), V2(114, 191), V2(80, 242), V2(62, 298), V2(60, 359), V2(75, 424), V2(100, 474), V2(118, 497)]))
+        rel_points = list(map(lambda x: utils.ceil_vector((x)*asf), [V2(136, 510), V2(145, 510), V2(149, 503), V2(146, 494), V2(115, 424), V2(104, 354), V2(114, 288), V2(145, 236), V2(186, 199), V2(
+            225, 171), V2(231, 157), V2(226, 141), V2(210, 131), V2(191, 133), V2(165, 149), V2(114, 191), V2(80, 242), V2(62, 298), V2(60, 359), V2(75, 424), V2(100, 474), V2(118, 497)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
         # lower thing of left side ball guidence
         rel_points = list(map(lambda x: utils.ceil_vector(
@@ -163,11 +162,11 @@ class MainPinball(Scene):
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True))
 
         # obstacle above the left flipper extension
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(105, 729), V2(112, 748), V2(161, 774), V2(175, 779), V2(187, 774), V2(193, 766), V2(193, 754), V2(143, 656), V2(134, 646), V2(123, 643), V2(111, 647), V2(104, 659)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(105, 729), V2(109, 745), V2(120, 754), V2(161, 774), V2(175, 779), V2(187, 774), V2(193, 766), V2(193, 754), V2(143, 656), V2(134, 646), V2(123, 643), V2(111, 647), V2(104, 659)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound).add_components(
             Bumper(bumper_strength), ChangeScore(20), ScaleRenderer(scale_duration, scale_strength)))
         # obstacle above the right flipper extension
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(495, 729), V2(488, 748), V2(439, 774), V2(424, 779), V2(412, 774), V2(406, 766), V2(407, 754), V2(457, 656), V2(465, 646), V2(476, 643), V2(489, 647), V2(495, 659)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(495, 729), V2(491, 745), V2(479, 754), V2(439, 774), V2(425, 779), V2(413, 774), V2(407, 766), V2(407, 754), V2(457, 656), V2(466, 646), V2(477, 643), V2(489, 647), V2(496, 659)]))
         self.add_gameobject(PolygonWall(self, rel_points, friction=friction, visible=True, hit_sound=bumper_sound).add_components(
             Bumper(bumper_strength), ChangeScore(20), ScaleRenderer(scale_duration, scale_strength)))
 
@@ -205,28 +204,35 @@ class MainPinball(Scene):
         self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01).add_components(Bumper(
             bumper_strength), ChangeScore(150), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
         # live bumpers
-        colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194), Color(2, 132, 207)]
+        colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(
+            59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194), Color(2, 132, 207)]
         self.add_gameobject(CircleWall(self, V2(25, 760)*asf, 15*asf, ).add_components(
                             Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
         self.add_gameobject(CircleWall(self, V2(578, 760)*asf, 15*asf).add_components(
                             Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
 
-
         # teleporter
-        rel_points = list(map(lambda x: utils.ceil_vector(x*asf), [V2(518, 482), V2(557, 482), V2(602, 522), V2(601, 565)]))
+        rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
+                          [V2(518, 482), V2(557, 482), V2(602, 522), V2(601, 565)]))
         self.add_gameobject(Teleporter(self, rel_points, V2(337, 100)*asf))
 
         # springs
         # left
-        self.add_gameobject(Spring(self, V2(23, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(23, 700)*asf, width=12*asf, height=50 *
+                            asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50 *
+                            asf, color=Color(150, 150, 150), add_to_score=25))
         # right
-        self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(532, 650)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50 *
+                            asf, color=Color(150, 150, 150), add_to_score=25))
+        self.add_gameobject(Spring(self, V2(532, 650)*asf, width=12*asf, height=50 *
+                            asf, color=Color(150, 150, 150), add_to_score=25))
         # center
-        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25))
-        # tube 
-        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=12*asf, height=50*asf, color=Color(150, 150, 150), add_to_score=25, rotation=-35))
+        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50 *
+                            asf, color=Color(150, 150, 150), add_to_score=25))
+        # tube
+        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=12*asf, height=50*asf,
+                            color=Color(150, 150, 150), add_to_score=25, rotation=-35))
 
         # text
         self.score_text = Text(self.screen, (.01, .01), (0, 0), text=f"Score: {self.score}", font_size=50*asf)
@@ -247,7 +253,7 @@ class MainPinball(Scene):
         Returns:
             None
         """
-        super().update(0 if (self.paused or self.end_game) else delta_time, events) # update the scene
+        super().update(0 if (self.paused or self.end_game) else delta_time, events)  # update the scene
 
         if self.score >= self.score_threshold:
             self.add_ball(True)
@@ -260,44 +266,44 @@ class MainPinball(Scene):
             self.game_ended(events)
 
         for event in events:
-            if event.type == pygame.KEYDOWN: # flipper rotation
-                if event.key == pygame.K_ESCAPE: # pause
+            if event.type == pygame.KEYDOWN:  # flipper rotation
+                if event.key == pygame.K_ESCAPE:  # pause
                     if self.paused:
                         self.unpause()
                     else:
                         self.pause(events)
 
-                elif event.key == pygame.K_LEFT: # left flipper
+                elif event.key == pygame.K_LEFT:  # left flipper
                     self.left_flipper.transform.init_smooth_rotation(-10)
                     self.sound_manager.play_sfx(self.flipper_sound)
-                elif event.key == pygame.K_RIGHT: # right flipper
+                elif event.key == pygame.K_RIGHT:  # right flipper
                     self.right_flipper.transform.init_smooth_rotation(190)
                     self.sound_manager.play_sfx(self.flipper_sound)
-                elif event.key == pygame.K_SPACE: # plunger
-                    if self.remaining_balls > 0 and self.active_balls <= 0: # if there are balls left and no active balls
+                elif event.key == pygame.K_SPACE:  # plunger
+                    if self.remaining_balls > 0 and self.active_balls <= 0:  # if there are balls left and no active balls
                         self.add_ball()
 
-            elif event.type == pygame.KEYUP: # stop flipper rotation
-                if event.key == pygame.K_LEFT: # left flipper
+            elif event.type == pygame.KEYUP:  # stop flipper rotation
+                if event.key == pygame.K_LEFT:  # left flipper
                     self.left_flipper.transform.init_smooth_rotation(30)
 
-                elif event.key == pygame.K_RIGHT: # right flipper
+                elif event.key == pygame.K_RIGHT:  # right flipper
                     self.right_flipper.transform.init_smooth_rotation(150)
 
-        if self.paused: # if the game is paused, update the pause menu
+        if self.paused:  # if the game is paused, update the pause menu
             return self.pause_menu.update(events, self.blured)
 
-        if self.end_game: # if the game is over, update the end menu
+        if self.end_game:  # if the game is over, update the end menu
             return self.end_menu.update(events, self.blured)
 
         if self.paused:  # if the game is paused, return
             return
 
-        for element in self.ui_elements: # update the ui elements
+        for element in self.ui_elements:  # update the ui elements
             element.update_events(events)
             element.draw()
 
-    def add_ball(self, froced_spawn = False) -> None:
+    def add_ball(self, forced_spawn=False) -> None:
         """
         Adds a ball to the scene.
 
@@ -308,13 +314,15 @@ class MainPinball(Scene):
             None
         """
 
-        self.sound_manager.play_sfx(self.spawn_ball_sound) 
-        self.remaining_balls -= 1
+        self.sound_manager.play_sfx(self.spawn_ball_sound)
+        if not forced_spawn:
+            self.remaining_balls -= 1
         width = self.screen.get_width()
         height = self.screen.get_height()
         asf = Options().asf
         # .add_components(Tray(5, Color(200,200,200)))
-        self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf), radius=self.ball_radius, forced_spawn=froced_spawn))
+        self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf),
+                            radius=self.ball_radius, forced_spawn=forced_spawn))
 
     def pause(self, events: list[Event]) -> None:
         """
@@ -328,8 +336,8 @@ class MainPinball(Scene):
         """
 
         # Update need to be called so that all objects are visible in the background
-        self.blured = self.get_blured(events) # get the blured background
-        self.paused = True # pause the game
+        self.blured = self.get_blured(events)  # get the blured background
+        self.paused = True  # pause the game
 
     def unpause(self) -> None:
         """
@@ -367,11 +375,11 @@ class MainPinball(Scene):
         """
 
         # Update need to be called so that all objects are visible in the background
-        super().update(0, events) # update the scene
-        for element in self.ui_elements: # update the ui elements
-            element.update_events(events) # update the ui elements
-            element.draw() # draw the ui elements
-        background = self.screen.copy() # copy the screen to a surface
+        super().update(0, events)  # update the scene
+        for element in self.ui_elements:  # update the ui elements
+            element.update_events(events)  # update the ui elements
+            element.draw()  # draw the ui elements
+        background = self.screen.copy()  # copy the screen to a surface
         radius = Options().asf * 10
 
         # Convert the surface to an array
@@ -382,7 +390,7 @@ class MainPinball(Scene):
 
         # Convert the blurred array back to a surface
         blurred_surface = pygame.surfarray.make_surface(blurred_array)
-        return blurred_surface # return the blurred surface
+        return blurred_surface  # return the blurred surface
 
     def game_ended(self, events: list[Event]) -> None:
         """

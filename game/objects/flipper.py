@@ -1,4 +1,5 @@
-from pygame import Vector2, Color
+from pygame import Color
+from pygame import Vector2 as V2
 from api.objects.game_object import GameObject
 from api.components.mesh import PolygonMesh
 from api.components.collider import PolygonCollider
@@ -12,12 +13,12 @@ class Flipper(GameObject):
 
     Attributes:
         scene: Scene, the scene of the Flipper
-        pos: Vector2, the position of the Flipper
+        pos: V2, the position of the Flipper
         color: Color, the color of the Flipper
         initial_angle: float, the initial angle of the Flipper
 
     Methods:
-        __init__(self, scene, pos: Vector2, color: Color = Color(255, 255, 255), radius=25)
+        __init__(self, scene, pos: V2, color: Color = Color(255, 255, 255), radius=25)
         on_destroy(self)
         on_update(self, delta_time: float)
         serialize(self) -> dict
@@ -25,61 +26,20 @@ class Flipper(GameObject):
         hide_ball(self)
     """
 
-    def __init__(self, scene, pos: Vector2, initial_angle: float, color: Color = Color(255, 255, 255)) -> None:
+    def __init__(self, scene, pos: V2, initial_angle: float, color: Color = Color(255, 255, 255)) -> None:
         """
         Inits Flipper with pos, color and radius
 
         Arguments:
             scene: Scene, the scene of the Flipper
-            pos: Vector2, the position of the Flipper
+            pos: V2, the position of the Flipper
             color: Color, the color of the Flipper
             initial_angle: float, the initial angle of the Flipper
         """
         super().__init__(pos, 10, scene)
 
-        points: list[Vector2] = [
-            Vector2(-24, -3),
-            Vector2(-23, -6),
-            Vector2(-22, -10),
-            Vector2(-21, -12),
-            Vector2(-20, -14),
-            Vector2(-15, -19),
-            Vector2(-10, -22),
-            Vector2(-6, -24),
-            Vector2(0, -25),
-            Vector2(20, -24),
-            Vector2(40, -24),
-            Vector2(60, -23),
-            Vector2(80, -22),
-            Vector2(100, -21),
-            Vector2(120, -19),
-            Vector2(140, -17),
-            Vector2(160, -14),
-            Vector2(180, -10),
-            Vector2(200, -6),
-            Vector2(207, -4),
-            Vector2(210, 0),
-            Vector2(207, 4),
-            Vector2(200, 6),
-            Vector2(180, 10),
-            Vector2(160, 14),
-            Vector2(140, 17),
-            Vector2(120, 19),
-            Vector2(100, 21),
-            Vector2(80, 22),
-            Vector2(60, 23),
-            Vector2(40, 24),
-            Vector2(20, 25),
-            Vector2(0, 25),
-            Vector2(-6, 24),
-            Vector2(-10, 22),
-            Vector2(-15, 19),
-            Vector2(-20, 14),
-            Vector2(-21, 12),
-            Vector2(-22, 10),
-            Vector2(-23, 6),
-            Vector2(-24, 3),
-        ]
+        points: list[V2] = [V2(76, 97), V2(80, 86), V2(90, 78), V2(100, 75), V2(140, 76), V2(180, 78), V2(220, 81), V2(260, 86), V2(300, 94), V2(307, 96), V2(310, 100), V2(307, 104), V2(300, 106), V2(260, 114), V2(220, 119), V2(180, 122), V2(140, 124), V2(100, 125), V2(90, 122), V2(80, 114), V2(76, 103)]
+        points = [point - V2(100, 100) for point in points]
         asf = Options().asf
 
         for point in points:

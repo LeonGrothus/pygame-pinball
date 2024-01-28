@@ -50,8 +50,7 @@ class Ball(GameObject):
             Rigidbody(),
             Renderer()
         )
-        if not self.forced_spawn:
-            self.scene.active_balls += 1
+        self.scene.active_balls += 1
 
         self.ball_destroyed_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/ball_destroyed.wav"))
 
@@ -64,8 +63,7 @@ class Ball(GameObject):
         """
 
         self.sound_manager.play_sfx(self.ball_destroyed_sound)
-        if not self.forced_spawn:
-            self.scene.active_balls -= 1
+        self.scene.active_balls -= 1
         return super().on_destroy()
 
     def on_update(self, delta_time: float) -> None:
@@ -96,7 +94,8 @@ class Ball(GameObject):
         return {
             self.__class__.__name__: {
                 "components": {c.__class__.__name__: c.serialize() for c in self.components},
-                "transform": self.transform.serialize()
+                "transform": self.transform.serialize(),
+                "forced_spawn": self.forced_spawn
             }
         }
 
@@ -113,6 +112,7 @@ class Ball(GameObject):
 
         self.components.clear()
         self.transform.deserialize(data["transform"])
+        self.forced_spawn = data["forced_spawn"]
         components = []
         component_data = data["components"]
         for component_class in data["components"]:
