@@ -5,6 +5,11 @@ from source.api.management.sound_manager import SoundManager
 import constants
 from source.api.management.options import Options
 
+"""
+This is the main file of the game. It initializes PyGame and creates the screen and clock. It also creates the sound manager and scene manager.
+The main event loop is also located here.
+"""
+
 # Initialize PyGame
 pygame.init()
 
