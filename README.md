@@ -20,3 +20,11 @@ The pause menu allows you to adjust game settings or return to the Main Menu or 
 ## Scoring System
 
 Points are earned by hitting various targets on the playfield. Accumulating a certain number of points will release the next ball into play.
+
+## Licensing
+
+### Music
+The background music used in this game is sourced from [this YouTube video](https://www.youtube.com/watch?v=dx6MIjAP0jk).
+
+### Sound Effects
+The sound effects in this game were created using [Sfxr](https://sfxr.me/), a tool for generating sound effects, particularly for video games.
