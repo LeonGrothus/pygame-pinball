@@ -1,7 +1,7 @@
 import pygame
 import math
-from api.components.component import Component
-from api.components.mesh import CircleMesh, Mesh, PolygonMesh
+from source.api.components.component import Component
+from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
 
 class ScaleRenderer(Component):
     """

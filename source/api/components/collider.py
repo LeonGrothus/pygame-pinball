@@ -1,6 +1,6 @@
 from abc import ABC
-from api.components.component import Component
-from api.components.mesh import CircleMesh, Mesh, PolygonMesh
+from source.api.components.component import Component
+from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
 from constants import COLLISION_FRICTION
 
 

@@ -1,18 +1,17 @@
 from pathlib import Path
-import sys
 from pygame import Surface
 import pygame
-from api.management.scene import BaseDisplay
+from source.api.management.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
-from api.ui.button import Button
-from api.ui.button_style import ButtonStyle
-from api.ui.slider import Slider
-from api.ui.text import Text
-from api.ui.ui_element_base import UIElementBase
+from source.api.ui.button import Button
+from source.api.ui.button_style import ButtonStyle
+from source.api.ui.slider import Slider
+from source.api.ui.text import Text
+from source.api.ui.ui_element_base import UIElementBase
 
-from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
-from api.management.options import Options
+from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
+from source.api.management.options import Options
 
 
 class OptionsMenu(BaseDisplay):

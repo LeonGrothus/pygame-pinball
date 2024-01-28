@@ -4,5 +4,5 @@
     "files.exclude": {
         "**/__pycache__": true,
         "**/.vscode": true
-    },
+    }
 }

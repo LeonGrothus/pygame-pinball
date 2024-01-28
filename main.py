@@ -1,9 +1,9 @@
 import sys
 import pygame
-from api.management.scene_manager import SceneManager
-from api.management.sound_manager import SoundManager
+from source.api.management.scene_manager import SceneManager
+from source.api.management.sound_manager import SoundManager
 import constants
-from api.management.options import Options
+from source.api.management.options import Options
 
 # Initialize PyGame
 pygame.init()

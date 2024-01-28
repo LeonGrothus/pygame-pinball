@@ -4,26 +4,26 @@ from pygame import Color, Surface
 from pygame import Vector2 as V2
 import pygame
 from pygame.event import Event
-from api.components.bumper import Bumper
-from api.components.change_score import ChangeScore
-from api.components.life_timer import LifeTimer
-from api.components.scale_renderer import ScaleRenderer
-from api.components.simple_movement import SimpleMovement
-from api.management.scene import Scene
-from api.ui.text import Text
-from api.ui.ui_element_base import UIElementBase
+from source.api.components.bumper import Bumper
+from source.api.components.change_score import ChangeScore
+from source.api.components.life_timer import LifeTimer
+from source.api.components.scale_renderer import ScaleRenderer
+from source.api.components.simple_movement import SimpleMovement
+from source.api.management.scene import Scene
+from source.api.ui.text import Text
+from source.api.ui.ui_element_base import UIElementBase
 from constants import ASSETS_PATH
-from game.objects.ball import Ball
-from game.objects.flipper import Flipper
-from game.objects.plunger import Plunger
-from game.objects.spring import Spring
-from game.objects.teleporter import Teleporter
-from game.objects.wall import CircleWall, PolygonWall
-from game.scenes.submenus.end_menu import EndMenu
-from game.scenes.submenus.pause_menu import PauseMenu
-from api.management.options import Options
+from source.game.objects.ball import Ball
+from source.game.objects.flipper import Flipper
+from source.game.objects.plunger import Plunger
+from source.game.objects.spring import Spring
+from source.game.objects.teleporter import Teleporter
+from source.game.objects.wall import CircleWall, PolygonWall
+from source.game.scenes.submenus.end_menu import EndMenu
+from source.game.scenes.submenus.pause_menu import PauseMenu
+from source.api.management.options import Options
 from scipy.ndimage.filters import gaussian_filter
-from api.utils import utils
+from source.api.utils import utils
 
 
 class MainPinball(Scene):

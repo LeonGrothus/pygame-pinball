@@ -1,10 +1,10 @@
 from pathlib import Path
 from pygame import Surface
-from api.management.scene import Scene
+from source.api.management.scene import Scene
 from constants import ASSETS_PATH
-from game.scenes.main_menu import MainMenu
-from game.scenes.main_pinball import MainPinball
-from game.scenes.options_menu import OptionsMenu
+from source.game.scenes.main_menu import MainMenu
+from source.game.scenes.main_pinball import MainPinball
+from source.game.scenes.options_menu import OptionsMenu
 
 
 class SceneManager:

@@ -1,8 +1,8 @@
 from abc import ABC, abstractmethod
 
 from pygame import Color, Vector2
-from api.components.component import Component
-from api.management.options import Options
+from source.api.components.component import Component
+from source.api.management.options import Options
 
 
 class Mesh(Component, ABC):

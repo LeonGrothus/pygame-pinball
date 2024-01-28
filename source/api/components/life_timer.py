@@ -2,9 +2,9 @@
 from pathlib import Path
 from pygame import Color, Vector2
 import pygame
-from api.components.component import Component
-from api.components.mesh import Mesh
-from api.objects.game_object import GameObject
+from source.api.components.component import Component
+from source.api.components.mesh import Mesh
+from source.api.objects.game_object import GameObject
 from constants import ASSETS_PATH
 
 

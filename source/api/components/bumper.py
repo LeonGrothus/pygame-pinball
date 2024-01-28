@@ -1,8 +1,8 @@
 import random
 from pygame import Vector2
-from api.components.component import Component
-from api.components.rigidbody import Rigidbody
-from api.objects.game_object import GameObject
+from source.api.components.component import Component
+from source.api.components.rigidbody import Rigidbody
+from source.api.objects.game_object import GameObject
 
 
 class Bumper(Component):

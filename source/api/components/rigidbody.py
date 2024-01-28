@@ -1,12 +1,12 @@
 import math
 from pygame import Vector2
 import pygame
-from api.components.collider import CircleCollider, Collider, PolygonCollider
-from api.components.component import Component
-from api.objects.game_object import GameObject
+from source.api.components.collider import CircleCollider, Collider, PolygonCollider
+from source.api.components.component import Component
+from source.api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
-from api.management.options import Options
-from api.utils.utils import clamp
+from source.api.management.options import Options
+from source.api.utils.utils import clamp
 
 
 class Rigidbody(Component):

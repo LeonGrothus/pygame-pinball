@@ -1,12 +1,12 @@
 from pathlib import Path
 from pygame import Vector2, Color
 import pygame
-from api.components.tray import Tray
-from api.objects.game_object import GameObject
-from api.components.mesh import CircleMesh
-from api.components.collider import CircleCollider
-from api.components.rigidbody import Rigidbody
-from api.components.renderer import Renderer
+from source.api.components.tray import Tray
+from source.api.objects.game_object import GameObject
+from source.api.components.mesh import CircleMesh
+from source.api.components.collider import CircleCollider
+from source.api.components.rigidbody import Rigidbody
+from source.api.components.renderer import Renderer
 from constants import ASSETS_PATH
 
 

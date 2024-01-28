@@ -2,7 +2,7 @@ from abc import ABC, abstractmethod
 
 from pygame import Vector2
 
-from api.objects.game_object import GameObject
+from source.api.objects.game_object import GameObject
 
 
 class Component(ABC):

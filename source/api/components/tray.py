@@ -1,7 +1,7 @@
 import pygame
-from api.components.component import Component
-from api.components.mesh import CircleMesh, Mesh, PolygonMesh
-from api.components.renderer import Renderer
+from source.api.components.component import Component
+from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
+from source.api.components.renderer import Renderer
 from constants import DELTA_TIME
 
 

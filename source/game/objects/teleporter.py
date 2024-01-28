@@ -1,11 +1,11 @@
 import pygame
 from pygame import Vector2, Color
-from api.components.mesh import PolygonMesh
-from api.components.collider import PolygonCollider
-from api.components.renderer import Renderer
-from api.components.rigidbody import Rigidbody
-from api.objects.game_object import GameObject
-from game.objects.ball import Ball
+from source.api.components.mesh import PolygonMesh
+from source.api.components.collider import PolygonCollider
+from source.api.components.renderer import Renderer
+from source.api.components.rigidbody import Rigidbody
+from source.api.objects.game_object import GameObject
+from source.game.objects.ball import Ball
 
 
 class Teleporter(GameObject):

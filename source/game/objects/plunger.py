@@ -2,10 +2,10 @@ from pathlib import Path
 import random
 from pygame import Color, Vector2
 import pygame
-from api.components.collider import PolygonCollider
-from api.components.mesh import PolygonMesh
-from api.components.rigidbody import Rigidbody
-from api.objects.game_object import GameObject
+from source.api.components.collider import PolygonCollider
+from source.api.components.mesh import PolygonMesh
+from source.api.components.rigidbody import Rigidbody
+from source.api.objects.game_object import GameObject
 from constants import ASSETS_PATH
 
 

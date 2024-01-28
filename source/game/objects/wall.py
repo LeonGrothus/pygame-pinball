@@ -1,18 +1,18 @@
 from pathlib import Path
 from pygame import Vector2, Color
 import pygame
-from api.components.scale_renderer import ScaleRenderer
-from api.objects.game_object import GameObject
-from api.components.mesh import CircleMesh, PolygonMesh
-from api.components.collider import CircleCollider, PolygonCollider
-from api.components.renderer import Renderer
-from api.components.mesh import CircleMesh, PolygonMesh
-from api.components.collider import CircleCollider, PolygonCollider
-from api.components.renderer import Renderer
-from api.components.bumper import Bumper
-from api.components.change_score import ChangeScore
-from api.components.life_timer import LifeTimer
-from api.components.simple_movement import SimpleMovement
+from source.api.components.scale_renderer import ScaleRenderer
+from source.api.objects.game_object import GameObject
+from source.api.components.mesh import CircleMesh, PolygonMesh
+from source.api.components.collider import CircleCollider, PolygonCollider
+from source.api.components.renderer import Renderer
+from source.api.components.mesh import CircleMesh, PolygonMesh
+from source.api.components.collider import CircleCollider, PolygonCollider
+from source.api.components.renderer import Renderer
+from source.api.components.bumper import Bumper
+from source.api.components.change_score import ChangeScore
+from source.api.components.life_timer import LifeTimer
+from source.api.components.simple_movement import SimpleMovement
 from constants import ASSETS_PATH, COLLISION_FRICTION as CF
 
 

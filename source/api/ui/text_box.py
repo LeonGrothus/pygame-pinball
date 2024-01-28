@@ -2,8 +2,8 @@ import time
 from typing import Callable
 from pygame import Color, Surface
 import pygame
-from api.ui.button_style import ButtonStyle
-from api.ui.ui_element_base import UIElementBase
+from source.api.ui.button_style import ButtonStyle
+from source.api.ui.ui_element_base import UIElementBase
 from pygame.freetype import Font
 from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 

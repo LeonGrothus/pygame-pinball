@@ -1,8 +1,8 @@
 from pygame import Vector2
 
-from api.utils.event_value import EventValue
+from source.api.utils.event_value import EventValue
 from constants import PADDLE_SPEED, PTPF
-from api.management.options import Options
+from source.api.management.options import Options
 
 class Transform:
     """

@@ -1,11 +1,11 @@
 from pathlib import Path
 from pygame import Surface
 import pygame
-from api.ui.button_style import ButtonStyle
-from api.ui.ui_element_base import UIElementBase
-from api.utils.event_value import EventValue
+from source.api.ui.button_style import ButtonStyle
+from source.api.ui.ui_element_base import UIElementBase
+from source.api.utils.event_value import EventValue
 from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE
-import api.utils.utils as utils
+import source.api.utils.utils as utils
 
 class Slider(UIElementBase):
     """

@@ -3,18 +3,18 @@ import sys
 from turtle import left
 from pygame import Color, Surface, Vector2
 import pygame
-from api.management.image_manager import ImageManager
-from api.management.scene import BaseDisplay
+from source.api.management.image_manager import ImageManager
+from source.api.management.scene import BaseDisplay
 from pygame.event import Event
-from api.ui.button import Button
-from api.ui.button_style import ButtonStyle
-from api.ui.panel import Panel, TextObject
-from api.ui.text import Text
-from api.ui.text_box import TextBox
-from api.ui.ui_element_base import UIElementBase
+from source.api.ui.button import Button
+from source.api.ui.button_style import ButtonStyle
+from source.api.ui.panel import Panel, TextObject
+from source.api.ui.text import Text
+from source.api.ui.text_box import TextBox
+from source.api.ui.ui_element_base import UIElementBase
 
 from constants import DEFAULT_BUTTON_STYLE, PROJECT_PATH
-from api.management.options import Options
+from source.api.management.options import Options
 
 
 class MainMenu(BaseDisplay):

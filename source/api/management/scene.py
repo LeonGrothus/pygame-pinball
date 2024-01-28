@@ -2,16 +2,16 @@ from abc import ABC
 from pathlib import Path
 import pygame
 from pygame.event import Event
-from api.components.life_timer import LifeTimer
-from api.management.image_manager import ImageManager
-from api.management.sound_manager import SoundManager
+from source.api.components.life_timer import LifeTimer
+from source.api.management.image_manager import ImageManager
+from source.api.management.sound_manager import SoundManager
 
-from api.objects.game_object import GameObject
-from api.components.rigidbody import Rigidbody
+from source.api.objects.game_object import GameObject
+from source.api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
-from game.objects.wall import CircleWall
-from game.objects.ball import Ball
-from api.management.options import Options
+from source.game.objects.wall import CircleWall
+from source.game.objects.ball import Ball
+from source.api.management.options import Options
 
 class BaseDisplay(ABC):
     """

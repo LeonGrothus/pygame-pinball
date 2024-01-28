@@ -1,6 +1,6 @@
 from pygame import Vector2
-from api.components.component import Component
-from api.objects.game_object import GameObject
+from source.api.components.component import Component
+from source.api.objects.game_object import GameObject
 
 
 class ChangeScore(Component):

@@ -1,7 +1,7 @@
 from abc import ABC
 from pygame import Surface, Vector2
-from api.management.sound_manager import SoundManager
-from api.utils.transform import Transform
+from source.api.management.sound_manager import SoundManager
+from source.api.utils.transform import Transform
 from constants import PTPF
 
 class GameObject(ABC):
