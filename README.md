@@ -27,4 +27,4 @@ Points are earned by hitting various targets on the playfield. Accumulating a ce
 The background music used in this game is sourced from [this YouTube video](https://www.youtube.com/watch?v=dx6MIjAP0jk).
 
 ### Sound Effects
-The sound effects in this game were created using [Sfxr](https://sfxr.me/), a tool for generating sound effects, particularly for video games.
+The sound effects in this game were created using [Sfxr](http://www.drpetter.se/project_sfxr.html) (the [web version](https://sfxr.me/)), a tool for generating sound effects, particularly for video games.
