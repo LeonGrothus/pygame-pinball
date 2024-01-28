@@ -78,6 +78,8 @@ class MainPinball(Scene):
         self.game_over_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/game_over.wav"))
         self.bonus_ball_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bonus_ball.wav"))
 
+        self.score_scaling = 2
+
     def awake(self) -> None:
         """
         Creates the main pinball scene.
@@ -258,7 +260,7 @@ class MainPinball(Scene):
         if self.score >= self.score_threshold:
             self.add_ball(True)
             self.sound_manager.play_sfx(self.bonus_ball_sound)
-            self.score_threshold *= 2.25
+            self.score_threshold *= self.score_scaling
 
         self.score_text.text.set_value(f"Score: {self.score}")
         self.balls_text.text.set_value(f"Balls: {self.remaining_balls}")
