@@ -4,7 +4,7 @@ from turtle import left
 from pygame import Color, Surface, Vector2
 import pygame
 from source.api.management.image_manager import ImageManager
-from source.api.management.scene import BaseDisplay
+from source.api.scene.scene import BaseDisplay
 from pygame.event import Event
 from source.api.ui.button import Button
 from source.api.ui.button_style import ButtonStyle
@@ -14,7 +14,7 @@ from source.api.ui.text_box import TextBox
 from source.api.ui.ui_element_base import UIElementBase
 
 from constants import DEFAULT_BUTTON_STYLE, PROJECT_PATH
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 
 class MainMenu(BaseDisplay):
@@ -63,15 +63,15 @@ class MainMenu(BaseDisplay):
 
         self.image_manager = ImageManager(PROJECT_PATH / Path("data/data.png"))
 
-        asf = Options().asf
-        user_name = Options().user_name
+        asf = OptionsManager().asf
+        user_name = OptionsManager().user_name
 
         button_width = int(285 * asf)
         button_height = int(125 * asf)
         button_font_size = int(50 * asf)
 
         self.ui_elements.append(Text(self.screen, (.5, .05), (.5, 0), text="Pinball",
-                                     width=Options().resolution[0]*7/8))
+                                     width=OptionsManager().resolution[0]*7/8))
 
         button_set = self.button_style.create_button_set(
             (button_width, button_height), 0.03, 3, right_sided=True)
@@ -95,8 +95,8 @@ class MainMenu(BaseDisplay):
                                        inactive_button=button_set[0], hover_button=button_set[1], pressed_button=button_set[2],
                                        text="Quit", font_size=button_font_size, on_click=lambda: self._quit()))
 
-        scoreboard_width = Options().resolution[0]/2
-        scoreboard_height = Options().resolution[1]*.3+button_height
+        scoreboard_width = OptionsManager().resolution[0]/2
+        scoreboard_height = OptionsManager().resolution[1]*.3+button_height
         scoreboard_style = self.button_style.create_button((scoreboard_width, scoreboard_height), left_sided=True)
 
         scoreboard_entries = [TextObject("Scoreboard", color=(244, 194, 63))] + self.load_scoreboard_entries()
@@ -104,7 +104,7 @@ class MainMenu(BaseDisplay):
                                 background=scoreboard_style, text_objects=scoreboard_entries, margin=25*asf))
 
         self.ui_elements.append(Text(self.screen, (.5, .995), (.5, 1), text="Credits: Leon Grothus, Hendik Süberkrüb, Leon Echsler",
-                                     width=Options().resolution[0]*15/16))
+                                     width=OptionsManager().resolution[0]*15/16))
 
         text_button_set = self.button_style.create_button_set(
             (scoreboard_width, button_height), 0.03, 2, left_sided=True)
@@ -170,8 +170,8 @@ class MainMenu(BaseDisplay):
     
     def save_user_name(self, user_name: str) -> None:
         if user_name != "":
-            Options().user_name = user_name
-            Options().save()
+            OptionsManager().user_name = user_name
+            OptionsManager().save()
 
     def load_scoreboard_entries(self) -> list[TextObject]:
         """

@@ -1,7 +1,7 @@
 from pathlib import Path
 from pygame import Surface
 import pygame
-from source.api.management.scene import BaseDisplay
+from source.api.scene.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
 from source.api.ui.button import Button
@@ -11,7 +11,7 @@ from source.api.ui.text import Text
 from source.api.ui.ui_element_base import UIElementBase
 
 from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 
 class OptionsMenu(BaseDisplay):
@@ -56,7 +56,7 @@ class OptionsMenu(BaseDisplay):
         self.font = Font(DEFAULT_FONT, 75)
         self.ui_elements: list[UIElementBase] = []
 
-        self.options = Options()
+        self.options = OptionsManager()
         self.new_master_volume = self.options.master_volume
         self.new_music_volume = self.options.music_volume
         self.new_sfx_volume = self.options.sfx_volume

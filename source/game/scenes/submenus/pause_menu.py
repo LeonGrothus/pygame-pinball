@@ -8,7 +8,7 @@ from source.api.ui.text import Text
 
 from source.api.ui.ui_element_base import UIElementBase
 from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 
 class PauseMenu:
@@ -45,13 +45,13 @@ class PauseMenu:
         self.font = Font(DEFAULT_FONT, 75)
         self.button_style = ButtonStyle(DEFAULT_BUTTON_STYLE)
 
-        asf = Options().asf
+        asf = OptionsManager().asf
         button_width = int(250 * asf)
         button_height = int(125 * asf)
         button_font_size = int(50 * asf)
 
         self.ui_elements.append(Text(self.screen, (.5, .05), (.5, 0), text="Pause",
-                                     width=Options().resolution[0]*7/8, font=self.font))
+                                     width=OptionsManager().resolution[0]*7/8, font=self.font))
 
         button = self.button_style.create_button_set(
             (button_width, button_height), 0.03, 3, right_sided=True)

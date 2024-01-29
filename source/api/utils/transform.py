@@ -2,7 +2,7 @@ from pygame import Vector2
 
 from source.api.utils.event_value import EventValue
 from constants import PADDLE_SPEED, PTPF
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 class Transform:
     """
@@ -38,7 +38,7 @@ class Transform:
 
         self.pos: Vector2 = Vector2()
 
-        self.rotation_speed: float = PADDLE_SPEED / max(Options().asf, 1)
+        self.rotation_speed: float = PADDLE_SPEED / max(OptionsManager().asf, 1)
         self.do_smooth_rotation: bool = False
         self.target_smooth_rotation: float = float("inf")
         self.rot: EventValue[float] = EventValue(0)
@@ -100,7 +100,7 @@ class Transform:
             dict: the serialized Transform
         """
 
-        asf = Options().asf
+        asf = OptionsManager().asf
         return {
             "pos": [self.pos.x/asf, self.pos.y/asf], # Divide by asf to get the position in pixels
             "rot": self.rot.get_value() # Get the rotation
@@ -114,5 +114,5 @@ class Transform:
             data: dict, the serialized Transform
         """
 
-        self.pos = Vector2(data["pos"]) * Options().asf # Multiply by asf to get the position in meters
+        self.pos = Vector2(data["pos"]) * OptionsManager().asf # Multiply by asf to get the position in meters
         self.rot.set_value(data["rot"]) # Set the rotation

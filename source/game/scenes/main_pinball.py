@@ -9,7 +9,7 @@ from source.api.components.change_score import ChangeScore
 from source.api.components.life_timer import LifeTimer
 from source.api.components.scale_renderer import ScaleRenderer
 from source.api.components.simple_movement import SimpleMovement
-from source.api.management.scene import Scene
+from source.api.scene.scene import Scene
 from source.api.ui.text import Text
 from source.api.ui.ui_element_base import UIElementBase
 from constants import ASSETS_PATH
@@ -21,7 +21,7 @@ from source.game.objects.teleporter import Teleporter
 from source.game.objects.wall import CircleWall, PolygonWall
 from source.game.scenes.submenus.end_menu import EndMenu
 from source.game.scenes.submenus.pause_menu import PauseMenu
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 from scipy.ndimage.filters import gaussian_filter
 from source.api.utils import utils
 
@@ -88,11 +88,10 @@ class MainPinball(Scene):
             None
         """
 
-        self.score_threshold = 5000
         bumper_sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper.wav"))
         bumper_sound01 = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/bumper01.wav"))
 
-        options = Options()
+        options = OptionsManager()
         asf = options.asf
 
         self.ball_radius = 15 * asf
@@ -321,7 +320,7 @@ class MainPinball(Scene):
             self.remaining_balls -= 1
         width = self.screen.get_width()
         height = self.screen.get_height()
-        asf = Options().asf
+        asf = OptionsManager().asf
         # .add_components(Tray(5, Color(200,200,200)))
         self.add_gameobject(Ball(self, V2(width + self.ball_radius*2, height-250*asf),
                             radius=self.ball_radius, forced_spawn=forced_spawn))
@@ -382,7 +381,7 @@ class MainPinball(Scene):
             element.update_events(events)  # update the ui elements
             element.draw()  # draw the ui elements
         background = self.screen.copy()  # copy the screen to a surface
-        radius = Options().asf * 10
+        radius = OptionsManager().asf * 10
 
         # Convert the surface to an array
         array = pygame.surfarray.pixels3d(background)

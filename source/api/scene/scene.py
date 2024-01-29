@@ -9,71 +9,10 @@ from source.api.management.sound_manager import SoundManager
 from source.api.objects.game_object import GameObject
 from source.api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
+from source.api.scene.base_display import BaseDisplay
 from source.game.objects.wall import CircleWall
 from source.game.objects.ball import Ball
-from source.api.management.options import Options
-
-class BaseDisplay(ABC):
-    """
-    Base class for all scenes. A scene is a collection of GameObjects. A scene can be serialized and deserialized. A scene can be initialized
-
-    Attributes:
-        screen: pygame.Surface, the screen to draw on
-        scene_manager: SceneManager, the scene manager
-
-    Methods:
-        __init__(self, screen: pygame.Surface, scene_manager)
-        awake(self)
-        update(self, delta_time: float, events: list[Event])
-        unload(self)
-    """
-    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path) -> None:
-        """
-        Inits BaseDisplay with screen and scene_manager
-
-        Arguments:
-            screen: pygame.Surface, the screen to draw on
-            scene_manager: SceneManager, the scene manager
-        """
-        self.background = pygame.image.load(background_path).convert() # Load background image
-
-        self.screen: pygame.Surface = screen
-        self.scene_manager = scene_manager
-
-    ### Methods to be extended by the user ###
-
-    def awake(self) -> None:
-        """
-        Awake is called when the scene is initialized
-
-        Returns:
-            None
-        """
-        self.scaled_background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))  # scales background image to fit screen size
-
-    def update(self, delta_time: float, events: list[Event]) -> None:
-        """
-        Update is called every frame
-
-        Arguments:
-            delta_time: float, the time between frames
-            events: list[Event], the events of the frame
-
-        Returns:
-            None
-        """
-        self.screen.blit(self.scaled_background, pygame.Vector2())  # redraws background image
-
-    def unload(self) -> None:
-        """
-        Unload is called when the scene is unloaded
-
-        Returns:
-            None
-        """
-
-        pass
-
+from source.api.management.options_manager import OptionsManager
 
 class Scene(BaseDisplay, ABC):
     """
@@ -110,6 +49,7 @@ class Scene(BaseDisplay, ABC):
         self.active_balls = 0
         self.remaining_balls: int = 5
         self.score: int = 0
+        self.score_threshold = 5000
         self.object_counter: int = 0
         self.all_active_gos: list = []
         self.all_active_rbs: list = []
@@ -126,7 +66,7 @@ class Scene(BaseDisplay, ABC):
         Returns:
             None
         """
-        self.user_name: str = Options().user_name
+        self.user_name: str = OptionsManager().user_name
         return super().awake()
 
     def add_gameobject(self, game_object: GameObject) -> None:
@@ -192,6 +132,7 @@ class Scene(BaseDisplay, ABC):
         data = {
             "user_name": self.user_name,
             "score": self.score,
+            "score_threshold": self.score_threshold,
             "remaining_balls": self.remaining_balls,
             "object_counter": self.object_counter,
             "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
@@ -234,6 +175,7 @@ class Scene(BaseDisplay, ABC):
 
         self.user_name = data["user_name"]
         self.score = data["score"]
+        self.score_threshold = data["score_threshold"]
         self.remaining_balls = data["remaining_balls"]
         self.object_counter = data["object_counter"]
         for ball_data in data["all_balls"]:
@@ -285,4 +227,4 @@ class Scene(BaseDisplay, ABC):
         self.active_balls = 0
         self.remaining_balls: int = 5
         self.score: int = 0
-
+        self.score_threshold = 5000

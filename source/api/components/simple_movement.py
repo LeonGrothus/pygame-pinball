@@ -2,7 +2,7 @@ import pygame
 import math
 
 from source.api.components.component import Component
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 class SimpleMovement(Component):
     """
@@ -44,7 +44,7 @@ class SimpleMovement(Component):
         self.move_type = move_type
         self.direction = 1
         self.t = 0
-        self.asf = Options().asf
+        self.asf = OptionsManager().asf
 
     def on_update(self, delta_time: float) -> None:
         """

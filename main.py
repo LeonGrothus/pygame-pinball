@@ -3,7 +3,7 @@ import pygame
 from source.api.management.scene_manager import SceneManager
 from source.api.management.sound_manager import SoundManager
 import constants
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 """
 This is the main file of the game. It initializes PyGame and creates the screen and clock. It also creates the sound manager and scene manager.
@@ -13,7 +13,7 @@ The main event loop is also located here.
 # Initialize PyGame
 pygame.init()
 
-options = Options() # Load options
+options = OptionsManager() # Load options
 screen = pygame.display.set_mode(options.resolution) # Create the screen
 clock = pygame.time.Clock() # Create clock
 

@@ -7,19 +7,26 @@ from pygame.mixer import Sound
 from constants import ASSETS_PATH
 
 # Singelton
-
-
 class SoundManager:
     """
     A class to represent the options.
 
-    This class is a singleton and can be accessed by calling Options().
+    This class is a singleton and can be accessed by calling SoundManager().
 
     Attributes:
-        asf (float): The application scale factor.
-        master_volume (float): The master volume.
-        music_volume (float): The music volume.
-        sfx_volume (float): The sound effects volume.
+        music_files (list): A list of music files.
+        current_music (str): The current music file.
+        options (Options): The options.
+
+    Methods:
+        __new__(cls) -> 'SoundManager'
+        set_options(self, options) -> None
+        init(self) -> None
+        load_music(self) -> None
+        play_music(self) -> None
+        update(self, events: list[pygame.event.Event]) -> None
+        play_sfx(self, sound: Sound) -> None
+        update_volume(self) -> None
     """
 
     _instance = None

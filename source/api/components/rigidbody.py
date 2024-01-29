@@ -5,7 +5,7 @@ from source.api.components.collider import CircleCollider, Collider, PolygonColl
 from source.api.components.component import Component
 from source.api.objects.game_object import GameObject
 from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 from source.api.utils.utils import clamp
 
 
@@ -54,7 +54,7 @@ class Rigidbody(Component):
         self.acceleration: Vector2 = Vector2(0, 0)
 
         self.collider: CircleCollider = None  # type: ignore
-        self.asf = Options().asf
+        self.asf = OptionsManager().asf
 
     def set_parent(self, parent: GameObject) -> None:
         """

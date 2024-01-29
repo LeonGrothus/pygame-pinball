@@ -4,7 +4,7 @@ from source.api.objects.game_object import GameObject
 from source.api.components.mesh import PolygonMesh
 from source.api.components.collider import PolygonCollider
 from source.api.components.renderer import Renderer
-from source.api.management.options import Options
+from source.api.management.options_manager import OptionsManager
 
 
 class Flipper(GameObject):
@@ -40,7 +40,7 @@ class Flipper(GameObject):
 
         points: list[V2] = [V2(76, 97), V2(80, 86), V2(90, 78), V2(100, 75), V2(140, 76), V2(180, 78), V2(220, 81), V2(260, 86), V2(300, 94), V2(307, 96), V2(310, 100), V2(307, 104), V2(300, 106), V2(260, 114), V2(220, 119), V2(180, 122), V2(140, 124), V2(100, 125), V2(90, 122), V2(80, 114), V2(76, 103)]
         points = [point - V2(100, 100) for point in points]
-        asf = Options().asf
+        asf = OptionsManager().asf
 
         for point in points:
             point *= (asf * 0.55)

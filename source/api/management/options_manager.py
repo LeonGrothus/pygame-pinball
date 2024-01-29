@@ -4,7 +4,7 @@ from source.api.management.sound_manager import SoundManager
 from constants import PROJECT_PATH
 
 # Singelton
-class Options:
+class OptionsManager:
     """
     Singleton class to represent the options.
 
@@ -27,7 +27,7 @@ class Options:
 
     _instance = None
 
-    def __new__(cls) -> 'Options':
+    def __new__(cls) -> 'OptionsManager':
         """
         Create a new instance of the Options class if it does not exist yet.
 
@@ -35,7 +35,7 @@ class Options:
             Options: The instance of the Options class.
         """
         if cls._instance is None:
-            cls._instance = super(Options, cls).__new__(cls)
+            cls._instance = super(OptionsManager, cls).__new__(cls)
             cls._instance.init()
         return cls._instance
 
@@ -68,7 +68,9 @@ class Options:
         self.master_volume = data.get('master_volume', 50)  # Default to 50 if 'master_volume' is not in the JSON file
         self.music_volume = data.get('music_volume', 50)  # Default to 50 if 'music_volume' is not in the JSON file
         self.sfx_volume = data.get('sfx_volume', 50)  # Default to 50 if 'sfx_volume' is not in the JSON file
-        self.user_name = data.get('user_name', 'Player')  # Default to 'Player' if 'user_name' is not in the JSON file
+        self.user_name = data.get('user_name', 'Player') # Default to 'Player' if 'user_name' is not in the JSON file
+        if(self.user_name == ''):
+            self.user_name = 'Player'
 
     def save(self) -> None:
         """
