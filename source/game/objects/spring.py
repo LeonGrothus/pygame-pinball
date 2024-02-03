@@ -5,6 +5,7 @@ from source.api.components.change_score import ChangeScore
 from source.api.components.collider import PolygonCollider
 from source.api.components.mesh import PolygonMesh
 from source.api.components.renderer import Renderer
+from source.api.management.options_manager import OptionsManager
 from source.api.objects.game_object import GameObject
 from constants import ASSETS_PATH
 
@@ -22,7 +23,7 @@ class Spring(GameObject):
         on_trigger_enter(self, other: GameObject) -> None
     """
 
-    def __init__(self, scene, pos: Vector2, width: float = 20, height: float = 50, color: Color = Color(100, 100, 100), add_to_score: int = 25, rotation: float=0):
+    def __init__(self, scene, pos: Vector2, width: float = 15, height: float = 35, color: Color = Color(100, 100, 100), add_to_score: int = 25, rotation: float=0):
         """
         Inits Spring with pos, width, height, color and add_to_score
 
@@ -39,11 +40,12 @@ class Spring(GameObject):
         super().__init__(pos, 0, scene)
         self.spring_sound: pygame.mixer.Sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/spring.wav"))
 
+        asf = OptionsManager().asf
         rel_points = [
-            Vector2(-width/2, -height/2),
-            Vector2(width/2, -height/2),
-            Vector2(width/2, height/2),
-            Vector2(-width/2, height/2)
+            Vector2(-width/2, -height/2)*asf,
+            Vector2(width/2, -height/2)*asf,
+            Vector2(width/2, height/2)*asf,
+            Vector2(-width/2, height/2)*asf
         ]
         self.change_score = ChangeScore(add_to_score, True, 1.5, 2)
         self.add_components(

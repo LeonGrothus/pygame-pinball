@@ -18,6 +18,7 @@ from source.game.objects.ball import Ball
 from source.game.objects.flipper import Flipper
 from source.game.objects.plunger import Plunger
 from source.game.objects.spring import Spring
+from source.game.objects.target import TargetBase, TargetGroup
 from source.game.objects.teleporter import Teleporter
 from source.game.objects.wall import CircleWall, PolygonWall
 from source.game.scenes.submenus.end_menu import EndMenu
@@ -235,6 +236,16 @@ class MainPinball(Scene):
         # tube
         self.add_gameobject(Spring(self, V2(70, 493)*asf, width=12*asf, height=50*asf,
                             color=Color(150, 150, 150), add_to_score=25, rotation=-35))
+        
+        # target
+        targets = [
+            TargetBase(self, V2(132,259)*asf, rotation=30),
+            TargetBase(self, V2(107,357)*asf, rotation=2),
+            TargetBase(self, V2(128,450)*asf, rotation=-28)
+        ]
+        self.add_gameobjects(*targets)
+
+        self.add_gameobject(TargetGroup(self, targets))
 
         # text
         self.score_text = Text(self.screen, (.01, .01), (0, 0), text=f"Score: {self.score}", font_size=50*asf)

@@ -174,7 +174,7 @@ class GameObject(ABC):
         Returns:
             None
         """
-
+        
         self.scene.all_active_gos.remove(self)
         for c in self.components:
             c.on_destroy()

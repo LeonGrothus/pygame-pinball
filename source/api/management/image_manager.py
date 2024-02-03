@@ -64,7 +64,6 @@ class ImageManager:
         Returns:
             bool: whether the data was saved successfully
         """
-
         binary_string = ''.join(format(ord(i), '08b') for i in json.dumps(data)) # Convert the JSON data to a binary string
         binary_string += '00000000'  # Add a null character as the end-of-message marker
         size = int(len(binary_string)**0.5) + 1 # Calculate the size of the image

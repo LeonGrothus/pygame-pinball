@@ -7,6 +7,8 @@ from pygame.mixer import Sound
 from constants import ASSETS_PATH
 
 # Singelton
+
+
 class SoundManager:
     """
     A class to represent the options.
@@ -57,6 +59,7 @@ class SoundManager:
         pygame.mixer.init()
         self.music_files = []
         self.current_music = None
+        self.channel = 0
 
     def load_music(self):
         """
@@ -103,6 +106,8 @@ class SoundManager:
         Returns:
             None
         """
+        self.channel = (self.channel+1) % 8
+        pygame.mixer.Channel(self.channel)
         sound.set_volume((self.options.sfx_volume / 100) * (self.options.master_volume / 100))
         sound.play()
 

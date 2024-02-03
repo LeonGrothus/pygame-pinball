@@ -201,7 +201,12 @@ class PolygonMesh(Mesh):
                     "y": p.y
                 } for p in self._relative_points
             ],
-            "color": self.color
+            "color": {
+                "r": self.color.r,
+                "g": self.color.g,
+                "b": self.color.b,
+                "a": self.color.a
+            }
         }
 
     def deserialize(self, data: dict) -> 'PolygonMesh':
@@ -215,7 +220,7 @@ class PolygonMesh(Mesh):
             PolygonMesh: The deserialized mesh object.
         """
         self._relative_points = [Vector2(p["x"], p["y"]) for p in data["relative_points"]]
-        self.color = data["color"]
+        self.color = Color(data["color"]["r"], data["color"]["g"], data["color"]["b"], data["color"]["a"])
         return self
 
     def rotate(self, angle: float) -> None:

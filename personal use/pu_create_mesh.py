@@ -14,7 +14,7 @@ pygame.init()
 scale = 2
 SCREEN_WIDTH = int(666 * scale)
 SCREEN_HEIGHT = int(1000 * scale)
-IMAGE_PATH = Path("image_fit.png")
+IMAGE_PATH = Path("personal use/image_fit.png")
 STRETCH_SIZE = (SCREEN_WIDTH, SCREEN_HEIGHT)
 POINT_RADIUS = 10  # Radius of the points
 POINT_COLOR = (255, 0, 0)  # Color of the points (red)

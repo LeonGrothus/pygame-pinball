@@ -106,5 +106,4 @@ class LifeTimer(Component):
 
         self.colors = [Color(color[0], color[1], color[2]) for color in data["colors"]]
         self.lives = data["lives"]
-        print(self.lives)
         return self

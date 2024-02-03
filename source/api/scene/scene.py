@@ -11,6 +11,7 @@ from source.api.objects.game_object import GameObject
 from source.api.components.rigidbody import Rigidbody
 from constants import PROJECT_PATH
 from source.api.scene.base_display import BaseDisplay
+from source.game.objects.target import TargetGroup
 from source.game.objects.wall import CircleWall
 from source.game.objects.ball import Ball
 from source.api.management.options_manager import OptionsManager
@@ -68,6 +69,7 @@ class Scene(BaseDisplay, ABC):
             None
         """
         self.user_name: str = OptionsManager().user_name
+        self.background_manager.update_scale()
         return super().awake()
 
     def add_gameobject(self, game_object: GameObject) -> None:
@@ -138,6 +140,7 @@ class Scene(BaseDisplay, ABC):
             "object_counter": self.object_counter,
             "all_balls": [go.serialize() for go in self.all_active_gos if isinstance(go, Ball)],
             "all_life_time_bumpers": [go.serialize() for go in self.all_active_gos if go.has_component_by_class(LifeTimer)],
+            "all_targets": [go.serialize() for go in self.all_active_gos if isinstance(go, TargetGroup)],
         }
         
         current_data = self.image_manager.load_json()
@@ -173,6 +176,8 @@ class Scene(BaseDisplay, ABC):
         for game_object in self.all_active_gos:
             if game_object.has_component_by_class(LifeTimer):
                 game_object.on_destroy()
+            elif isinstance(game_object, TargetGroup):
+                game_object.on_destroy()
 
         self.user_name = data["user_name"]
         self.score = data["score"]
@@ -187,6 +192,11 @@ class Scene(BaseDisplay, ABC):
         for bumper_data in data["all_life_time_bumpers"]:
             bumper_class = list(bumper_data.keys())[0]
             game_object = globals()[bumper_class](self, pygame.Vector2(0,0), 0).deserialize(bumper_data[bumper_class])
+            self.add_gameobject(game_object)
+
+        for target_data in data["all_targets"]:
+            target_class = list(target_data.keys())[0]
+            game_object = globals()[target_class](self, pygame.Vector2(0,0)).deserialize(target_data[target_class])
             self.add_gameobject(game_object)
         
         json["save_game"] = {}

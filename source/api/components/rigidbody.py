@@ -142,6 +142,8 @@ class Rigidbody(Component):
                     collision_point, normal = self.check_circle_circle_collision(other_collider)
                 elif type(other_collider) is PolygonCollider: # If the other object is a PolygonCollider, check for a circle-polygon collision
                     collision_point, normal = self.check_circle_polygon_collision(other_collider)
+            else:
+                continue
 
             if collision_point is None or normal is None: # If there is no collision, continue
                 if other_collider.is_trigger and (game_object in self.currently_in_trigger): # If the other object is a trigger and the ball is in it, remove it from the list
