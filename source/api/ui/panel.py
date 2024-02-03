@@ -7,10 +7,9 @@ from source.api.ui.button_style import ButtonStyle
 from source.api.ui.ui_element_base import UIElementBase
 from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
-
 class TextObject:
     """
-    A class to represent a text object. Used by the Panel class as data structure.
+    This class should only be used as a parameter for the Panel class.
 
     Attributes:
         text (str): The text to display.

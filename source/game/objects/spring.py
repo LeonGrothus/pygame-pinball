@@ -1,6 +1,7 @@
 from pathlib import Path
 from pygame import Color, Vector2
 import pygame
+from source.api.components.change_score import ChangeScore
 from source.api.components.collider import PolygonCollider
 from source.api.components.mesh import PolygonMesh
 from source.api.components.renderer import Renderer
@@ -36,8 +37,6 @@ class Spring(GameObject):
         """    
     
         super().__init__(pos, 0, scene)
-        self.add_to_score = add_to_score
-
         self.spring_sound: pygame.mixer.Sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/spring.wav"))
 
         rel_points = [
@@ -46,10 +45,12 @@ class Spring(GameObject):
             Vector2(width/2, height/2),
             Vector2(-width/2, height/2)
         ]
+        self.change_score = ChangeScore(add_to_score, True, 1.5, 2)
         self.add_components(
             PolygonMesh(color, rel_points),
             PolygonCollider(is_trigger=True),
-            Renderer()
+            Renderer(),
+            self.change_score
         )
 
         self.transform.rotate(rotation)
@@ -65,6 +66,6 @@ class Spring(GameObject):
             None
         """
 
-        self.scene.score += self.add_to_score
+        self.change_score.on_collision(self, Vector2(), Vector2())
         self.sound_manager.play_sfx(self.spring_sound)
         return super().on_trigger_enter(other)

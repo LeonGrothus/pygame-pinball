@@ -198,20 +198,20 @@ class MainPinball(Scene):
 
         # bumpers
         self.add_gameobject(CircleWall(self, V2(320, 420)*asf, 40*asf, color=Color(255, 0, 0), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(200), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ScaleRenderer(scale_duration, scale_strength), ChangeScore(200, True, 2, 2)))
         self.add_gameobject(CircleWall(self, V2(388, 292)*asf, 35*asf, color=Color(240, 212, 88), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(100), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ScaleRenderer(scale_duration, scale_strength), ChangeScore(100, True, 2, 2)))
         self.add_gameobject(CircleWall(self, V2(250, 282)*asf, 30*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01
-                                       ).add_components(Bumper(bumper_strength), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength)))
+                                       ).add_components(Bumper(bumper_strength), ScaleRenderer(scale_duration, scale_strength), ChangeScore(50, True, 2, 2)))
         self.add_gameobject(CircleWall(self, V2(300, 700)*asf, 20*asf, color=Color(100, 201, 231), hit_sound=bumper_sound01).add_components(Bumper(
-            bumper_strength), ChangeScore(150), ScaleRenderer(scale_duration, scale_strength, True), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
-        # live bumpers
+            bumper_strength), ScaleRenderer(scale_duration, scale_strength, True), ChangeScore(150, True, 2, 2), SimpleMovement(V2(250, 700)*asf, V2(350, 700)*asf, .75)))
+        # life bumpers
         colors: list[Color] = [Color(54, 54, 54), Color(63, 75, 77), Color(64, 92, 97), Color(
             59, 108, 117), Color(48, 130, 145), Color(28, 151, 173), Color(6, 165, 194), Color(2, 132, 207)]
         self.add_gameobject(CircleWall(self, V2(25, 760)*asf, 15*asf, ).add_components(
-                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
+                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ScaleRenderer(scale_duration, scale_strength), ChangeScore(50, True, 2, 2), LifeTimer(colors, 6)))
         self.add_gameobject(CircleWall(self, V2(578, 760)*asf, 15*asf).add_components(
-                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ChangeScore(50), ScaleRenderer(scale_duration, scale_strength), LifeTimer(colors, 6)))
+                            Bumper((bumper_strength[0]*2, bumper_strength[1]*2)), ScaleRenderer(scale_duration, scale_strength), ChangeScore(50, True, 2, 2), LifeTimer(colors, 6)))
 
         # teleporter
         rel_points = list(map(lambda x: utils.ceil_vector(x*asf),
