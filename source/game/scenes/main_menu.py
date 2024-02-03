@@ -1,8 +1,10 @@
 from pathlib import Path
 import sys
 from turtle import left
+from webbrowser import BackgroundBrowser
 from pygame import Color, Surface, Vector2
 import pygame
+from source.api.management.background_manager import BackgroundManager
 from source.api.management.image_manager import ImageManager
 from source.api.scene.scene import BaseDisplay
 from pygame.event import Event
@@ -39,7 +41,7 @@ class MainMenu(BaseDisplay):
         load_scoreboard_entries(self)
         _quit(self)
     """
-    def __init__(self, screen: Surface, scene_manager, background_path: Path) -> None:
+    def __init__(self, screen: Surface, scene_manager, background_manager: BackgroundManager) -> None:
         """
         Creates the main menu.
 
@@ -51,7 +53,7 @@ class MainMenu(BaseDisplay):
         self.button_style = ButtonStyle(DEFAULT_BUTTON_STYLE)
         self.ui_elements: list[UIElementBase] = []
 
-        super().__init__(screen, scene_manager, background_path)
+        super().__init__(screen, scene_manager, background_manager)
 
     def awake(self) -> None:
         """

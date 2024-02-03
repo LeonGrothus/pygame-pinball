@@ -1,7 +1,8 @@
 from abc import ABC
-from pathlib import Path
 import pygame
 from pygame.event import Event
+
+from source.api.management.background_manager import BackgroundManager
 
 class BaseDisplay(ABC):
     """
@@ -17,7 +18,7 @@ class BaseDisplay(ABC):
         update(self, delta_time: float, events: list[Event])
         unload(self)
     """
-    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager, background_manager: BackgroundManager) -> None:
         """
         Inits BaseDisplay with screen and scene_manager
 
@@ -25,21 +26,22 @@ class BaseDisplay(ABC):
             screen: pygame.Surface, the screen to draw on
             scene_manager: SceneManager, the scene manager
         """
-        self.background = pygame.image.load(background_path).convert() # Load background image
+        self.background_manager = background_manager
 
         self.screen: pygame.Surface = screen
         self.scene_manager = scene_manager
 
     ### Methods to be extended by the user ###
-
+        
     def awake(self) -> None:
         """
-        Awake is called when the scene is initialized
+        Awake is called when the scene is initialized. 
 
         Returns:
             None
         """
-        self.scaled_background = pygame.transform.scale(self.background, (self.screen.get_width(), self.screen.get_height()))  # scales background image to fit screen size
+        self.background_manager.update_scale()
+        pass
 
     def update(self, delta_time: float, events: list[Event]) -> None:
         """
@@ -52,7 +54,7 @@ class BaseDisplay(ABC):
         Returns:
             None
         """
-        self.screen.blit(self.scaled_background, pygame.Vector2())  # redraws background image
+        self.background_manager.update(delta_time)
 
     def unload(self) -> None:
         """
@@ -61,6 +63,5 @@ class BaseDisplay(ABC):
         Returns:
             None
         """
-
         pass
 

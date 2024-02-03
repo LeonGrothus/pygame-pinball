@@ -1,5 +1,6 @@
 from pathlib import Path
 from pygame import Surface
+from source.api.management.background_manager import BackgroundManager
 from source.api.scene.scene import Scene
 from constants import ASSETS_PATH
 from source.game.scenes.main_menu import MainMenu
@@ -31,10 +32,13 @@ class SceneManager:
         """
         self.screen: Surface = screen
 
+        default_background = BackgroundManager(Path(ASSETS_PATH / Path("images/main_background")), -1, screen)
+        pinball_background = BackgroundManager(Path(ASSETS_PATH / Path("images/pinball_background")), 1, screen)
+
         self.scenes: dict = {
-            "main_menu": MainMenu(self.screen, self, Path(ASSETS_PATH / Path("images/main_background.jpg"))),
-            "main_pinball": MainPinball(self.screen, self, Path(ASSETS_PATH / Path("images/pinball_background.jpg"))),
-            "options_menu": OptionsMenu(self.screen, self, Path(ASSETS_PATH / Path("images/main_background.jpg"))),
+            "main_menu": MainMenu(self.screen, self, default_background),
+            "main_pinball": MainPinball(self.screen, self, pinball_background),
+            "options_menu": OptionsMenu(self.screen, self, default_background),
         }
         self.active_scene = self.scenes[default]
         self.active_scene.awake()

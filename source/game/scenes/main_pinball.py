@@ -9,6 +9,7 @@ from source.api.components.change_score import ChangeScore
 from source.api.components.life_timer import LifeTimer
 from source.api.components.scale_renderer import ScaleRenderer
 from source.api.components.simple_movement import SimpleMovement
+from source.api.management.background_manager import BackgroundManager
 from source.api.scene.scene import Scene
 from source.api.ui.text import Text
 from source.api.ui.ui_element_base import UIElementBase
@@ -56,7 +57,7 @@ class MainPinball(Scene):
         unload(self)
     """
 
-    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path):
+    def __init__(self, screen: pygame.Surface, scene_manager, background_manager: BackgroundManager):
         """
         Creates the main pinball scene.
 
@@ -65,7 +66,7 @@ class MainPinball(Scene):
             scene_manager (SceneManager): The scene manager.
         """
 
-        super().__init__(screen, scene_manager, background_path)
+        super().__init__(screen, scene_manager, background_manager)
 
         self.left_flipper: Flipper = None  # type: ignore
         self.right_flipper: Flipper = None  # type: ignore

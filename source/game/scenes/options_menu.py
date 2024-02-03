@@ -1,6 +1,7 @@
 from pathlib import Path
 from pygame import Surface
 import pygame
+from source.api.management.background_manager import BackgroundManager
 from source.api.scene.scene import BaseDisplay
 from pygame.event import Event
 from pygame.freetype import Font
@@ -42,7 +43,7 @@ class OptionsMenu(BaseDisplay):
         _apply_changes(self)
     """
 
-    def __init__(self, screen: Surface, scene_manager, background_path: Path) -> None:
+    def __init__(self, screen: Surface, scene_manager, background_manager: BackgroundManager) -> None:
         """
         Initializes the options menu.
 
@@ -62,7 +63,7 @@ class OptionsMenu(BaseDisplay):
         self.new_sfx_volume = self.options.sfx_volume
         self.asf = self.options.asf
 
-        super().__init__(screen, scene_manager, background_path)
+        super().__init__(screen, scene_manager, background_manager)
 
     def awake(self) -> None:
         """

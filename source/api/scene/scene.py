@@ -3,6 +3,7 @@ from pathlib import Path
 import pygame
 from pygame.event import Event
 from source.api.components.life_timer import LifeTimer
+from source.api.management.background_manager import BackgroundManager
 from source.api.management.image_manager import ImageManager
 from source.api.management.sound_manager import SoundManager
 
@@ -37,7 +38,7 @@ class Scene(BaseDisplay, ABC):
         deserialize(self)
     """
 
-    def __init__(self, screen: pygame.Surface, scene_manager, background_path: Path) -> None:
+    def __init__(self, screen: pygame.Surface, scene_manager, background_manager: BackgroundManager) -> None:
         """
         Inits Scene with screen and scene_manager
 
@@ -45,7 +46,7 @@ class Scene(BaseDisplay, ABC):
             screen: pygame.Surface, the screen to draw on
             scene_manager: SceneManager, the scene manager
         """
-        super().__init__(screen, scene_manager, background_path)
+        super().__init__(screen, scene_manager, background_manager)
         self.active_balls = 0
         self.remaining_balls: int = 5
         self.score: int = 0
