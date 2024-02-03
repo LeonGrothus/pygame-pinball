@@ -69,7 +69,6 @@ class Scene(BaseDisplay, ABC):
             None
         """
         self.user_name: str = OptionsManager().user_name
-        self.background_manager.update_scale()
         return super().awake()
 
     def add_gameobject(self, game_object: GameObject) -> None:

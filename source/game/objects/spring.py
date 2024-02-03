@@ -40,12 +40,11 @@ class Spring(GameObject):
         super().__init__(pos, 0, scene)
         self.spring_sound: pygame.mixer.Sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/spring.wav"))
 
-        asf = OptionsManager().asf
         rel_points = [
-            Vector2(-width/2, -height/2)*asf,
-            Vector2(width/2, -height/2)*asf,
-            Vector2(width/2, height/2)*asf,
-            Vector2(-width/2, height/2)*asf
+            Vector2(-width/2, -height/2),
+            Vector2(width/2, -height/2),
+            Vector2(width/2, height/2),
+            Vector2(-width/2, height/2)
         ]
         self.change_score = ChangeScore(add_to_score, True, 1.5, 2)
         self.add_components(

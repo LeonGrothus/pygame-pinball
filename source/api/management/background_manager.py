@@ -62,4 +62,4 @@ class BackgroundManager:
         """
         Updates the scale of the images.
         """
-        self.images = [pygame.transform.scale(image, (int(image.get_width()), int(image.get_height()))) for image in self.images]
+        self.images = [pygame.transform.scale(image, (int(self.screen.get_width()), int(self.screen.get_height()))) for image in self.images]

@@ -40,6 +40,7 @@ class BaseDisplay(ABC):
         Returns:
             None
         """
+        self.background_manager.update_scale()
         pass
 
     def update(self, delta_time: float, events: list[Event]) -> None:

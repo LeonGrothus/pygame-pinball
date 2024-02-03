@@ -42,6 +42,8 @@ class TargetBase(GameObject):
         """
         self.base_color = base_color
         self.hit_color = hit_color
+        self.width = width
+        self.height = height
 
         super().__init__(pos, -1, scene)
         self.hit_sound: pygame.mixer.Sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/target_base.wav"))
@@ -108,13 +110,14 @@ class TargetBase(GameObject):
         Returns:
             dict: the serialized TargetBase
         """
+        asf = OptionsManager().asf
         return {
             "pos": {
-                "x": self.transform.pos.x,
-                "y": self.transform.pos.y
+                "x": self.transform.pos.x/asf,
+                "y": self.transform.pos.y/asf
             },
-            "width": self.mesh.points[1].x*2,
-            "height": self.mesh.points[2].y*2,
+            "width": self.width/asf,
+            "height": self.height/asf,
             "rotation": self.transform.rot.get_value(),
             "base_color": {
                 "r": self.base_color.r,
@@ -140,7 +143,10 @@ class TargetBase(GameObject):
         Returns:
             TargetBase: the deserialized TargetBase
         """
-        self.transform.pos = Vector2(data["pos"]["x"], data["pos"]["y"])
+        asf = OptionsManager().asf
+        self.transform.pos = Vector2(data["pos"]["x"], data["pos"]["y"]) * asf
+        self.width = data["width"] * asf
+        self.height = data["height"] * asf
         self.transform.rotate(data["rotation"])
         self.base_color = Color(data["base_color"]["r"], data["base_color"]["g"], data["base_color"]["b"])
         self.hit_color = Color(data["hit_color"]["r"], data["hit_color"]["g"], data["hit_color"]["b"])
