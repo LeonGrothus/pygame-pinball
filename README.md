@@ -48,7 +48,7 @@ The sound effects in this game were created using [Sfxr](http://www.drpetter.se/
 
 ## Project Status
 
-This project was developed as a university project and is currently considered finished. There are numerous issues with the implementation of the Entity Component System (ECS) that would require major refactoring to resolve. As such, further development has been halted. If you wish to fork this project or volunteer to maintain or own it, you are welcome to do so.
+This project was developed as a university project and is currently considered finished. The Entity Component System (ECS) was originally implemented in a style similar to Java, but this approach turned out to be unsuitable for python. There are numerous issues with the current ECS implementation that would require major refactoring to resolve. As such, further development has been halted. If you wish to fork this project or volunteer to maintain or own it, you are welcome to do so.
 
 ## Dependencies
 
