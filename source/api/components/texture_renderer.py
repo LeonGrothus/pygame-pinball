@@ -4,7 +4,7 @@ from source.api.components.component import Component
 
 from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
 
-class TexturRenderer(Component):
+class TextureRenderer(Component):
     """
     The Renderer class is responsible for rendering the visual representation of an entity in the game scene.
 
@@ -22,7 +22,7 @@ class TexturRenderer(Component):
         deserialize(self, data: dict) -> 'Renderer'
     """
 
-    def __init__(self, textur_path: Path, width: float, height: float, visible: bool = True, alpha: int = 200) -> None:
+    def __init__(self, texture_path: Path, width: float, height: float, visible: bool = True, alpha: int = 200) -> None:
         """
         Initializes the renderer component.
 
@@ -34,8 +34,8 @@ class TexturRenderer(Component):
 
         self.width = width
         self.height = height
-        self.textur_path = textur_path
-        self.texture = pygame.image.load(textur_path).convert_alpha()
+        self.textur_path = texture_path
+        self.texture = pygame.image.load(texture_path).convert_alpha()
         self.texture = pygame.transform.scale(self.texture, (int(width), int(height)))
         self.texture.set_alpha(alpha)
         self.visible: bool = visible
@@ -93,7 +93,7 @@ class TexturRenderer(Component):
             "visible": self.visible
         }
 
-    def deserialize(self, data: dict) -> 'TexturRenderer':
+    def deserialize(self, data: dict) -> 'TextureRenderer':
         """
         Deserializes the renderer component data from a dictionary.
 

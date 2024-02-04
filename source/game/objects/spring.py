@@ -5,7 +5,7 @@ from source.api.components.change_score import ChangeScore
 from source.api.components.collider import PolygonCollider
 from source.api.components.mesh import PolygonMesh
 from source.api.components.renderer import Renderer
-from source.api.components.textur_renderer import TexturRenderer
+from source.api.components.texture_renderer import TextureRenderer
 from source.api.management.options_manager import OptionsManager
 from source.api.objects.game_object import GameObject
 from data.constants import ASSETS_PATH
@@ -53,7 +53,7 @@ class Spring(GameObject):
         self.add_components(
             PolygonMesh(color, rel_points),
             PolygonCollider(is_trigger=True),
-            TexturRenderer(textur_path, width, height),
+            TextureRenderer(textur_path, width, height),
             self.change_score
         )
 

@@ -2,6 +2,7 @@ from pathlib import Path
 from pygame import Vector2, Color
 import pygame
 from source.api.components.scale_renderer import ScaleRenderer
+from source.api.components.texture_renderer import TextureRenderer
 from source.api.objects.game_object import GameObject
 from source.api.components.mesh import CircleMesh, PolygonMesh
 from source.api.components.collider import CircleCollider, PolygonCollider
