@@ -15,7 +15,7 @@ PADDLE_COLLISION_DAMPING = .66 # Factor to scale the velocity with when the padd
 
 
 FRAMERATE = 60 # Frames per second
-PTPF = 8 # Physics ticks per frame
+PTPF = 10 # Physics ticks per frame
 DELTA_TIME = (1 / FRAMERATE) # Delta time for updates
 
 PROJECT_PATH: Path = Path(__file__).parents[1] # Path to the project directory

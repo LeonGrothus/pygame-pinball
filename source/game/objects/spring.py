@@ -5,6 +5,7 @@ from source.api.components.change_score import ChangeScore
 from source.api.components.collider import PolygonCollider
 from source.api.components.mesh import PolygonMesh
 from source.api.components.renderer import Renderer
+from source.api.components.textur_renderer import TexturRenderer
 from source.api.management.options_manager import OptionsManager
 from source.api.objects.game_object import GameObject
 from data.constants import ASSETS_PATH
@@ -40,6 +41,8 @@ class Spring(GameObject):
         super().__init__(pos, 0, scene)
         self.spring_sound: pygame.mixer.Sound = pygame.mixer.Sound(ASSETS_PATH / Path("sounds/spring.wav"))
 
+        textur_path = ASSETS_PATH / Path("images/objects/spring.png")
+
         rel_points = [
             Vector2(-width/2, -height/2),
             Vector2(width/2, -height/2),
@@ -50,7 +53,7 @@ class Spring(GameObject):
         self.add_components(
             PolygonMesh(color, rel_points),
             PolygonCollider(is_trigger=True),
-            Renderer(),
+            TexturRenderer(textur_path, width, height),
             self.change_score
         )
 

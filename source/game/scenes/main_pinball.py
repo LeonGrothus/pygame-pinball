@@ -221,20 +221,20 @@ class MainPinball(Scene):
 
         # springs
         # left
-        self.add_gameobject(Spring(self, V2(23, 700)*asf, width=12*asf, height=50 *
+        self.add_gameobject(Spring(self, V2(23, 700)*asf, width=10*asf, height=50 *
                             asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(70, 650)*asf, width=12*asf, height=50 *
+        self.add_gameobject(Spring(self, V2(70, 650)*asf, width=10*asf, height=50 *
                             asf, color=Color(150, 150, 150), add_to_score=25))
         # right
-        self.add_gameobject(Spring(self, V2(580, 700)*asf, width=12*asf, height=50 *
+        self.add_gameobject(Spring(self, V2(580, 700)*asf, width=10*asf, height=50 *
                             asf, color=Color(150, 150, 150), add_to_score=25))
-        self.add_gameobject(Spring(self, V2(532, 650)*asf, width=12*asf, height=50 *
+        self.add_gameobject(Spring(self, V2(532, 650)*asf, width=10*asf, height=50 *
                             asf, color=Color(150, 150, 150), add_to_score=25))
         # center
-        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=12*asf, height=50 *
+        self.add_gameobject(Spring(self, V2(300, 800)*asf, width=10*asf, height=50 *
                             asf, color=Color(150, 150, 150), add_to_score=25))
         # tube
-        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=12*asf, height=50*asf,
+        self.add_gameobject(Spring(self, V2(70, 493)*asf, width=10*asf, height=50*asf,
                             color=Color(150, 150, 150), add_to_score=25, rotation=-35))
         
         # target
