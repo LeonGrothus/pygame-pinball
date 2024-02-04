@@ -2,6 +2,10 @@
 
 Welcome to our Pinball game, a modern take on the classic arcade game. The game begins with 5 balls. Players can launch a ball into the playfield by pressing the space bar. The objective is to accumulate as many points as possible. Achieving a score of 5000 points will release the next ball. Subsequent goals are set at 10000 points, 20000 points, and so on. The game only saves the highest score achieved by a player. To prevent cheating, our scoreboard and savegame data are stored as images.
 
+## Launching the Game
+
+To launch the Pinball it is possible to run the main or use the 
+
 ## Game Controls
 
 - **Space**: Launch a ball (only if there are no balls currently in play)
@@ -28,7 +32,9 @@ Points are earned by hitting various targets on the playfield. Accumulating a ce
 ## Licensing
 
 ### Music
+
 The background music used in this game is sourced from [this YouTube video](https://www.youtube.com/watch?v=dx6MIjAP0jk).
 
 ### Sound Effects
+
 The sound effects in this game were created using [Sfxr](http://www.drpetter.se/project_sfxr.html) (the [web version](https://sfxr.me/)), a tool for generating sound effects, particularly for video games.
