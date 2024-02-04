@@ -221,6 +221,7 @@ class TargetGroup(GameObject):
             self.color_change_count += self.color_change_state
             self.start_time = get_ticks()
         elif self.color_change_count >= 3:
+            self.init_reset = False
             for target in self.targets:
                 target.reset()
         return super().on_update(delta_time)

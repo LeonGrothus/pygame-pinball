@@ -107,9 +107,8 @@ class SoundManager:
             None
         """
         self.channel = (self.channel+1) % 8
-        pygame.mixer.Channel(self.channel)
         sound.set_volume((self.options.sfx_volume / 100) * (self.options.master_volume / 100))
-        sound.play()
+        pygame.mixer.Channel(self.channel).play(sound)
 
     def update_volume(self) -> None:
         """
