@@ -2,7 +2,7 @@ from pathlib import Path
 import sys
 from turtle import left
 from webbrowser import BackgroundBrowser
-from pygame import Color, Surface, Vector2
+from pygame import Surface
 import pygame
 from source.api.management.background_manager import BackgroundManager
 from source.api.management.image_manager import ImageManager

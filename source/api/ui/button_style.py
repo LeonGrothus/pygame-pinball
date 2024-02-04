@@ -1,9 +1,7 @@
 import math
 import os
-import numpy as np
 import pygame
 from pygame import Surface
-import pygame.surfarray as surfarray
 from pathlib import Path
 
 from typing import Tuple

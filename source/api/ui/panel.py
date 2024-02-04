@@ -1,5 +1,3 @@
-import math
-from pathlib import Path
 from pygame import Surface
 import pygame
 from pygame.freetype import Font

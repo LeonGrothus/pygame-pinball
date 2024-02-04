@@ -1,4 +1,3 @@
-from pathlib import Path
 from typing import Callable
 from pygame import Color, Surface
 import pygame

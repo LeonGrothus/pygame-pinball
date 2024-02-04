@@ -1,6 +1,5 @@
 import math
 from pygame import Vector2
-import pygame
 from source.api.components.collider import CircleCollider, Collider, PolygonCollider
 from source.api.components.component import Component
 from source.api.objects.game_object import GameObject

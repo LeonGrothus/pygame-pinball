@@ -1,4 +1,3 @@
-import math
 from pathlib import Path
 from pygame import Color, Surface
 from pygame import Vector2 as V2

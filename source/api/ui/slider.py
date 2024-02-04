@@ -1,4 +1,3 @@
-from pathlib import Path
 from pygame import Surface
 import pygame
 from source.api.ui.button_style import ButtonStyle

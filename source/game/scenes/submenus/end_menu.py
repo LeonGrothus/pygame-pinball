@@ -1,5 +1,4 @@
 import sys
-from typing import Callable
 from pygame import Surface
 import pygame
 from pygame.event import Event
