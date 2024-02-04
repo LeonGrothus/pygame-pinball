@@ -30,13 +30,14 @@ class BackgroundManager:
             screen (pygame.Surface): The screen to draw the image on. 
         """
         # Load the images and scale them to the screen size
-        self.load_images()
-        
         self.image_dir = image_dir
-        self.delay = delay
         self.screen = screen
+        
+        self.delay = delay
         self.current_image = 0
         self.last_update = 0
+        
+        self.load_images()
 
     def update(self, delta_time) -> None:
         """

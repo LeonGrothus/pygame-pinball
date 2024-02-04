@@ -114,7 +114,7 @@ class MainPinball(Scene):
         scale_strength = .25
 
         self.add_gameobject(Plunger(self, V2(width - self.ball_radius*3, height),
-                            V2(width, height), impuls_range=(int(1400*asf), int(1600*asf))))
+                            V2(width, height), impuls_range=(int(1500*asf**(2/3)), int(1700*asf**(2/3)))))
 
         self.left_flipper = Flipper(self, V2(300*asf - 130 * asf, height - 125*asf), 30)
         self.right_flipper = Flipper(self, V2(300*asf + 130 * asf, height - 125*asf), 150)
