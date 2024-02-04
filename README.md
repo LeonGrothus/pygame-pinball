@@ -52,9 +52,26 @@ This project was developed as a university project and is currently considered f
 
 ## Dependencies
 
-This project uses the following Python libraries:
+This project uses several Python libraries. Most of these are part of the standard Python library and should be available in any standard Python environment:
 
-- `os`: For operating system dependent functionality.
-- `pathlib`: For object-oriented filesystem paths.
-- `random`: For generating random numbers.
-- `pygame`: For creating the game, including graphics and sound.
+- `abc`: Abstract base classes.
+- `json`: JSON parsing.
+- `math`: Mathematical functions.
+- `os`: Operating system dependent functionality.
+- `pathlib`: Object-oriented filesystem paths.
+- `random`: Random number generation.
+- `sys`: System-specific parameters and functions.
+- `time`: Time-related functions.
+- `typing`: Type hints (Callables, Generics, TypeVar).
+
+In addition, the project uses the following external libraries:
+
+- `PIL` (Pillow): Used for creating and manipulating images.
+- `pygame`: Used for creating the game, including graphics and sound.
+
+These can be installed via pip, conda, or anything else:
+
+```sh
+pip install pygame Pillow
+conda install pygame Pillow
+```
