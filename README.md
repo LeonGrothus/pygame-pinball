@@ -20,6 +20,10 @@ The pause menu allows you to adjust game settings or return to the Main Menu or 
 ## Scoring System
 
 Points are earned by hitting various targets on the playfield. Accumulating a certain number of points will release the next ball into play.
+- **Bounce Wall**: Each hit on a bounce wall awards between 10 and 25 points 
+- **Bumper**: Hitting the bumpers can give either 50, 100, 150, or 200 points
+- **Targets**: If all targets are hit, they collectively award 5000 points 
+- **Spring**: Each spring hit gives 25 points, if the ball pases one
 
 ## Licensing
 
