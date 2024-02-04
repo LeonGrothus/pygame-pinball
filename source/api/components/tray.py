@@ -2,7 +2,7 @@ import pygame
 from source.api.components.component import Component
 from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
 from source.api.components.renderer import Renderer
-from constants import DELTA_TIME
+from data.constants import DELTA_TIME
 
 
 class Tray(Component):

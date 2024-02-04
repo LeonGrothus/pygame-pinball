@@ -5,7 +5,7 @@ import pygame
 from pygame.freetype import Font
 from source.api.ui.button_style import ButtonStyle
 from source.api.ui.ui_element_base import UIElementBase
-from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
+from data.constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
 class TextObject:
     """

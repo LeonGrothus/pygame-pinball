@@ -4,7 +4,7 @@ import random
 
 import pygame
 from pygame.mixer import Sound
-from constants import ASSETS_PATH
+from data.constants import ASSETS_PATH
 
 # Singelton
 

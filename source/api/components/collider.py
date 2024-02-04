@@ -1,7 +1,7 @@
 from abc import ABC
 from source.api.components.component import Component
 from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
-from constants import COLLISION_FRICTION
+from data.constants import COLLISION_FRICTION
 
 
 class Collider(Component, ABC):

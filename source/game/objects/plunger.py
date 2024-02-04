@@ -6,7 +6,7 @@ from source.api.components.collider import PolygonCollider
 from source.api.components.mesh import PolygonMesh
 from source.api.components.rigidbody import Rigidbody
 from source.api.objects.game_object import GameObject
-from constants import ASSETS_PATH
+from data.constants import ASSETS_PATH
 
 
 class Plunger(GameObject):

@@ -18,7 +18,7 @@ FRAMERATE = 60 # Frames per second
 PTPF = 8 # Physics ticks per frame
 DELTA_TIME = (1 / FRAMERATE) # Delta time for updates
 
-PROJECT_PATH: Path = Path(__file__).parents[0] # Path to the project directory
+PROJECT_PATH: Path = Path(__file__).parents[1] # Path to the project directory
 ASSETS_PATH = PROJECT_PATH / Path("assets") # Path to the assets directory
 
 DEFAULT_BUTTON_STYLE = ASSETS_PATH / Path("buttons/default_style") # Path to the default button style

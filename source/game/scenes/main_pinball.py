@@ -13,7 +13,7 @@ from source.api.management.background_manager import BackgroundManager
 from source.api.scene.scene import Scene
 from source.api.ui.text import Text
 from source.api.ui.ui_element_base import UIElementBase
-from constants import ASSETS_PATH
+from data.constants import ASSETS_PATH
 from source.game.objects.ball import Ball
 from source.game.objects.flipper import Flipper
 from source.game.objects.plunger import Plunger

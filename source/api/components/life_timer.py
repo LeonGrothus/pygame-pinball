@@ -5,7 +5,7 @@ import pygame
 from source.api.components.component import Component
 from source.api.components.mesh import Mesh
 from source.api.objects.game_object import GameObject
-from constants import ASSETS_PATH
+from data.constants import ASSETS_PATH
 
 
 class LifeTimer(Component):

@@ -4,7 +4,7 @@ import pygame
 from source.api.components.collider import CircleCollider, Collider, PolygonCollider
 from source.api.components.component import Component
 from source.api.objects.game_object import GameObject
-from constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
+from data.constants import GRAVITY, AIR_FRICTION, PADDLE_COLLISION_DAMPING, PTPF
 from source.api.management.options_manager import OptionsManager
 from source.api.utils.utils import clamp
 

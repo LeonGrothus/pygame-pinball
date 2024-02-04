@@ -4,7 +4,7 @@ import pygame
 from source.api.ui.button_style import ButtonStyle
 from source.api.ui.ui_element_base import UIElementBase
 from source.api.utils.event_value import EventValue
-from constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE
+from data.constants import ASSETS_PATH, DEFAULT_BUTTON_STYLE
 import source.api.utils.utils as utils
 
 class Slider(UIElementBase):

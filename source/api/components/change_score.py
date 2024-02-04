@@ -1,6 +1,6 @@
 from pygame import Color, Surface, Vector2
 import pygame
-from constants import DEFAULT_FONT
+from data.constants import DEFAULT_FONT
 from source.api.components.component import Component
 from source.api.components.mesh import CircleMesh, Mesh, PolygonMesh
 from source.api.management.options_manager import OptionsManager

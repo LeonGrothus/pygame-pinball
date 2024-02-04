@@ -7,7 +7,7 @@ from source.api.components.mesh import CircleMesh
 from source.api.components.collider import CircleCollider
 from source.api.components.rigidbody import Rigidbody
 from source.api.components.renderer import Renderer
-from constants import ASSETS_PATH
+from data.constants import ASSETS_PATH
 
 
 class Ball(GameObject):

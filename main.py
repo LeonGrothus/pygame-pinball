@@ -2,7 +2,7 @@ import sys
 import pygame
 from source.api.management.scene_manager import SceneManager
 from source.api.management.sound_manager import SoundManager
-import constants
+import data.constants as constants
 from source.api.management.options_manager import OptionsManager
 
 """

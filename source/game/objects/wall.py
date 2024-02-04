@@ -13,7 +13,7 @@ from source.api.components.bumper import Bumper
 from source.api.components.change_score import ChangeScore
 from source.api.components.life_timer import LifeTimer
 from source.api.components.simple_movement import SimpleMovement
-from constants import ASSETS_PATH, COLLISION_FRICTION as CF
+from data.constants import ASSETS_PATH, COLLISION_FRICTION as CF
 
 
 class PolygonWall(GameObject):

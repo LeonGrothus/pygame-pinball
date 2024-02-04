@@ -9,7 +9,7 @@ from source.api.management.sound_manager import SoundManager
 
 from source.api.objects.game_object import GameObject
 from source.api.components.rigidbody import Rigidbody
-from constants import PROJECT_PATH
+from data.constants import PROJECT_PATH
 from source.api.scene.base_display import BaseDisplay
 from source.game.objects.target import TargetGroup
 from source.game.objects.wall import CircleWall

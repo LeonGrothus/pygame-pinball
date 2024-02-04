@@ -9,7 +9,7 @@ from source.api.ui.button_style import ButtonStyle
 from source.api.ui.text import Text
 
 from source.api.ui.ui_element_base import UIElementBase
-from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
+from data.constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 from source.api.management.options_manager import OptionsManager
 
 

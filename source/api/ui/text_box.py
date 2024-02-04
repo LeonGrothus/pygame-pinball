@@ -5,7 +5,7 @@ import pygame
 from source.api.ui.button_style import ButtonStyle
 from source.api.ui.ui_element_base import UIElementBase
 from pygame.freetype import Font
-from constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
+from data.constants import DEFAULT_BUTTON_STYLE, DEFAULT_FONT
 
 
 class TextBox(UIElementBase):

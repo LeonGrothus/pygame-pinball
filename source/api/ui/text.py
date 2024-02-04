@@ -5,7 +5,7 @@ from source.api.ui.ui_element_base import UIElementBase
 from pygame.freetype import Font
 from source.api.utils.event_value import EventValue
 
-from constants import DEFAULT_FONT
+from data.constants import DEFAULT_FONT
 
 
 class Text(UIElementBase):

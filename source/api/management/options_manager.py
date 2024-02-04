@@ -1,7 +1,7 @@
 from pathlib import Path
 from source.api.management.json_manager import JsonManager
 from source.api.management.sound_manager import SoundManager
-from constants import PROJECT_PATH
+from data.constants import PROJECT_PATH
 
 # Singelton
 class OptionsManager:
