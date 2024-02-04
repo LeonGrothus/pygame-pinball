@@ -2,9 +2,12 @@
 
 Welcome to our Pinball game, a modern take on the classic arcade game. The game begins with 5 balls. Players can launch a ball into the playfield by pressing the space bar. The objective is to accumulate as many points as possible. Achieving a score of 5000 points will release the next ball. Subsequent goals are set at 10000 points, 20000 points, and so on. The game only saves the highest score achieved by a player. To prevent cheating, our scoreboard and savegame data are stored as images.
 
-## Launching the Game
+## Starting the Game
 
-To launch the Pinball it is possible to run the main or use the 
+You can start the Pinball game in two ways:
+
+1. Run the `main` function directly.
+2. Use the "Run Workspace" launch configuration provided for Visual Studio Code.
 
 ## Game Controls
 
