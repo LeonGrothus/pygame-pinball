@@ -7,8 +7,8 @@ A file to store constants in
 
 GRAVITY = Vector2(0, 666) # Gravity applied to all objects
 
-COLLISION_FRICTION = 0.1 # Friction applied when the object is colliding
-AIR_FRICTION = 0.01 # Friction applied when the object is in the air
+COLLISION_FRICTION = 0.13 # Friction applied when the object is colliding
+AIR_FRICTION = 0.012 # Friction applied when the object is in the air
 
 PADDLE_SPEED = 666  # degrees per second
 PADDLE_COLLISION_DAMPING = .66 # Factor to scale the velocity with when the paddle is hit
