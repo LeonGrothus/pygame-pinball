@@ -9,7 +9,7 @@ Welcome to our Pinball game, a modern take on the classic arcade game. The game 
 You can start the Pinball game in two ways:
 
 1. Run the `main` function directly.
-2. Use the "Run Workspace" launch configuration provided for Visual Studio Code.
+2. You can use the "Run Workspace" launch configuration provided for Visual Studio Code. However, please note that this is a debug configuration, and it may cause the game to run slower than usual.
 
 ## Game Controls
 
